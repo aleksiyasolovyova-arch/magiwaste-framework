@@ -10,4 +10,5 @@ public class MagiwasteApplication {
         SpringApplication.run(MagiwasteApplication.class, args);
     }
 
-}
+
+ }
