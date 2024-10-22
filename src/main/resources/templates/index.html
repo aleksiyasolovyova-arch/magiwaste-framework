@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Magiwaste Home</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+            crossorigin="anonymous"></script>
+</head>
+<body style="background-color: #367c3b">
+<!--Navbar-->
+<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #367c3b">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">Magiwaste</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Dashboard</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                       aria-expanded="false">
+                        Services
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Action</a></li>
+                        <li><a class="dropdown-item" href="#">Another action</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <form class="d-flex" role="search">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn border border-white text-white" type="submit">Search</button>
+            </form>
+        </div>
+    </div>
+</nav>
+
+<div class="px-4 pt-5 mt-5 text-center border-bottom">
+    <h1 class="display-4 fw-bold text-white">Cleaner city instantly</h1>
+    <div class="col-lg-6 mx-auto">
+        <p class="lead mb-4 text-white">Optimize waste collection with real-time monitoring of city trash bins to keep
+            your streets clean and beautiful.</p>
+        <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mb-5">
+            <button type="button" class="btn btn-light btn-lg px-4 me-sm-3">Get Started</button>
+            <button type="button" class="btn border border-white btn-lg px-4 text-white">Learn More</button>
+        </div>
+    </div>
+    <div class="overflow-hidden" style="max-height: 30vh;">
+        <div class="container px-5 d-flex justify-content-center align-items-center">
+            <img src="https://storage.googleapis.com/pod_public/750/145504.jpg"
+                 class="img-fluid rounded-3 shadow-lg mb-4" alt="Example image" width="700" height="500" loading="lazy">
+        </div>
+    </div>
+</div>
+<div style="background-color: white" class="pt-5 w-100">
+    <!-- Service 3 - Bootstrap Brain Component -->
+    <section class="py-5 py-xl-8">
+        <div class="container">
+            <div class="row justify-content-md-center">
+                <div class="col-12 col-md-10 col-lg-8 col-xl-7 col-xxl-6">
+                    <h2 class="mb-4 display-5 text-center">Services</h2>
+                    <p class="text-secondary mb-5 text-center">We are dedicated to delivering exceptional services that
+                        drive success and transform your business. With a commitment to excellence, we take pride in
+                        offering a comprehensive range of services.</p>
+                    <hr class="w-50 mx-auto mb-5 mb-xl-9 border-dark-subtle">
+                </div>
+            </div>
+        </div>
+
+        <div class="container overflow-hidden">
+            <div class="row gy-5 gx-md-4 gy-lg-0 gx-xxl-5 justify-content-center">
+                <div class="col-11 col-sm-6 col-lg-3 d-flex flex-column align-items-center">
+                    <div class="badge p-3 mb-4" style="background-color: #367c3b">
+                        <img th:src="@{images/trash.svg}" alt="" width="30" height="30">
+                    </div>
+                    <h4 class="mb-3 text-center">Capacity Monitoring</h4>
+                    <p class="mb-3 text-secondary">Instantly detect when trash bins are full, enabling proactive waste
+                        management and reducing overflow issues.</p>
+                    <a href="#!" class="fw-bold text-decoration-none link-primary">
+                        Learn More
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                             class="bi bi-arrow-right-short" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd"
+                                  d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"/>
+                        </svg>
+                    </a>
+                </div>
+                <div class="col-11 col-sm-6 col-lg-3 d-flex flex-column align-items-center">
+                    <div class="badge p-3 mb-4" style="background-color: #367c3b">
+                        <img th:src="@{images/truck.svg}" alt="" width="30" height="30">
+                    </div>
+                    <h4 class="mb-3 text-center">Optimized Collection Routes</h4>
+                    <p class="mb-3 text-secondary">Utilize smart data analytics to plan efficient pickup routes, saving
+                        time, fuel, and costs for waste management services.</p>
+                    <a href="#!" class="fw-bold text-decoration-none link-primary">
+                        Learn More
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                             class="bi bi-arrow-right-short" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd"
+                                  d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"/>
+                        </svg>
+                    </a>
+                </div>
+                <div class="col-11 col-sm-6 col-lg-3 d-flex flex-column align-items-center">
+                    <div class="badge p-3 mb-4" style="background-color: #367c3b">
+                        <img th:src="@{images/sprout.svg}" alt="" width="30" height="30">
+                    </div>
+                    <h4 class="mb-3 text-center">Environmentally Friendly Solutions</h4>
+                    <p class="mb-3 text-secondary">Minimize waste overflow and improve cleanliness in urban areas,
+                        promoting a sustainable and eco-friendly city environment.</p>
+                    <a href="#!" class="fw-bold text-decoration-none link-primary">
+                        Learn More
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                             class="bi bi-arrow-right-short" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd"
+                                  d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"/>
+                        </svg>
+                    </a>
+                </div>
+                <div class="col-11 col-sm-6 col-lg-3 d-flex flex-column align-items-center">
+                    <div class="badge p-3 mb-4" style="background-color: #367c3b">
+                        <img th:src="@{images/dashboard.svg}" alt="" width="30" height="30">
+                    </div>
+                    <h4 class="mb-3 text-center">User-Friendly Dashboard</h4>
+                    <p class="mb-3 text-secondary">Access a comprehensive, intuitive dashboard that provides real-time
+                        updates and analytics on bin status and collection schedules.</p>
+                    <a href="#!" class="fw-bold text-decoration-none link-primary">
+                        Learn More
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                             class="bi bi-arrow-right-short" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd"
+                                  d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+
+<div class="w-100" style="background-color: white">
+    <div class="container">
+        <footer class="py-3">
+            <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+                <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Home</a></li>
+                <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Features</a></li>
+                <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Pricing</a></li>
+                <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">FAQs</a></li>
+                <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">About</a></li>
+            </ul>
+            <p class="text-center text-body-secondary">© 2024 Magiwaste</p>
+        </footer>
+    </div>
+</div>
+
+
+
+</body>
+</html>
