@@ -21,6 +21,26 @@ public class WasteBinEvent {
     private boolean isFull;
     private LocalDate eventDate;
 
+    public WasteBinEvent() {
+    }
+
+    public WasteBinEvent(WasteBin bin, float percentOfVolume, double sensorDistance, boolean isFull, LocalDate eventDate) {
+        this.bin = bin;
+        this.percentOfVolume = percentOfVolume;
+        this.sensorDistance = sensorDistance;
+        this.isFull = isFull;
+        this.eventDate = eventDate;
+    }
+
+    public WasteBinEvent(Long id, WasteBin bin, float percentOfVolume, double sensorDistance, boolean isFull, LocalDate eventDate) {
+        this.id = id;
+        this.bin = bin;
+        this.percentOfVolume = percentOfVolume;
+        this.sensorDistance = sensorDistance;
+        this.isFull = isFull;
+        this.eventDate = eventDate;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }

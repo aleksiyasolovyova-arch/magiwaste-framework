@@ -9,4 +9,6 @@ public interface WasteBinService {
 
     List<WasteBin> findAll();
     WasteBin save(WasteBin wasteBin);
+
+    WasteBin findWasteBinById(Long binId);
 }

@@ -23,6 +23,30 @@ public class WasteBin {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "bin")
     List<WasteBinEvent> events;
 
+    public WasteBin() {
+    }
+
+    public WasteBin(String address, double longitude, double latitude) {
+        this.address = address;
+        this.longitude = longitude;
+        this.latitude = latitude;
+    }
+
+    public WasteBin(String address, double longitude, double latitude, List<WasteBinEvent> events) {
+        this.address = address;
+        this.longitude = longitude;
+        this.latitude = latitude;
+        this.events = events;
+    }
+
+    public WasteBin(Long id, String address, double longitude, double latitude, List<WasteBinEvent> events) {
+        this.id = id;
+        this.address = address;
+        this.longitude = longitude;
+        this.latitude = latitude;
+        this.events = events;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }

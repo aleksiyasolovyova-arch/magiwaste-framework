@@ -26,5 +26,10 @@ public class WasteBinServiceImplementation implements WasteBinService {
         return wasteBinRepository.save(wasteBin);
     }
 
+    @Override
+    public WasteBin findWasteBinById(Long binId) {
+        return wasteBinRepository.findById(binId).stream().findFirst().orElse(null);
+    }
+
 
 }

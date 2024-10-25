@@ -2,9 +2,11 @@ package be.kdg.magiwastebackend.service;
 
 import be.kdg.magiwastebackend.domain.RawDataLog;
 import be.kdg.magiwastebackend.repository.RawDataLogRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class RawDataLogServiceImplementation implements RawDataLogService{
 
     private final RawDataLogRepository rawDataLogRepository;

@@ -16,4 +16,5 @@ public interface ServiceFacade {
     WasteBinEvent saveWasteBinEvent(WasteBinEvent wasteBinEvent);
     RawDataLog saveRawDataLog(RawDataLog rawDataLog);
 
+    WasteBin findWasteBinById(Long binId);
 }

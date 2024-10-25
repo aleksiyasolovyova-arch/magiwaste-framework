@@ -6,6 +6,8 @@ import be.kdg.magiwastebackend.domain.WasteBinEvent;
 import be.kdg.magiwastebackend.service.RawDataLogService;
 import be.kdg.magiwastebackend.service.WasteBinEventService;
 import be.kdg.magiwastebackend.service.WasteBinService;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -14,6 +16,7 @@ public class ServiceFacadeImplementation implements ServiceFacade {
     private final WasteBinService wasteBinService;
     private final WasteBinEventService wasteBinEventService;
     private final RawDataLogService rawDataLogService;
+
 
     public ServiceFacadeImplementation(WasteBinService wasteBinService, WasteBinEventService wasteBinEventService, RawDataLogService rawDataLogService) {
         this.wasteBinService = wasteBinService;
@@ -49,6 +52,11 @@ public class ServiceFacadeImplementation implements ServiceFacade {
     @Override
     public RawDataLog saveRawDataLog(RawDataLog rawDataLog) {
         return rawDataLogService.save(rawDataLog);
+    }
+
+    @Override
+    public WasteBin findWasteBinById(Long binId) {
+        return wasteBinService.findWasteBinById(binId);
     }
 
 
