@@ -25,7 +25,10 @@ dependencies {
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-    runtimeOnly("com.h2database:h2")
+    //postgres stuff
+    runtimeOnly("org.postgresql:postgresql")
+
+//    runtimeOnly("com.h2database:h2")
 }
 
 tasks.withType<Test> {
