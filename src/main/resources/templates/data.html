@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div th:each="list : ${datalists}">
+    <p th:text="${list.getSensorDistance1()}"></p>
+    <p th:text = "${list.getSensorDistance2()}"></p>
+    <p th:text = "${list.getTilted()}"></p>
+</div>
+
+</body>
+</html>
