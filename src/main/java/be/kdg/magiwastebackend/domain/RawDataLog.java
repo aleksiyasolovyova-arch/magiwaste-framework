@@ -23,6 +23,10 @@ public class RawDataLog {
         this.tiltState = tiltState;
     }
 
+    public RawDataLog() {
+
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -48,6 +52,10 @@ public class RawDataLog {
     }
 
     public boolean isTiltState() {
+        return tiltState;
+    }
+
+    public boolean getTilted() {
         return tiltState;
     }
 

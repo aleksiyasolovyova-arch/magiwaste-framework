@@ -40,7 +40,7 @@ public class HTTPController {
 
     @GetMapping("/data")
     public String showData(Model model) {
-        model.addAttribute("datalists", sensorDataService.getSensorData());
+        model.addAttribute("datalists", serviceFacade.findAllDataLogs());
         return "data";
     }
 
