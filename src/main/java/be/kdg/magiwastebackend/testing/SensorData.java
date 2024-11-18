@@ -66,4 +66,16 @@ public class SensorData {
     public void setComfort(String comfort) {
         this.comfort = comfort;
     }
+
+    @Override
+    public String toString() {
+        return "SensorData{" +
+                "sensorDistance1=" + sensorDistance1 +
+                ", sensorDistance2=" + sensorDistance2 +
+                ", tiltState=" + tiltState +
+                ", temperature='" + temperature + '\'' +
+                ", humidity='" + humidity + '\'' +
+                ", comfort='" + comfort + '\'' +
+                '}';
+    }
 }

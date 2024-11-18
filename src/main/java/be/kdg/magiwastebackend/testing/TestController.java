@@ -19,18 +19,18 @@ public class TestController {
         this.sensorDataService = sensorDataService;
     }
 
-    @PostMapping("/data")
-    public ResponseEntity<SensorData> test(@RequestBody SensorData data) {
-        logger.debug("received data {}", data);
-        sensorDataService.addData(data);
-        return new ResponseEntity<SensorData>( HttpStatus.OK);
-    }
+//    @PostMapping("/data")
+//    public ResponseEntity<SensorData> test(@RequestBody SensorData data) {
+//        logger.debug("received data {}", data);
+//        sensorDataService.addData(data);
+//        return new ResponseEntity<SensorData>( HttpStatus.OK);
+//    }
 
 
 
-    @GetMapping("/data")
-    public String showData(Model model){
-        model.addAttribute("datalists",sensorDataService.getSensorData());
-        return "data";
-    }
+//    @GetMapping("/data")
+//    public String showData(Model model){
+//        model.addAttribute("datalists",sensorDataService.getSensorData());
+//        return "data";
+//    }
 }
