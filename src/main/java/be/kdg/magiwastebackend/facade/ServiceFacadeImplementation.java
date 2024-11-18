@@ -59,5 +59,10 @@ public class ServiceFacadeImplementation implements ServiceFacade {
         return wasteBinService.findWasteBinById(binId);
     }
 
+    @Override
+    public WasteBin findBinByDeviceId(String deviceId) {
+        return wasteBinService.findBinByDeviceId(deviceId);
+    }
+
 
 }

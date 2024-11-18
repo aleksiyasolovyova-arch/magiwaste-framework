@@ -15,6 +15,8 @@ public class WasteBin {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    String deviceId;
+
     String address;
     double longitude;
     double latitude;
@@ -77,5 +79,21 @@ public class WasteBin {
 
     public void setLatitude(double latitude) {
         this.latitude = latitude;
+    }
+
+    public String getDeviceId() {
+        return deviceId;
+    }
+
+    public void setDeviceId(String deviceId) {
+        this.deviceId = deviceId;
+    }
+
+    public List<WasteBinEvent> getEvents() {
+        return events;
+    }
+
+    public void setEvents(List<WasteBinEvent> events) {
+        this.events = events;
     }
 }

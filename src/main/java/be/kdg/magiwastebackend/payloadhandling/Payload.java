@@ -1,13 +1,21 @@
 package be.kdg.magiwastebackend.payloadhandling;
 
-class Payload {
+import org.springframework.stereotype.Component;
+
+import java.util.Map;
+
+@Component
+public class Payload {
+
+    private Map<String, Object> unusedData;
 
     private float sensorDistance1;
     private float sensorDistance2;
     private boolean tiltState;
-    private String temperature;
-    private String humidity;
+    private float temperature;
+    private float humidity;
     private String comfort;
+    private String deviceId;
 
     //one type of payload we can have, payload logic will have to check for nulls in the future
     //TODO: figure out how to have PayloadCleaner handle all constructors
@@ -45,19 +53,19 @@ class Payload {
         this.tiltState = tiltState;
     }
 
-    public String getTemperature() {
+    public float getTemperature() {
         return temperature;
     }
 
-    public void setTemperature(String temperature) {
+    public void setTemperature(float temperature) {
         this.temperature = temperature;
     }
 
-    public String getHumidity() {
+    public float getHumidity() {
         return humidity;
     }
 
-    public void setHumidity(String humidity) {
+    public void setHumidity(float humidity) {
         this.humidity = humidity;
     }
 
@@ -67,5 +75,21 @@ class Payload {
 
     public void setComfort(String comfort) {
         this.comfort = comfort;
+    }
+
+    public String getDeviceId() {
+        return deviceId;
+    }
+
+    public void setDeviceId(String deviceId) {
+        this.deviceId = deviceId;
+    }
+
+    public Map<String, Object> getUnusedData() {
+        return unusedData;
+    }
+
+    public void setUnusedData(Map<String, Object> unusedData) {
+        this.unusedData = unusedData;
     }
 }

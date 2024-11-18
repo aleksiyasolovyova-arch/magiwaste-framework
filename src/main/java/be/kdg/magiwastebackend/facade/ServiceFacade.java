@@ -17,4 +17,6 @@ public interface ServiceFacade {
     RawDataLog saveRawDataLog(RawDataLog rawDataLog);
 
     WasteBin findWasteBinById(Long binId);
+
+    WasteBin findBinByDeviceId(String deviceId);
 }

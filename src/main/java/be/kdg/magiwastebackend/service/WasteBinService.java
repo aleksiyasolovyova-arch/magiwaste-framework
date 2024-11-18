@@ -11,4 +11,6 @@ public interface WasteBinService {
     WasteBin save(WasteBin wasteBin);
 
     WasteBin findWasteBinById(Long binId);
+
+    WasteBin findBinByDeviceId(String deviceId);
 }

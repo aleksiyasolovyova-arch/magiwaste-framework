@@ -19,8 +19,8 @@ public class WasteBinEvent {
     private double sensorDistance1;
     private double sensorDistance2;
     private boolean tiltState;
-    private String temperature;
-    private String humidity;
+    private float temperature;
+    private float humidity;
     private String comfort;
     private boolean isFull;
     private LocalDate eventDate;
@@ -29,7 +29,7 @@ public class WasteBinEvent {
     public WasteBinEvent() {
     }
 
-    public WasteBinEvent(WasteBin bin, float percentOfVolume, double sensorDistance1, double sensorDistance2, boolean tiltState, String temperature, String humidity, String comfort, boolean isFull, LocalDate eventDate) {
+    public WasteBinEvent(WasteBin bin, float percentOfVolume, double sensorDistance1, double sensorDistance2, boolean tiltState, float temperature, float humidity, String comfort, boolean isFull, LocalDate eventDate) {
         this.bin = bin;
         this.percentOfVolume = percentOfVolume;
         this.sensorDistance1 = sensorDistance1;
@@ -42,7 +42,7 @@ public class WasteBinEvent {
         this.eventDate = eventDate;
     }
 
-    public WasteBinEvent(double sensorDistance1, double sensorDistance2, boolean tiltState, String temperature) {
+    public WasteBinEvent(double sensorDistance1, double sensorDistance2, boolean tiltState, float temperature) {
         this.sensorDistance1 = sensorDistance1;
         this.sensorDistance2 = sensorDistance2;
         this.tiltState = tiltState;
