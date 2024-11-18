@@ -1,6 +1,5 @@
 package be.kdg.magiwastebackend.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -17,30 +16,40 @@ public class WasteBinEvent {
     private WasteBin bin;
 
     private float percentOfVolume;
-    private double sensorDistance;
+    private double sensorDistance1;
+    private double sensorDistance2;
+    private boolean tiltState;
+    private String temperature;
+    private String humidity;
+    private String comfort;
     private boolean isFull;
     private LocalDate eventDate;
 
+    //CONSTRUCTORS
     public WasteBinEvent() {
     }
 
-    public WasteBinEvent(WasteBin bin, float percentOfVolume, double sensorDistance, boolean isFull, LocalDate eventDate) {
+    public WasteBinEvent(WasteBin bin, float percentOfVolume, double sensorDistance1, double sensorDistance2, boolean tiltState, String temperature, String humidity, String comfort, boolean isFull, LocalDate eventDate) {
         this.bin = bin;
         this.percentOfVolume = percentOfVolume;
-        this.sensorDistance = sensorDistance;
+        this.sensorDistance1 = sensorDistance1;
+        this.sensorDistance2 = sensorDistance2;
+        this.tiltState = tiltState;
+        this.temperature = temperature;
+        this.humidity = humidity;
+        this.comfort = comfort;
         this.isFull = isFull;
         this.eventDate = eventDate;
     }
 
-    public WasteBinEvent(Long id, WasteBin bin, float percentOfVolume, double sensorDistance, boolean isFull, LocalDate eventDate) {
-        this.id = id;
-        this.bin = bin;
-        this.percentOfVolume = percentOfVolume;
-        this.sensorDistance = sensorDistance;
-        this.isFull = isFull;
-        this.eventDate = eventDate;
+    public WasteBinEvent(double sensorDistance1, double sensorDistance2, boolean tiltState, String temperature) {
+        this.sensorDistance1 = sensorDistance1;
+        this.sensorDistance2 = sensorDistance2;
+        this.tiltState = tiltState;
+        this.temperature = temperature;
     }
 
+    //GETTERS AND SETTERS
     public void setId(Long id) {
         this.id = id;
     }
@@ -63,14 +72,6 @@ public class WasteBinEvent {
 
     public void setPercentOfVolume(float percentOfVolume) {
         this.percentOfVolume = percentOfVolume;
-    }
-
-    public double getSensorDistance() {
-        return sensorDistance;
-    }
-
-    public void setSensorDistance(double sensorDistance) {
-        this.sensorDistance = sensorDistance;
     }
 
     public boolean isFull() {

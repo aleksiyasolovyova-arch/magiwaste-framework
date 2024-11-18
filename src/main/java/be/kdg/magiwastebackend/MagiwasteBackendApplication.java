@@ -29,8 +29,6 @@ public class MagiwasteBackendApplication implements CommandLineRunner {
         //TODO this is temporary to put two objects for testing purposes
         WasteBin bin1 = new WasteBin("Pothoekstraat 125, 2060 Antwerpen", 51.226082916679836, 4.436500484662087);
         bin1.setId(1L);
-        WasteBinEvent binEvent1 = new WasteBinEvent(bin1, 0.6f, 40.0, false, LocalDate.now());
         serviceFacade.saveWasteBin(bin1);
-        serviceFacade.saveWasteBinEvent(binEvent1);
     }
 }

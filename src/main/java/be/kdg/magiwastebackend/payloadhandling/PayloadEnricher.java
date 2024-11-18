@@ -1,4 +1,9 @@
 package be.kdg.magiwastebackend.payloadhandling;
 
-public class PayloadEnricher {
+class PayloadEnricher {
+    PayloadEnricher() {}
+
+    Payload enrichPayload(Payload payload) {
+        return payload; //TODO: URGENT use weather API to enrich payload.
+    }
 }
