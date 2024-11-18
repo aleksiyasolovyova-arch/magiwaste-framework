@@ -30,6 +30,8 @@ dependencies {
 
     //MQTT stuff
     compileOnly("org.springframework.integration:spring-integration-mqtt:6.3.5")
+    compileOnly("org.eclipse.paho:org.eclipse.paho.mqttv5.client")
+
 
 //    runtimeOnly("com.h2database:h2")
 }
