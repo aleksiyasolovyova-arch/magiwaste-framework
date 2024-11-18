@@ -19,7 +19,7 @@ public class WasteBinEvent {
     private double sensorDistance1;
     private double sensorDistance2;
     private boolean tiltState;
-    private float temperature;
+    private double temperature;
     private float humidity;
     private String comfort;
     private boolean isFull;
@@ -42,7 +42,7 @@ public class WasteBinEvent {
         this.eventDate = eventDate;
     }
 
-    public WasteBinEvent(double sensorDistance1, double sensorDistance2, boolean tiltState, float temperature) {
+    public WasteBinEvent(double sensorDistance1, double sensorDistance2, boolean tiltState, double temperature) {
         this.sensorDistance1 = sensorDistance1;
         this.sensorDistance2 = sensorDistance2;
         this.tiltState = tiltState;

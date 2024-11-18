@@ -9,12 +9,13 @@ public class Payload {
 
     private Map<String, Object> unusedData;
 
-    private float sensorDistance1;
-    private float sensorDistance2;
+    private double sensorDistance1;
+    private double sensorDistance2;
     private boolean tiltState;
-    private float temperature;
-    private float humidity;
+    private double temperature;
+    private double humidity;
     private String comfort;
+
     private String deviceId;
 
     //one type of payload we can have, payload logic will have to check for nulls in the future
@@ -29,19 +30,19 @@ public class Payload {
 
     //GETTERS AND SETTERS
 
-    public float getSensorDistance1() {
+    public double getSensorDistance1() {
         return sensorDistance1;
     }
 
-    public void setSensorDistance1(float sensorDistance1) {
+    public void setSensorDistance1(double sensorDistance1) {
         this.sensorDistance1 = sensorDistance1;
     }
 
-    public float getSensorDistance2() {
+    public double getSensorDistance2() {
         return sensorDistance2;
     }
 
-    public void setSensorDistance2(float sensorDistance2) {
+    public void setSensorDistance2(double sensorDistance2) {
         this.sensorDistance2 = sensorDistance2;
     }
 
@@ -53,19 +54,19 @@ public class Payload {
         this.tiltState = tiltState;
     }
 
-    public float getTemperature() {
+    public double getTemperature() {
         return temperature;
     }
 
-    public void setTemperature(float temperature) {
+    public void setTemperature(double temperature) {
         this.temperature = temperature;
     }
 
-    public float getHumidity() {
+    public double getHumidity() {
         return humidity;
     }
 
-    public void setHumidity(float humidity) {
+    public void setHumidity(double humidity) {
         this.humidity = humidity;
     }
 

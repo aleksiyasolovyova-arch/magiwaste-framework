@@ -26,9 +26,6 @@ public class MagiwasteBackendApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        //TODO this is temporary to put two objects for testing purposes
-        WasteBin bin1 = new WasteBin("Pothoekstraat 125, 2060 Antwerpen", 51.226082916679836, 4.436500484662087);
-        bin1.setId(1L);
-        serviceFacade.saveWasteBin(bin1);
+
     }
 }

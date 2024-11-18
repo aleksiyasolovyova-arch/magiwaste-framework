@@ -10,10 +10,10 @@ import java.util.Map;
 @Component
 class AbstractWasteEventLogFactory {
     static WasteBinEvent createWasteBinEvent(Payload payload) {
-        float sensorDistance1 = payload.getSensorDistance1();
-        float sensorDistance2 = payload.getSensorDistance2();
+        double sensorDistance1 = payload.getSensorDistance1();
+        double sensorDistance2 = payload.getSensorDistance2();
         boolean tiltState = payload.isTiltState();
-        float temperature = payload.getTemperature();
+        double temperature = payload.getTemperature();
 
         //TODO add all the other required fields in wasteBinEvent
 
@@ -21,10 +21,10 @@ class AbstractWasteEventLogFactory {
     }
 
     static RawDataLog createRawDataLog(Payload payload){
-        float sensorDistance1 = payload.getSensorDistance1();
-        float sensorDistance2 = payload.getSensorDistance2();
+        double sensorDistance1 = payload.getSensorDistance1();
+        double sensorDistance2 = payload.getSensorDistance2();
         boolean tiltState = payload.isTiltState();
-        float temperature = payload.getTemperature();
+        double temperature = payload.getTemperature();
         Map<String, Object> unusedData = payload.getUnusedData();
         String unusedDataJsonString = "";
 

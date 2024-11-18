@@ -23,6 +23,7 @@ class PayloadCleaner {
                 //no matching attribute :(
                 unusedData.put(key, value);
                 logger.warn("No matching attribute " + key + " in payload class");
+                e.printStackTrace();
             }
         });
         payload.setUnusedData(unusedData);

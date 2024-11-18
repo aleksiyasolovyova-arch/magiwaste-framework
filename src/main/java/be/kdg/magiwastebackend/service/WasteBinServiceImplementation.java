@@ -40,6 +40,7 @@ public class WasteBinServiceImplementation implements WasteBinService {
             return bin.get();
         } else {
             WasteBin newBin = new WasteBin();
+            newBin.setDeviceId(deviceId);
             wasteBinRepository.save(newBin);
             return newBin;
         }

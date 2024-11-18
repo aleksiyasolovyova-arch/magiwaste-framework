@@ -29,7 +29,7 @@ public class PayloadServiceImplementation implements PayloadService {
         payload = payloadHandler.enrichPayload(payload);
 
         //at this point here the data should be complete
-        String deviceId = "";
+        String deviceId = payload.getDeviceId();
         WasteBin bin = serviceFacade.findBinByDeviceId(deviceId);
 
         WasteBinEvent wasteBinEvent = payloadHandler.createWasteBinEvent(payload);
