@@ -28,6 +28,9 @@ dependencies {
     //postgres stuff
     runtimeOnly("org.postgresql:postgresql")
 
+    //MQTT stuff
+    compileOnly("org.springframework.integration:spring-integration-mqtt:6.3.5")
+
 //    runtimeOnly("com.h2database:h2")
 }
 
