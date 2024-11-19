@@ -16,6 +16,7 @@ public class WasteBin {
     private Long id;
 
     String deviceId;
+    BinType binType = BinType.TALL_BIN;
 
     String address;
     double longitude;
@@ -95,5 +96,13 @@ public class WasteBin {
 
     public void setEvents(List<WasteBinEvent> events) {
         this.events = events;
+    }
+
+    public BinType getBinType() {
+        return binType;
+    }
+
+    public void setBinType(BinType binType) {
+        this.binType = binType;
     }
 }

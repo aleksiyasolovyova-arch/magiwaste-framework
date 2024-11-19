@@ -1,26 +1,44 @@
 package be.kdg.magiwastebackend.payloadhandling;
 
 import be.kdg.magiwastebackend.domain.RawDataLog;
+import be.kdg.magiwastebackend.domain.WasteBin;
 import be.kdg.magiwastebackend.domain.WasteBinEvent;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.util.Map;
 
 @Component
 class AbstractWasteEventLogFactory {
-    static WasteBinEvent createWasteBinEvent(Payload payload) {
+    static WasteBinEvent createWasteBinEvent(Payload payload, WasteBin bin) {
         double sensorDistance1 = payload.getSensorDistance1();
         double sensorDistance2 = payload.getSensorDistance2();
         boolean tiltState = payload.isTiltState();
         double temperature = payload.getTemperature();
+        double humidity = payload.getHumidity();
+        String comfort = payload.getComfort();
+
+        //TODO - add attribute in WasteBin for bin height
+        double percentOfVolume = (bin.getBinType().getHeight() - ((sensorDistance1 + sensorDistance2)/ 2))  / bin.getBinType().getHeight() * 100;
+        boolean isFull = percentOfVolume > 85;
 
         //TODO add all the other required fields in wasteBinEvent
-
-        return new WasteBinEvent(sensorDistance1, sensorDistance2, tiltState, temperature);
+        WasteBinEvent event = new WasteBinEvent();
+        event.setBin(bin);
+        event.setSensorDistance1(sensorDistance1);
+        event.setSensorDistance2(sensorDistance2);
+        event.setTiltState(tiltState);
+        event.setTemperature(temperature);
+        event.setHumidity(humidity);
+        event.setPercentOfVolume(percentOfVolume);
+        event.setComfort(comfort); //TODO replace with enums
+        event.setEventDate(LocalDate.now());
+        event.setFull(isFull);
+        return event;
     }
 
-    static RawDataLog createRawDataLog(Payload payload){
+    static RawDataLog createRawDataLog(Payload payload) {
         double sensorDistance1 = payload.getSensorDistance1();
         double sensorDistance2 = payload.getSensorDistance2();
         boolean tiltState = payload.isTiltState();
@@ -36,7 +54,7 @@ class AbstractWasteEventLogFactory {
             ObjectMapper objectMapper = new ObjectMapper();
 
             // Convert Map to JSON String
-            unusedDataJsonString= objectMapper.writeValueAsString(unusedData);
+            unusedDataJsonString = objectMapper.writeValueAsString(unusedData);
 
         } catch (Exception e) {
             e.printStackTrace(); // :(

@@ -15,12 +15,12 @@ public class WasteBinEvent {
     @JoinColumn(name = "bin")
     private WasteBin bin;
 
-    private float percentOfVolume;
+    private double percentOfVolume;
     private double sensorDistance1;
     private double sensorDistance2;
     private boolean tiltState;
     private double temperature;
-    private float humidity;
+    private double humidity;
     private String comfort;
     private boolean isFull;
     private LocalDate eventDate;
@@ -66,11 +66,11 @@ public class WasteBinEvent {
         this.bin = bin;
     }
 
-    public float getPercentOfVolume() {
+    public double getPercentOfVolume() {
         return percentOfVolume;
     }
 
-    public void setPercentOfVolume(float percentOfVolume) {
+    public void setPercentOfVolume(double percentOfVolume) {
         this.percentOfVolume = percentOfVolume;
     }
 
@@ -88,5 +88,53 @@ public class WasteBinEvent {
 
     public void setEventDate(LocalDate eventDate) {
         this.eventDate = eventDate;
+    }
+
+    public double getSensorDistance1() {
+        return sensorDistance1;
+    }
+
+    public void setSensorDistance1(double sensorDistance1) {
+        this.sensorDistance1 = sensorDistance1;
+    }
+
+    public double getSensorDistance2() {
+        return sensorDistance2;
+    }
+
+    public void setSensorDistance2(double sensorDistance2) {
+        this.sensorDistance2 = sensorDistance2;
+    }
+
+    public boolean isTiltState() {
+        return tiltState;
+    }
+
+    public void setTiltState(boolean tiltState) {
+        this.tiltState = tiltState;
+    }
+
+    public double getTemperature() {
+        return temperature;
+    }
+
+    public void setTemperature(double temperature) {
+        this.temperature = temperature;
+    }
+
+    public double getHumidity() {
+        return humidity;
+    }
+
+    public void setHumidity(double humidity) {
+        this.humidity = humidity;
+    }
+
+    public String getComfort() {
+        return comfort;
+    }
+
+    public void setComfort(String comfort) {
+        this.comfort = comfort;
     }
 }

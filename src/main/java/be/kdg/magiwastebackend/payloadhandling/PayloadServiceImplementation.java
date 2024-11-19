@@ -32,8 +32,7 @@ public class PayloadServiceImplementation implements PayloadService {
         String deviceId = payload.getDeviceId();
         WasteBin bin = serviceFacade.findBinByDeviceId(deviceId);
 
-        WasteBinEvent wasteBinEvent = payloadHandler.createWasteBinEvent(payload);
-        wasteBinEvent.setBin(bin);
+        WasteBinEvent wasteBinEvent = AbstractWasteEventLogFactory.createWasteBinEvent(payload, bin);
         serviceFacade.saveWasteBinEvent(wasteBinEvent);
     }
 

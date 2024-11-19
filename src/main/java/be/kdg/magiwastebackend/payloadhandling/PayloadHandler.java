@@ -1,8 +1,7 @@
 package be.kdg.magiwastebackend.payloadhandling;
 
+import be.kdg.magiwastebackend.domain.WasteBin;
 import be.kdg.magiwastebackend.domain.WasteBinEvent;
-import org.springframework.context.annotation.Bean;
-import org.springframework.http.HttpMessage;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
@@ -10,14 +9,12 @@ import java.util.Map;
 @Component
 public class PayloadHandler {
     AlertMessageSystem alertMessageSystem;
-    BinEventLogCreator binEventLogCreator;
     Payload payload;
     PayloadCleaner payloadCleaner;
     PayloadEnricher payloadEnricher;
 
-    PayloadHandler(AlertMessageSystem alertMessageSystem, BinEventLogCreator binEventLogCreator, Payload payload, PayloadEnricher payloadEnricher, PayloadCleaner payloadCleaner) {
+    PayloadHandler(AlertMessageSystem alertMessageSystem, Payload payload, PayloadEnricher payloadEnricher, PayloadCleaner payloadCleaner) {
         this.alertMessageSystem = alertMessageSystem;
-        this.binEventLogCreator = binEventLogCreator;
         this.payload = payload;
         this.payloadEnricher = payloadEnricher;
         this.payloadCleaner = payloadCleaner;
@@ -31,8 +28,8 @@ public class PayloadHandler {
         return payloadEnricher.enrichPayload(payload);
     }
 
-    WasteBinEvent createWasteBinEvent(Payload payload) {
-        return AbstractWasteEventLogFactory.createWasteBinEvent(payload);
+    WasteBinEvent createWasteBinEvent(Payload payload, WasteBin bin) {
+        return AbstractWasteEventLogFactory.createWasteBinEvent(payload, bin);
     }
 
 //    WasteBinEvent cleanEnrichCreateSendPayload(HttpMessage httpMessage) {
