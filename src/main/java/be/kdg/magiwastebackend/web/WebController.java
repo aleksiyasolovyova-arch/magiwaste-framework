@@ -7,6 +7,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Controller
 public class WebController {
 
@@ -19,6 +22,23 @@ public class WebController {
     @GetMapping("/")
     public String getIndex() {
         return "index";
+    }
+
+    @GetMapping("/dashboard")
+    public String getDashboard(Model model) {
+        List<WasteBin> bins = serviceFacade.findAllWasteBins();
+        bins = bins.stream().filter(bin -> bin.getLatitude() != 0 && bin.getLongitude() != 0).toList();
+
+        List<MapPoint> points = new ArrayList<>();
+        //TODO DO NOT USE RANDOM PERCENT OF FULLNESS
+        //TODO DO NOT USE RANDOM PERCENT OF FULLNESS
+        //TODO DO NOT USE RANDOM PERCENT OF FULLNESS
+        //TODO DO NOT USE RANDOM PERCENT OF FULLNESS
+        bins.forEach(bin -> points.add(new MapPoint(bin.getLatitude(), bin.getLongitude(), MapPoint.parseColor(Math.random() * 100))));
+
+        model.addAttribute("points", points);
+
+        return "dashboard";
     }
 
     @GetMapping("bin/{binId}")
