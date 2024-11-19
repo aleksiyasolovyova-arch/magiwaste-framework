@@ -3,7 +3,6 @@ package be.kdg.magiwastebackend.facade;
 import be.kdg.magiwastebackend.domain.RawDataLog;
 import be.kdg.magiwastebackend.domain.WasteBin;
 import be.kdg.magiwastebackend.domain.WasteBinEvent;
-import be.kdg.magiwastebackend.service.RawDataLogService;
 
 import java.util.List;
 
@@ -12,9 +11,9 @@ public interface ServiceFacade {
     List<WasteBinEvent> findAllWasteBinEvents();
     List<RawDataLog> findAllDataLogs();
 
-    WasteBin saveWasteBin(WasteBin wasteBin);
-    WasteBinEvent saveWasteBinEvent(WasteBinEvent wasteBinEvent);
-    RawDataLog saveRawDataLog(RawDataLog rawDataLog);
+    void saveWasteBin(WasteBin wasteBin);
+    void saveWasteBinEvent(WasteBinEvent wasteBinEvent);
+    void saveRawDataLog(RawDataLog rawDataLog);
 
     WasteBin findWasteBinById(Long binId);
 
