@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "be.kdg"
-version = "0.0.1-SNAPSHOT"
+version = "0.1.0-TRACERBULLET"
 
 java {
     toolchain {
@@ -30,7 +30,9 @@ dependencies {
 
     //MQTT stuff
     compileOnly("org.springframework.integration:spring-integration-mqtt:6.3.5")
-    compileOnly("org.eclipse.paho:org.eclipse.paho.mqttv5.client")
+    implementation ("org.springframework:spring-context:6.1.14") //THIS IS HERE BECAUSE OF A 5.3 VULNERABILITY.
+    compileOnly("org.eclipse.paho:org.eclipse.paho.mqttv5.client:1.2.5")
+
 
 
 //    runtimeOnly("com.h2database:h2")
