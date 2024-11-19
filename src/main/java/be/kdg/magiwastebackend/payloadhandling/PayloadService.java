@@ -1,15 +1,10 @@
 package be.kdg.magiwastebackend.payloadhandling;
 
-import org.springframework.http.HttpMessage;
-
-import java.util.Map;
+import be.kdg.magiwastebackend.domain.WasteBin;
 
 public interface PayloadService {
-    public void getAndSendData(HttpMessage httpMessage);
 
-    //testing method overloading real quick
-    public void getAndSendData(Long test);
+    void processPayload(Payload payload);
+    WasteBin findBin(Payload payload); //todo: move this?
 
-
-    void doYourThing(Map<String, Object> body);
 }

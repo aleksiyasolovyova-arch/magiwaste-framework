@@ -1,56 +1,48 @@
 package be.kdg.magiwastebackend.payloadhandling;
 
-import be.kdg.magiwastebackend.domain.RawDataLog;
 import be.kdg.magiwastebackend.domain.WasteBin;
-import be.kdg.magiwastebackend.domain.WasteBinEvent;
 import be.kdg.magiwastebackend.facade.ServiceFacade;
-import org.springframework.http.HttpMessage;
 import org.springframework.stereotype.Service;
 
-import java.util.Map;
-
 @Service
-public class PayloadServiceImplementation implements PayloadService {
-    private final PayloadHandler payloadHandler;
+class PayloadServiceImplementation implements PayloadService {
     private final ServiceFacade serviceFacade;
+    private final PayloadProcessor payloadProcessor;
 
-
-    //method for all payload logic and clss delegation
-    @Override
-    public void doYourThing(Map<String, Object> body) {
-        //create payload from rap map data
-        Payload payload = payloadHandler.cleanPayload(body);
-
-        //create a raw data log from the original information
-        RawDataLog rawDataLog = AbstractWasteEventLogFactory.createRawDataLog(payload);
-        serviceFacade.saveRawDataLog(rawDataLog);
-
-        //enrich data here:
-        payload = payloadHandler.enrichPayload(payload);
-
-        //at this point here the data should be complete
-        WasteBin bin = payloadHandler.getBin(payload);
-
-        WasteBinEvent wasteBinEvent = AbstractWasteEventLogFactory.createWasteBinEvent(payload, bin);
-        serviceFacade.saveWasteBinEvent(wasteBinEvent);
-    }
-
-    public PayloadServiceImplementation(PayloadHandler payloadHandler, ServiceFacade serviceFacade) {
-        this.payloadHandler = payloadHandler;
+    public PayloadServiceImplementation(ServiceFacade serviceFacade, PayloadProcessor payloadProcessor) {
         this.serviceFacade = serviceFacade;
-    }
-
-
-    @Override
-    public void getAndSendData(HttpMessage httpMessage){
-//        WasteBinEvent wasteBinEvent = payloadHandler.cleanEnrichCreateSendPayload(httpMessage);
-//        serviceFacade.saveWasteBinEvent(wasteBinEvent);
+        this.payloadProcessor = payloadProcessor;
     }
 
     @Override
-    public void getAndSendData(Long test) {
+    public void processPayload(Payload payload) {
+        //TODO: actually enrich and check for alerts
+        payloadProcessor.handlePayload(payload);
 
+        //change this soon
+        serviceFacade.saveRawDataLog(AbstractWasteEventLogFactory.createRawDataLog(payload));
+
+        //with this too
+        WasteBin bin = findBin(payload); //this logic should/ could be moved elsewhere
+        serviceFacade.saveWasteBinEvent(AbstractWasteEventLogFactory.createWasteBinEvent(payload, bin));
     }
 
+    @Override
+    public WasteBin findBin(Payload payload){ //way to make this private?
+        String deviceId = payload.getDeviceId();
 
+        //get Bin associated with Payload
+        WasteBin bin = serviceFacade.findBinByDeviceId(deviceId);
+        if (!payload.getAddress().isEmpty()){
+            bin.setAddress(payload.getAddress());
+        }
+        if (payload.getLatitude() != 0) {
+            bin.setLatitude(payload.getLatitude());
+        }
+        if (payload.getLongitude() != 0) {
+            bin.setLongitude(payload.getLongitude());
+        }
+
+        return bin;
+    }
 }

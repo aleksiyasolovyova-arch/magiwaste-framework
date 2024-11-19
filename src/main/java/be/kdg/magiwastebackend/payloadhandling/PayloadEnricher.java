@@ -3,15 +3,10 @@ package be.kdg.magiwastebackend.payloadhandling;
 import org.springframework.stereotype.Component;
 
 @Component
-class PayloadEnricher {
-    PayloadEnricher() {}
+class PayloadEnricher implements PayloadHandler {
 
-    public static Payload enrichPayloadWithWeatherData(Payload payload) {
-        //TODO: URGENT use weather API to enrich payload.
-        return payload;
+    public void handlePayload(Payload payload) {
+        //TODO: use weather API to enrich payload.
     }
 
-    Payload enrichPayload(Payload payload) {
-        return payload; //TODO: URGENT use weather API to enrich payload.
-    }
 }

@@ -1,7 +1,6 @@
 package be.kdg.magiwastebackend.payloadhandling;
 
 import org.springframework.stereotype.Component;
-
 import java.util.Map;
 
 @Component

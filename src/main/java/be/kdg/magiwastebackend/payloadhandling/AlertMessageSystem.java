@@ -3,5 +3,10 @@ package be.kdg.magiwastebackend.payloadhandling;
 import org.springframework.stereotype.Component;
 
 @Component
-class AlertMessageSystem {
+class AlertMessageSystem implements PayloadHandler{
+
+    @Override
+    public void handlePayload(Payload payload) {
+
+    }
 }

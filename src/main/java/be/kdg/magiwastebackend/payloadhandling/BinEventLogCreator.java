@@ -5,16 +5,18 @@
 //import org.springframework.stereotype.Component;
 //
 //@Component
-//public class PayloadBinHandler {
+//class BinEventLogCreator implements PayloadHandler{
 //    private final ServiceFacade serviceFacade;
 //
-//    public PayloadBinHandler(ServiceFacade serviceFacade) {
+//    BinEventLogCreator(ServiceFacade serviceFacade) {
 //        this.serviceFacade = serviceFacade;
 //    }
 //
-//    WasteBin getBin(Payload payload){
+//    @Override
+//    public void handlePayload(Payload payload) {
 //        String deviceId = payload.getDeviceId();
 //
+//        //get Bin associated with Payload //TODO: see if this function is better placed in a different implementation of PayloadHandler.
 //        WasteBin bin = serviceFacade.findBinByDeviceId(deviceId);
 //        if (!payload.getAddress().isEmpty()){
 //            bin.setAddress(payload.getAddress());
@@ -26,6 +28,17 @@
 //            bin.setLongitude(payload.getLongitude());
 //        }
 //
-//        return bin;
+//        //create new event
+//        //return AbstractWasteEventLogFactory.createWasteBinEvent(payload, bin);
+//        //IF RETURNED, NO DEPENDENCY
+//
+//        //create raw log of event
+//        //return AbstractWasteEventLogFactory.createRawDataLog(payload);
+//        //IF RETURNED INSTEAD OF CREATED, NO DEPENDENCY
+//
+//        //TODO output?
+//
 //    }
+//
+//
 //}

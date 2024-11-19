@@ -11,6 +11,7 @@ import java.util.Map;
 
 @Component
 class AbstractWasteEventLogFactory {
+
     static WasteBinEvent createWasteBinEvent(Payload payload, WasteBin bin) {
         double sensorDistance1 = payload.getSensorDistance1();
         double sensorDistance2 = payload.getSensorDistance2();
