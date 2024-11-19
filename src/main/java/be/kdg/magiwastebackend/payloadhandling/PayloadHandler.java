@@ -8,16 +8,18 @@ import java.util.Map;
 
 @Component
 public class PayloadHandler {
-    AlertMessageSystem alertMessageSystem;
-    Payload payload;
-    PayloadCleaner payloadCleaner;
-    PayloadEnricher payloadEnricher;
+    private final AlertMessageSystem alertMessageSystem;
+    private final Payload payload;
+    private final PayloadCleaner payloadCleaner;
+    private final PayloadEnricher payloadEnricher;
+    private final PayloadBinHandler payloadBinHandler;
 
-    PayloadHandler(AlertMessageSystem alertMessageSystem, Payload payload, PayloadEnricher payloadEnricher, PayloadCleaner payloadCleaner) {
+    PayloadHandler(AlertMessageSystem alertMessageSystem, Payload payload, PayloadEnricher payloadEnricher, PayloadCleaner payloadCleaner, PayloadBinHandler payloadBinHandler) {
         this.alertMessageSystem = alertMessageSystem;
         this.payload = payload;
         this.payloadEnricher = payloadEnricher;
         this.payloadCleaner = payloadCleaner;
+        this.payloadBinHandler = payloadBinHandler;
     }
 
     Payload cleanPayload(Map<String, Object> body) {
@@ -30,6 +32,10 @@ public class PayloadHandler {
 
     WasteBinEvent createWasteBinEvent(Payload payload, WasteBin bin) {
         return AbstractWasteEventLogFactory.createWasteBinEvent(payload, bin);
+    }
+
+    WasteBin getBin(Payload payload) {
+        return payloadBinHandler.getBin(payload);
     }
 
 //    WasteBinEvent cleanEnrichCreateSendPayload(HttpMessage httpMessage) {

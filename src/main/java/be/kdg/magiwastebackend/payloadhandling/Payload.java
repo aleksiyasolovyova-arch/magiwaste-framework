@@ -9,6 +9,7 @@ public class Payload {
 
     private Map<String, Object> unusedData;
 
+    //sensor data and stuff
     private double sensorDistance1;
     private double sensorDistance2;
     private boolean tiltState;
@@ -16,6 +17,10 @@ public class Payload {
     private double humidity;
     private String comfort;
 
+    //bin data
+    private String address;
+    private double longitude;
+    private double latitude;
     private String deviceId;
 
     //one type of payload we can have, payload logic will have to check for nulls in the future
@@ -92,5 +97,29 @@ public class Payload {
 
     public void setUnusedData(Map<String, Object> unusedData) {
         this.unusedData = unusedData;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
     }
 }
