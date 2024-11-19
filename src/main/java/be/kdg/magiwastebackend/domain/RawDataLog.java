@@ -8,7 +8,7 @@ import jakarta.persistence.Id;
 @Entity
 public class RawDataLog {
 
-    double temperature;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -18,8 +18,21 @@ public class RawDataLog {
     private double sensorDistance1;
     private double sensorDistance2;
     private boolean tiltState;
+    private double temperature;
+    private double humidity;
+    private String comfort;
     //this field stores the unused controller payload keys and values as a json string. yikes!
     private String unusedData;
+
+    public RawDataLog(double sensorDistance1, double sensorDistance2, boolean tiltState, double temperature, double humidity, String comfort, String unusedData) {
+        this.sensorDistance1 = sensorDistance1;
+        this.sensorDistance2 = sensorDistance2;
+        this.tiltState = tiltState;
+        this.temperature = temperature;
+        this.humidity = humidity;
+        this.comfort = comfort;
+        this.unusedData = unusedData;
+    }
 
     public RawDataLog(float sensorDistance1, float sensorDistance2, boolean tiltState, float temperature) {
         this.sensorDistance1 = sensorDistance1;
