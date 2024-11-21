@@ -8,7 +8,9 @@ class AlertMessageSystem implements PayloadHandler{
     private ServiceFacade serviceFacade;
 
     @Override
-    public void handlePayload(Payload payload) {
+    public Payload handlePayload(Payload payload) {
+
+        return null;
 
     }
 }

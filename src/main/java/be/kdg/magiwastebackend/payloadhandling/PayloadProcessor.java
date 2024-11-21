@@ -16,9 +16,11 @@ class PayloadProcessor implements PayloadHandler {
     }
 
     @Override @Primary
-    public void handlePayload(Payload payload) {
-        payloadEnricher.handlePayload(payload);
-        alertMessageSystem.handlePayload(payload);
-        eventAndLogSaver.handlePayload(payload);
+    public Payload handlePayload(Payload payload) {
+        Payload payloadEnriched = payloadEnricher.handlePayload(payload);
+        alertMessageSystem.handlePayload(payloadEnriched);
+        eventAndLogSaver.handlePayload(payloadEnriched);
+
+        return null;
     }
 }

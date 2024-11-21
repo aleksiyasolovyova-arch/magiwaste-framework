@@ -13,7 +13,7 @@ class EventAndLogSaver implements PayloadHandler{
     }
 
     @Override
-    public void handlePayload(Payload payload) {
+    public Payload handlePayload(Payload payload) {
 
         String deviceId = payload.getDeviceId();
         //get Bin associated with Payload
@@ -30,5 +30,7 @@ class EventAndLogSaver implements PayloadHandler{
 
         serviceFacade.saveRawDataLog(AbstractWasteEventLogFactory.createRawDataLog(payload));
         serviceFacade.saveWasteBinEvent(AbstractWasteEventLogFactory.createWasteBinEvent(payload, bin));
+
+        return null;
     }
 }
