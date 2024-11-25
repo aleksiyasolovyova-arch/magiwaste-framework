@@ -36,6 +36,9 @@ class AbstractWasteEventLogFactory {
         event.setComfort(comfort); //TODO replace with enums
         event.setEventDate(LocalDate.now());
         event.setFull(isFull);
+
+        event.setWeatherEvent(payload.getWeather());
+
         return event;
     }
 

@@ -1,5 +1,6 @@
 package be.kdg.magiwastebackend.domain;
 
+import be.kdg.magiwastebackend.weatherapi.WeatherEvent;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -24,6 +25,9 @@ public class WasteBinEvent {
     private String comfort;
     private boolean isFull;
     private LocalDate eventDate;
+
+    @OneToOne
+    private WeatherEvent weatherEvent;
 
     //CONSTRUCTORS
     public WasteBinEvent() {
@@ -136,5 +140,13 @@ public class WasteBinEvent {
 
     public void setComfort(String comfort) {
         this.comfort = comfort;
+    }
+
+    public WeatherEvent getWeatherEvent() {
+        return weatherEvent;
+    }
+
+    public void setWeatherEvent(WeatherEvent weatherEvent) {
+        this.weatherEvent = weatherEvent;
     }
 }
