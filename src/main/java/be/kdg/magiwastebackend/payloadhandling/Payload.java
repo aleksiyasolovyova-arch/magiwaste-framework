@@ -1,5 +1,6 @@
 package be.kdg.magiwastebackend.payloadhandling;
 
+import be.kdg.magiwastebackend.weatherapi.WeatherEvent;
 import org.springframework.stereotype.Component;
 import java.util.Map;
 
@@ -16,21 +17,18 @@ public class Payload {
     private double humidity;
     private String comfort;
 
+    //weather data
+    private WeatherEvent weather;
+
     //bin data
     private String address;
     private double longitude;
     private double latitude;
     private String deviceId;
 
-    //one type of payload we can have, payload logic will have to check for nulls in the future
-    //TODO: figure out how to have PayloadCleaner handle all constructors
-    public Payload(float sensorDistance1, float sensorDistance2, boolean tiltState) {
-        this.sensorDistance1 = sensorDistance1;
-        this.sensorDistance2 = sensorDistance2;
-        this.tiltState = tiltState;
-    }
 
     public Payload(){} //TODO: remove this (testing only~)
+    //TODO - Do NOT remove - Szymon
 
     //GETTERS AND SETTERS
 
@@ -120,5 +118,13 @@ public class Payload {
 
     public void setLatitude(double latitude) {
         this.latitude = latitude;
+    }
+
+    public WeatherEvent getWeather() {
+        return weather;
+    }
+
+    public void setWeather(WeatherEvent weather) {
+        this.weather = weather;
     }
 }

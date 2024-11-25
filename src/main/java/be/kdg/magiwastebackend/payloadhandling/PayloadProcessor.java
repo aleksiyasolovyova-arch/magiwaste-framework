@@ -1,5 +1,7 @@
 package be.kdg.magiwastebackend.payloadhandling;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
@@ -17,9 +19,14 @@ class PayloadProcessor implements PayloadHandler {
 
     @Override @Primary
     public Payload handlePayload(Payload payload) {
-        Payload payloadEnriched = payloadEnricher.handlePayload(payload);
-        alertMessageSystem.handlePayload(payloadEnriched);
-        eventAndLogSaver.handlePayload(payloadEnriched);
+        try {
+            //need to catch exception due to Jackson parsing in payloadEnricher
+            payload = payloadEnricher.handlePayload(payload);
+        } catch (JsonProcessingException e){
+            e.printStackTrace();
+        }
+        alertMessageSystem.handlePayload(payload);
+        eventAndLogSaver.handlePayload(payload);
 
         return null;
     }

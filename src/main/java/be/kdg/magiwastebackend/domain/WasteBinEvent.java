@@ -11,7 +11,7 @@ public class WasteBinEvent {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch=FetchType.LAZY) //TODO: Change lazy
+    @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name = "bin")
     private WasteBin bin;
 
