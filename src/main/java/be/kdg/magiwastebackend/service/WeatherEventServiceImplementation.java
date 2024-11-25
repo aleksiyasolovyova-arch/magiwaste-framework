@@ -2,9 +2,11 @@ package be.kdg.magiwastebackend.service;
 
 import be.kdg.magiwastebackend.repository.WeatherEventRepository;
 import be.kdg.magiwastebackend.weatherapi.WeatherEvent;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class WeatherEventServiceImplementation implements WeatherEventService{
 
     private final WeatherEventRepository weatherEventRepository;
