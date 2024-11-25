@@ -1,9 +1,11 @@
 package be.kdg.magiwastebackend.weatherapi;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.time.LocalDateTime;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class WeatherDTO {
 
     private LocalDateTime localDateTime;

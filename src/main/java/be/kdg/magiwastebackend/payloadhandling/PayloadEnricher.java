@@ -4,6 +4,7 @@ import be.kdg.magiwastebackend.facade.ServiceFacade;
 import be.kdg.magiwastebackend.weatherapi.WeatherEvent;
 import be.kdg.magiwastebackend.weatherapi.WeatherDTO;
 import be.kdg.magiwastebackend.weatherapi.WeatherFactory;
+import be.kdg.magiwastebackend.weatherapi.WeatherResponseDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -27,10 +28,11 @@ class PayloadEnricher implements PayloadHandler {
         ResponseEntity<String> weatherData = callWeatherApi(payload.getLatitude(), payload.getLongitude());
 
         ObjectMapper objectMapper = new ObjectMapper();
-        WeatherDTO weatherDTO =  objectMapper.readValue(weatherData.getBody(), WeatherDTO.class);
+        WeatherDTO weatherDTO =  objectMapper.readValue(weatherData.getBody(), WeatherResponseDTO.class).getHourly();
         WeatherEvent weather = WeatherFactory.createWeatherEvent(weatherDTO);
-
+        serviceFacade.saveWeatherEvent(weather);
         payload.setWeather(weather);
+
 
         return payload;
     }
