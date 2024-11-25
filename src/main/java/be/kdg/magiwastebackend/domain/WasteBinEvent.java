@@ -29,7 +29,7 @@ public class WasteBinEvent {
     public WasteBinEvent() {
     }
 
-    public WasteBinEvent(WasteBin bin, float percentOfVolume, double sensorDistance1, double sensorDistance2, boolean tiltState, float temperature, float humidity, String comfort, boolean isFull, LocalDate eventDate) {
+    public WasteBinEvent(WasteBin bin, float percentOfVolume, double sensorDistance1, double sensorDistance2, boolean tiltState, double temperature, double humidity, String comfort, boolean isFull, LocalDate eventDate) {
         this.bin = bin;
         this.percentOfVolume = percentOfVolume;
         this.sensorDistance1 = sensorDistance1;
