@@ -18,7 +18,7 @@ class EventAndLogSaver implements PayloadHandler{
         String deviceId = payload.getDeviceId();
         //get Bin associated with Payload
         WasteBin bin = serviceFacade.findBinByDeviceId(deviceId);
-        if (!payload.getAddress().isEmpty()){
+        if (payload.getAddress()!=null && !payload.getAddress().isEmpty()){
             bin.setAddress(payload.getAddress());
         }
         if (payload.getLatitude() != 0) {
