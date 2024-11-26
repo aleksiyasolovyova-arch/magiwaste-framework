@@ -25,11 +25,10 @@ public class HTTPController {
 
     private final PayloadService payloadService;
     Logger logger = LoggerFactory.getLogger(HTTPController.class);
-    private  final ServiceFacade serviceFacade;
 
-    private HTTPController(PayloadService payloadService, ServiceFacade serviceFacade) {
+
+    private HTTPController(PayloadService payloadService) {
         this.payloadService = payloadService;
-        this.serviceFacade = serviceFacade;
     }
 
     @PostMapping("/data")
@@ -40,12 +39,6 @@ public class HTTPController {
         payloadService.processPayload(payload);
 
         return new ResponseEntity<>(HttpStatus.CREATED);//206 partial context //201 created resource //200 OK
-    }
-
-    @GetMapping("/data") //todo: should be removed
-    public String showData(Model model) {
-        model.addAttribute("datalists", serviceFacade.findAllDataLogs());
-        return "data";
     }
 
     //CLEANING HERE:
