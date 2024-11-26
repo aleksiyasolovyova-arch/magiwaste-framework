@@ -1,6 +1,7 @@
 package be.kdg.magiwastebackend.web;
 
 import be.kdg.magiwastebackend.domain.WasteBin;
+import be.kdg.magiwastebackend.domain.WasteBinEvent;
 import be.kdg.magiwastebackend.facade.ServiceFacade;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,7 +35,7 @@ public class WebController {
         //TODO DO NOT USE RANDOM PERCENT OF FULLNESS
         //TODO DO NOT USE RANDOM PERCENT OF FULLNESS
         //TODO DO NOT USE RANDOM PERCENT OF FULLNESS
-        bins.forEach(bin -> points.add(new MapPoint(bin.getLatitude(), bin.getLongitude(), MapPoint.parseColor(Math.random() * 100))));
+        bins.forEach(bin -> points.add(new MapPoint(bin.getLatitude(), bin.getLongitude(), (int) serviceFacade.findAllWasteBinEventsByWasteBin(bin).getLast().getPercentOfVolume(), bin.getAddress() )));
 
         model.addAttribute("points", points);
 
@@ -42,9 +43,9 @@ public class WebController {
     }
 
     @GetMapping("bin/{binId}")
-    public String getBin(@PathVariable("binId") Long binId, Model model){
+    public String getBin(@PathVariable("binId") Long binId, Model model) {
         WasteBin bin = serviceFacade.findWasteBinById(binId);
-        if (bin == null){
+        if (bin == null) {
             return "error/404";
         }
         model.addAttribute(bin);

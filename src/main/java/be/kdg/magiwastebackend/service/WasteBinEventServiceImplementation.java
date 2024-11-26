@@ -1,5 +1,6 @@
 package be.kdg.magiwastebackend.service;
 
+import be.kdg.magiwastebackend.domain.WasteBin;
 import be.kdg.magiwastebackend.domain.WasteBinEvent;
 import be.kdg.magiwastebackend.repository.WasteBinEventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,5 +25,10 @@ public class WasteBinEventServiceImplementation implements WasteBinEventService 
     @Override
     public WasteBinEvent save(WasteBinEvent wasteBinEvent) {
         return wasteBinEventRepository.save(wasteBinEvent);
+    }
+
+    @Override
+    public List<WasteBinEvent> findAllByBin(WasteBin bin) {
+        return wasteBinEventRepository.findAllByBinOrderByEventDate(bin);
     }
 }

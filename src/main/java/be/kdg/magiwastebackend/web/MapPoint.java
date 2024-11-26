@@ -4,14 +4,19 @@ public class MapPoint {
     private double latitude;
     private double longitude;
     private String color;
+    private int percentOfVolume;
+    private String address;
 
-    public MapPoint(double latitude, double longitude, String color) {
+
+    public MapPoint(double latitude, double longitude, int percentOfVolume, String address) {
         this.latitude = latitude;
         this.longitude = longitude;
-        this.color = color;
+        this.color = parseColor(percentOfVolume);
+        this.percentOfVolume = percentOfVolume;
+        this.address = address;
     }
 
-    public static String parseColor(double percentOfVolume){
+    public String parseColor(double percentOfVolume){
         if (percentOfVolume > 90) return "red";
         if (percentOfVolume > 50) return "yellow";
         return "green";
@@ -39,5 +44,21 @@ public class MapPoint {
 
     public void setColor(String color) {
         this.color = color;
+    }
+
+    public int getPercentOfVolume() {
+        return percentOfVolume;
+    }
+
+    public void setPercentOfVolume(int percentOfVolume) {
+        this.percentOfVolume = percentOfVolume;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }

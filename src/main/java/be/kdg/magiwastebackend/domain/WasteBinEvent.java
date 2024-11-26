@@ -24,6 +24,7 @@ public class WasteBinEvent {
     private double humidity;
     private String comfort;
     private boolean isFull;
+    //TODO change to localdatetime
     private LocalDate eventDate;
 
     @OneToOne

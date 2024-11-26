@@ -22,4 +22,5 @@ public interface ServiceFacade {
     WasteBin findBinByDeviceId(String deviceId);
 
 
+    List<WasteBinEvent> findAllWasteBinEventsByWasteBin(WasteBin bin);
 }

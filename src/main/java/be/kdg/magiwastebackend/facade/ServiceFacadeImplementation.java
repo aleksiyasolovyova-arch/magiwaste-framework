@@ -76,5 +76,10 @@ public class ServiceFacadeImplementation implements ServiceFacade {
         return wasteBinService.findBinByDeviceId(deviceId);
     }
 
+    @Override
+    public List<WasteBinEvent> findAllWasteBinEventsByWasteBin(WasteBin bin) {
+        return wasteBinEventService.findAllByBin(bin);
+    }
+
 
 }
