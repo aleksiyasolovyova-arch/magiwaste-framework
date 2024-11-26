@@ -27,8 +27,7 @@ public class Payload {
     private String deviceId;
 
 
-    public Payload(){} //TODO: remove this (testing only~)
-    //TODO - Do NOT remove - Szymon
+    public Payload(){}
 
     //GETTERS AND SETTERS
 

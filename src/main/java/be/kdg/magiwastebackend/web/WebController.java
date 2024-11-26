@@ -1,7 +1,6 @@
 package be.kdg.magiwastebackend.web;
 
 import be.kdg.magiwastebackend.domain.WasteBin;
-import be.kdg.magiwastebackend.domain.WasteBinEvent;
 import be.kdg.magiwastebackend.facade.ServiceFacade;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
