@@ -22,17 +22,21 @@ class PayloadEnricher implements PayloadHandler {
         this.serviceFacade = serviceFacade;
     }
 
-    public Payload handlePayload(Payload payload) throws JsonProcessingException {
+    public Payload handlePayload(Payload payload)  {
         //TODO: use weather API to enrich payload.
 
         ResponseEntity<String> weatherData = callWeatherApi(payload.getLatitude(), payload.getLongitude());
 
         ObjectMapper objectMapper = new ObjectMapper();
-        WeatherDTO weatherDTO =  objectMapper.readValue(weatherData.getBody(), WeatherResponseDTO.class).getHourly();
-        WeatherEvent weather = WeatherFactory.createWeatherEvent(weatherDTO);
-        serviceFacade.saveWeatherEvent(weather);
-        payload.setWeather(weather);
-
+        try {
+            WeatherDTO weatherDTO = objectMapper.readValue(weatherData.getBody(), WeatherResponseDTO.class).getHourly();
+            WeatherEvent weather = WeatherFactory.createWeatherEvent(weatherDTO);
+            serviceFacade.saveWeatherEvent(weather);
+            payload.setWeather(weather);
+        }
+        catch (JsonProcessingException e) {
+            e.printStackTrace(); //TODO replace with logger at some point --11/29/2024
+        }
 
         return payload;
     }

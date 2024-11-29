@@ -14,7 +14,4 @@ public class WeatherResponseDTO {
         return weatherDTO;
     }
 
-    public void setHourly(WeatherDTO hourly) {
-        this.weatherDTO = hourly;
-    }
 }

@@ -17,14 +17,11 @@ class PayloadProcessor implements PayloadHandler {
         this.eventAndLogSaver = eventAndLogSaver;
     }
 
-    @Override @Primary
+    @Override
+    @Primary
     public Payload handlePayload(Payload payload) {
-        try {
-            //need to catch exception due to Jackson parsing in payloadEnricher
-            payload = payloadEnricher.handlePayload(payload);
-        } catch (JsonProcessingException e){
-            e.printStackTrace();
-        }
+        payload = payloadEnricher.handlePayload(payload);
+
         alertMessageSystem.handlePayload(payload);
         eventAndLogSaver.handlePayload(payload);
 
