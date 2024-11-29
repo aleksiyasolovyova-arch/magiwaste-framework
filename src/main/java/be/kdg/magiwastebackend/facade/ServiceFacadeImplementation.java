@@ -7,7 +7,7 @@ import be.kdg.magiwastebackend.service.RawDataLogService;
 import be.kdg.magiwastebackend.service.WasteBinEventService;
 import be.kdg.magiwastebackend.service.WasteBinService;
 import be.kdg.magiwastebackend.service.WeatherEventService;
-import be.kdg.magiwastebackend.weatherapi.WeatherEvent;
+import be.kdg.magiwastebackend.domain.WeatherEvent;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

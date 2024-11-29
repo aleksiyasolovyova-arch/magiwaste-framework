@@ -1,6 +1,6 @@
 package be.kdg.magiwastebackend.payloadhandling;
 
-import be.kdg.magiwastebackend.weatherapi.WeatherEvent;
+import be.kdg.magiwastebackend.domain.WeatherEvent;
 import org.springframework.stereotype.Component;
 import java.util.Map;
 

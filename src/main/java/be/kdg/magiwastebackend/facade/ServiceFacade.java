@@ -3,7 +3,7 @@ package be.kdg.magiwastebackend.facade;
 import be.kdg.magiwastebackend.domain.RawDataLog;
 import be.kdg.magiwastebackend.domain.WasteBin;
 import be.kdg.magiwastebackend.domain.WasteBinEvent;
-import be.kdg.magiwastebackend.weatherapi.WeatherEvent;
+import be.kdg.magiwastebackend.domain.WeatherEvent;
 
 import java.util.List;
 

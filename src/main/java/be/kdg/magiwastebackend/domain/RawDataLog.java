@@ -1,9 +1,6 @@
 package be.kdg.magiwastebackend.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class RawDataLog {
@@ -15,11 +12,20 @@ public class RawDataLog {
 
     //TODO add attribute for bin id
 
+    @Column(columnDefinition = "DOUBLE PRECISION")
     private double sensorDistance1;
+
+    @Column(columnDefinition = "DOUBLE PRECISION")
     private double sensorDistance2;
+
     private boolean tiltState;
+
+    @Column(columnDefinition = "DOUBLE PRECISION")
     private double temperature;
+
+    @Column(columnDefinition = "DOUBLE PRECISION")
     private double humidity;
+
     private String comfort;
     //this field stores the unused controller payload keys and values as a json string. yikes!
     private String unusedData;

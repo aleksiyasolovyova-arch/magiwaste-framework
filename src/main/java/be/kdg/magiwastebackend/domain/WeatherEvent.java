@@ -1,9 +1,6 @@
-package be.kdg.magiwastebackend.weatherapi;
+package be.kdg.magiwastebackend.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class WeatherEvent {
@@ -12,28 +9,36 @@ public class WeatherEvent {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(columnDefinition = "DOUBLE PRECISION")
     private double temperature;
 
     private int relativeHumidity;
 
+    @Column(columnDefinition = "DOUBLE PRECISION")
     private double apparentTemperature;
 
+    @Column(columnDefinition = "DOUBLE PRECISION")
     private double precipitation;
 
+    @Column(columnDefinition = "DOUBLE PRECISION")
     private double rain;
 
+    @Column(columnDefinition = "DOUBLE PRECISION")
     private double showers;
 
+    @Column(columnDefinition = "DOUBLE PRECISION")
     private double snowfall;
 
     private int weatherCode;
 
     private String weatherCodeDescription;
 
+    @Column(columnDefinition = "DOUBLE PRECISION")
     private double surfacePressure;
 
     private int cloudCoverTotal;
 
+    @Column(columnDefinition = "DOUBLE PRECISION")
     private double windSpeed10m;
 
 

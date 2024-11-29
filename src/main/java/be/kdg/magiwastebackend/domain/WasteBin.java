@@ -19,7 +19,11 @@ public class WasteBin {
     BinType binType = BinType.TALL_BIN;
 
     String address;
+
+    @Column(columnDefinition = "DOUBLE PRECISION")
     double longitude;
+
+    @Column(columnDefinition = "DOUBLE PRECISION")
     double latitude;
 
     @JsonIgnore

@@ -1,6 +1,5 @@
 package be.kdg.magiwastebackend.domain;
 
-import be.kdg.magiwastebackend.weatherapi.WeatherEvent;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -16,14 +15,27 @@ public class WasteBinEvent {
     @JoinColumn(name = "bin")
     private WasteBin bin;
 
+    @Column(columnDefinition = "DOUBLE PRECISION")
     private double percentOfVolume;
+
+    @Column(columnDefinition = "DOUBLE PRECISION")
     private double sensorDistance1;
+
+    @Column(columnDefinition = "DOUBLE PRECISION")
     private double sensorDistance2;
+
     private boolean tiltState;
+
+    @Column(columnDefinition = "DOUBLE PRECISION")
     private double temperature;
+
+    @Column(columnDefinition = "DOUBLE PRECISION")
     private double humidity;
+
     private String comfort;
+
     private boolean isFull;
+
     //TODO change to localdatetime
     private LocalDate eventDate;
 

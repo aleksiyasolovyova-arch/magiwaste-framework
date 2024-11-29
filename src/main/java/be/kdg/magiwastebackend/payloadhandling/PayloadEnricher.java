@@ -1,7 +1,7 @@
 package be.kdg.magiwastebackend.payloadhandling;
 
 import be.kdg.magiwastebackend.facade.ServiceFacade;
-import be.kdg.magiwastebackend.weatherapi.WeatherEvent;
+import be.kdg.magiwastebackend.domain.WeatherEvent;
 import be.kdg.magiwastebackend.weatherapi.WeatherDTO;
 import be.kdg.magiwastebackend.weatherapi.WeatherFactory;
 import be.kdg.magiwastebackend.weatherapi.WeatherResponseDTO;

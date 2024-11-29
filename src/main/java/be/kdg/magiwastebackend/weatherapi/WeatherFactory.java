@@ -1,5 +1,7 @@
 package be.kdg.magiwastebackend.weatherapi;
 
+import be.kdg.magiwastebackend.domain.WeatherEvent;
+
 import java.time.LocalDateTime;
 
 public class WeatherFactory {
