@@ -28,6 +28,9 @@ dependencies {
     //postgres stuff
     runtimeOnly("org.postgresql:postgresql")
 
+    //bootstrap
+    implementation("org.webjars:bootstrap:5.3.3")
+
     //MQTT stuff
     compileOnly("org.springframework.integration:spring-integration-mqtt:6.3.5")
     implementation ("org.springframework:spring-context:6.1.14") //THIS IS HERE BECAUSE OF A 5.3 VULNERABILITY.

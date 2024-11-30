@@ -1,3 +1,11 @@
+<!--
+Oh, merciful heavens, I come before you not as a humble servant,
+but with hands stained with the unspeakable horrors of inline html logic and nested css styling.
+Forgive me, for I have committed sins against clarity, efficiency, and the sacred principles of DRY.
+And lo, in my darkest hour, I did push directly to main without a single pull request.
+I beseech thee, divine compiler of cosmic order, to forgive me these grievous errors and grant me the strength to refactor.
+Amen.
+-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,6 +16,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
             crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <link rel="stylesheet" th:href="@{css/dashboard.css}">
 </head>
 <body>
 <div id="wrapper" class="d-flex flex-column overflow-hidden min-vh-100 vh-100">
@@ -50,11 +60,79 @@
             </div>
         </div>
     </nav>
+
+    <!--    Map-->
     <div id="content" class="d-flex flex-column flex-wrap flex-grow-1 h-100">
         <div id="map" class="vh-100 vw-100"></div>
     </div>
-</div>
 
+    <!--    Button for expanding dashboard tiles-->
+    <p id="dashboard-button-container">
+        <a class="btn btn-primary" id="dashboard-button" data-bs-toggle="collapse" href="#collapseExample" role="button"
+           aria-expanded="false" aria-controls="collapseExample">
+            Expand Dashboard
+        </a>
+    </p>
+
+    <!--UI-->
+    <div class="container p-3" id="dashboard-ui-container">
+        <!--        collapsed div-->
+        <div class="collapse" id="collapseExample">
+            <div class="card card-body "
+                 style="height: 80vh;background-color: white;">
+                <!--Search bar/filter-->
+                <div class="w-100 mb-2">
+                    <p>Search Bin by Address</p>
+                    <input class="form-control" id="searchInput" type="text" placeholder="Search..">
+                </div>
+                <script>
+                    $(document).ready(function () {
+                        $("#searchInput").on("keyup", function () {
+                            let value = $(this).val().toLowerCase();
+                            console.log("Search value: " + value);
+                            $("#dashboard-bins-cards .bin-card").filter(function () {
+                                var dataAddress = $(this).attr("data-address") || "";
+                                var textContent = $(this).text().toLowerCase();
+                                var isMatch = dataAddress.toLowerCase().indexOf(value) > -1 || textContent.indexOf(value) > -1;
+
+                                console.log("Card address:", dataAddress);
+                                console.log("Card content:", textContent);
+                                console.log("Is match:", isMatch);
+
+                                // Toggle the Bootstrap 'd-none' class to hide/show the element
+                                if (isMatch) {
+                                    $(this).removeClass("d-none"); // Show the card
+                                } else {
+                                    $(this).addClass("d-none"); // Hide the card
+                                }
+                            });
+                        });
+                    });
+                </script>
+
+
+                <div id="dashboard-bins-cards"
+                     class="overflow-auto d-flex flex-wrap flex-row justify-content-between gap-2">
+                    <!--Cards-->
+                    <div class="bin-card tile rounded border border-opacity-25 border-dark col-lg-2 col-md-4 col-sm-6 d-flex flex-column align-items-center mb-2 overflow-hidden"
+                         th:each="point: ${points}"
+                         th:attr="data-address=${point.address}">
+                        <div class="card-image-container">
+                            <img th:src="@{images/bin.png}" class="col-12">
+                        </div>
+                        <div class="card-content-container">
+                            <div class="card-top-content-row d-flex flex-row mt-2">
+                                <p th:text="${point.address}" class="col-8 text-start">address</p> <!-- align left-->
+                                <h5 th:text="${point.percentOfVolume} + '%'" class="col-4 text-end"
+                                    th:style="'color:' + ${point.color}">%</h5> <!-- align right-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAvsioZ4aiVs6PxJ8VodFIOh2e2nTWXcDo&loading=async&libraries=maps&v=beta"
@@ -66,26 +144,26 @@
     function initMap() {
         const map = new google.maps.Map(document.getElementById("map"), {
             //51.2199° N, 4.4150° E - ANTWERP
-            center: { lat: 51.2199, lng: 4.4150 },
+            center: {lat: 51.2199, lng: 4.4150},
             zoom: 15,
             disableDefaultUI: true,
             styles: [
                 {
                     featureType: "poi", // Points of interest
-                    stylers: [{ visibility: "off" }], // Hide POIs (businesses, locations, and all that)
+                    stylers: [{visibility: "off"}], // Hide POIs (businesses, locations, and all that)
                 },
                 {
                     featureType: "transit", // Transit stations
-                    stylers: [{ visibility: "off" }], // Hide transit
+                    stylers: [{visibility: "off"}], // Hide transit
                 },
                 {
                     featureType: "administrative.land_parcel", // Land parcels
-                    stylers: [{ visibility: "off" }], // Hide land parcels
+                    stylers: [{visibility: "off"}], // Hide land parcels
                 },
                 {
                     featureType: "road", // Roads
                     elementType: "labels.icon", // Icons (e.g., highway icons)
-                    stylers: [{ visibility: "off" }], // Hide road icons
+                    stylers: [{visibility: "off"}], // Hide road icons
                 },
             ],
         });
@@ -97,7 +175,7 @@
         // Add markers
         points.forEach(point => {
             let marker = new google.maps.Marker({
-                position: { lat: point.latitude, lng: point.longitude },
+                position: {lat: point.latitude, lng: point.longitude},
                 map: map,
                 icon: {
                     path: google.maps.SymbolPath.CIRCLE, // Circle icon
@@ -120,18 +198,18 @@
 
             // Add mouse listener to open the InfoWindow
             marker.addListener("mouseover", () => {
-                infoWindow.open({ anchor: marker, map, shouldFocus: false });
+                infoWindow.open({anchor: marker, map, shouldFocus: false});
             });
             marker.addListener("mouseout", () => {
-                infoWindow.close({ anchor: marker, map, shouldFocus: false });
+                infoWindow.close({anchor: marker, map, shouldFocus: false});
             });
-
         });
     }
 
     // Initialize the map
     window.onload = initMap;
 </script>
+
 
 </body>
 </html>

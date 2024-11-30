@@ -1,0 +1,61 @@
+#dashboard-button-container {
+    position: absolute;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    text-align: center;
+    bottom: 10px;
+}
+
+#dashboard-button {
+    border-radius: 15px;
+    background-color: white;
+    border-color: #367c3b;
+    color: #367c3b;
+    -webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.46);
+    -moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.46);
+    box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.46);
+}
+
+#dashboard-ui-container {
+    position: absolute;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    text-align: center;
+    top: 70px;
+    border-radius: 15px;
+}
+
+.tile {
+    text-align: center;
+    border-radius: 10px;
+    flex: 1 1 24%; /* Default: 4 tiles per row (100% / 4 = 25% minus some gap) */
+    max-width: 24%;
+}
+
+/* Medium screens: 3 tiles per row */
+@media (max-width: 992px) {
+    .tile {
+        flex: 1 1 32%; /* 100% / 3 = 33.33%, but adjust for gap */
+        max-width: 32%;
+    }
+}
+
+/* Small screens: 2 tiles per row */
+@media (max-width: 768px) {
+    .tile {
+        flex: 1 1 48%; /* 100% / 2 = 50%, but adjust for gap */
+        max-width: 48%;
+    }
+}
+
+/* Extra small screens: 1 tile per row */
+@media (max-width: 576px) {
+    .tile {
+        flex: 1 1 48%; /* 100% / 2 = 50%, but adjust for gap */
+        max-width: 48%;
+    }
+}
