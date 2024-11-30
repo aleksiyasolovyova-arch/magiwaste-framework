@@ -3,6 +3,7 @@ package be.kdg.magiwastebackend.service;
 import be.kdg.magiwastebackend.domain.WasteBin;
 import be.kdg.magiwastebackend.domain.WasteBinEvent;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface WasteBinEventService {

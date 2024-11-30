@@ -6,6 +6,7 @@ import be.kdg.magiwastebackend.repository.WasteBinEventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -31,4 +32,5 @@ public class WasteBinEventServiceImplementation implements WasteBinEventService 
     public List<WasteBinEvent> findAllByBin(WasteBin bin) {
         return wasteBinEventRepository.findAllByBinOrderByEventDate(bin);
     }
+
 }

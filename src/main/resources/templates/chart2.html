@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <title>Waste Bin Fill Level</title>
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+</head>
+<body>
+<h1>Waste Bin Fill Level</h1>
+
+<!-- Bar Chart -->
+<div id="Barchart"></div>
+
+<script>
+  // Prepare data from Thymeleaf
+  var events = /*[[${events}]]*/ [];
+  events = JSON.parse(JSON.stringify(events));
+
+  var labels = [];
+  var data = [14, 7, 23, 88, 76, 85, 13, 54];
+  events.forEach(function (event) {
+    if (event.bin && event.bin.id != null && event.percentOfVolume != null) {
+      labels.push("Bin ID: " + event.bin.id);
+      data.push(event.percentOfVolume);
+    }
+  });
+
+  // Bar Chart Options
+  var barChartOptions = {
+    series: [{
+      name: 'Fill Level (%)',
+      data: data
+    }],
+    chart: {
+      type: 'bar',
+      height: 250
+    },
+    plotOptions: {
+      bar: {
+        horizontal: false,
+      }
+    },
+    xaxis: {
+      categories: labels,
+    }
+  };
+
+  // Render Bar Chart
+  var barChart = new ApexCharts(document.querySelector("#Barchart"), barChartOptions);
+  barChart.render();
+</script>
+
+
+
+<div id="HeatmapChart"></div>
+
+<script>
+  // Helper function to generate dummy data for the heatmap
+  function generateData(count, yrange) {
+    var data = [];
+    for (var i = 0; i < count; i++) {
+      var x = (i + 1).toString();
+      var y = Math.floor(Math.random() * (yrange.max - yrange.min + 1)) + yrange.min;
+      data.push({ x: x, y: y });
+    }
+    return data;
+  }
+
+  var heatmapOptions = {
+    series: [{
+      name: 'Sunny',
+      data: generateData(8, { min: 0, max: 100 })
+    },
+      {
+        name: 'Rainy',
+        data: generateData(8, { min: 0, max: 100 })
+      },
+      {
+        name: 'Windy',
+        data: generateData(8, { min: 0, max: 100 })
+      }
+    ],
+    chart: {
+      height: 300,
+      type: 'heatmap',
+    },
+    plotOptions: {
+      heatmap: {
+        shadeIntensity: 0.5,
+        radius: 0,
+        useFillColorAsStroke: true,
+        colorScale: {
+          ranges: [
+            { from: 0, to: 34, name: 'low usage', color: '#1b8a5a' },
+            { from: 34, to: 67, name: 'medium usage', color: '#fbb021' },
+            { from: 68, to: 100, name: 'high usage', color: '#ee3e32' },
+          ]
+        }
+      }
+    },
+    dataLabels: {
+      enabled: false
+    },
+    stroke: {
+      width: 1
+    },
+    title: {
+      text: 'bin usage based on weather events'
+    },
+  };
+  var heatmapChart = new ApexCharts(document.querySelector("#HeatmapChart"), heatmapOptions);
+  heatmapChart.render();
+</script>
+
+<h1>Waste Bin Depth, Tilt, and Smoke Events Over Time</h1>
+<div id="comboChart"></div>
+
+<script>
+  // Inject events from Thymeleaf
+  var events = /*[[${events}]]*/ [];
+
+  // Parse the JSON object
+  events = JSON.parse(JSON.stringify(events));
+
+  // Prepare data for chart
+  var labels = [];
+  var depthData = [13, 45, 67, 79, 5, 100, 54, 23];
+  var tiltData = [0, 0, 0, 0,1, 1, 0];
+  var smokeData = [1, 0, 0, 1, 1, 0, 1];
+
+  events.forEach(function (event) {
+    labels.push(event.eventDate);
+
+    // Depth (Percent of Volume)
+    depthData.push(event.percentOfVolume != null ? event.percentOfVolume : 0);
+
+    // Tilt (If tiltState is true, count as 1, otherwise 0)
+    tiltData.push(event.tiltState ? 1 : 0);
+
+    // Smoke (If comfort is 'smoke', count as 1, otherwise 0)
+    smokeData.push(event.comfort === 'smoke' ? 1 : 0);
+  });
+
+  // Combo Chart Options
+  var options = {
+    series: [{
+      name: 'Average Depth (%)',
+      type: 'line',
+      data: depthData
+    }, {
+      name: 'Tilt Events',
+      type: 'column',
+      data: tiltData
+    }, {
+      name: 'Smoke Events',
+      type: 'column',
+      data: smokeData
+    }],
+    chart: {
+      height: 400,
+      type: 'line',
+      stacked: false
+    },
+    stroke: {
+      width: [4, 0, 0]
+    },
+    plotOptions: {
+      bar: {
+        columnWidth: '50%'
+      }
+    },
+    xaxis: {
+      categories: labels,
+      title: {
+        text: 'Date'
+      }
+    },
+    yaxis: [{
+      title: {
+        text: 'Average Depth (%)'
+      }
+    }, {
+      opposite: true,
+      title: {
+        text: 'Tilt & Smoke Events'
+      }
+    }],
+    tooltip: {
+      shared: true,
+      intersect: false
+    },
+    legend: {
+      position: 'top',
+      horizontalAlign: 'center'
+    }
+  };
+
+  // Render the chart
+  var chart = new ApexCharts(document.querySelector("#comboChart"), options);
+  chart.render();
+</script>
+
+
+<h3>Debugging outputs:</h3>
+<ul>
+  <li th:each="event : ${events}">
+    Bin ID: <span th:text="${event.bin.id}"></span>,
+    Percent of Volume: <span th:text="${event.percentOfVolume}"></span>,
+    Event Date: <span th:text="${event.eventDate}"></span>
+  </li>
+</ul>
+
+</body>
+</html>
