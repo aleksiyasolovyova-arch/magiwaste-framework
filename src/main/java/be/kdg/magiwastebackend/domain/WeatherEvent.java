@@ -174,4 +174,51 @@ public class WeatherEvent {
         return id;
     }
 
+    public double getTemperature() {
+        return temperature;
+    }
+
+    public int getRelativeHumidity() {
+        return relativeHumidity;
+    }
+
+    public double getApparentTemperature() {
+        return apparentTemperature;
+    }
+
+    public double getPrecipitation() {
+        return precipitation;
+    }
+
+    public double getRain() {
+        return rain;
+    }
+
+    public double getShowers() {
+        return showers;
+    }
+
+    public double getSnowfall() {
+        return snowfall;
+    }
+
+    public int getWeatherCode() {
+        return weatherCode;
+    }
+
+    public String getWeatherCodeDescription() {
+        return weatherCodeDescription;
+    }
+
+    public double getSurfacePressure() {
+        return surfacePressure;
+    }
+
+    public int getCloudCoverTotal() {
+        return cloudCoverTotal;
+    }
+
+    public double getWindSpeed10m() {
+        return windSpeed10m;
+    }
 }
