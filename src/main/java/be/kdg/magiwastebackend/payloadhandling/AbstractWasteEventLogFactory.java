@@ -6,7 +6,7 @@ import be.kdg.magiwastebackend.domain.WasteBinEvent;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Map;
 
 @Component
@@ -34,7 +34,7 @@ class AbstractWasteEventLogFactory {
         event.setHumidity(humidity);
         event.setPercentOfVolume(percentOfVolume);
         event.setComfort(comfort); //TODO replace with enums
-        event.setEventDate(LocalDate.now());
+        event.setEventDate(LocalDateTime.now());
         event.setFull(isFull);
 
         event.setWeatherEvent(payload.getWeather());
