@@ -26,8 +26,15 @@ public class ChartController {
     @GetMapping("/chart2")
     public String getChartData(Model model) {
         List<WasteBinEvent> events = wasteBinEventService.findAll();
-        System.out.println("Events from db: " + events);
+        Map<Long, List<WasteBinEvent>> eventsByBin = events.stream()
+                .collect(Collectors.groupingBy(event -> event.getBin().getId()));
+
+        List<WasteBinEvent> oneBinEvent = wasteBinEventService.findAll().stream()
+                .filter(event -> event.getBin().getId() == 1)
+                .collect(Collectors.toList());
         model.addAttribute("events", events);
+        model.addAttribute("eventsByBin", eventsByBin);
+        model.addAttribute("oneBinEvent", oneBinEvent);
         return "chart2";
 
     }
