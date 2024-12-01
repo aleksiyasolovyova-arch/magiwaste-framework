@@ -140,7 +140,6 @@
     smokeData.push(event.comfort === 'smoke' ? 1 : 0);
   });
 
-  // Combo Chart Options
   var options = {
     series: [{
       name: 'Average Depth (%)',
@@ -193,8 +192,6 @@
       horizontalAlign: 'center'
     }
   };
-
-  // Render the chart
   var chart = new ApexCharts(document.querySelector("#comboChart"), options);
   chart.render();
 </script>

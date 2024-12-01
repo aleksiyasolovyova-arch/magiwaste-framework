@@ -1,5 +1,6 @@
 package be.kdg.magiwastebackend.domain;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -42,13 +43,13 @@ public class WasteBinEvent {
     @OneToOne
     private WeatherEvent weatherEvent;
 
-    private boolean wasteReceived;
+    private Boolean wasteReceived;
 
     //CONSTRUCTORS
     public WasteBinEvent() {
     }
 
-    public WasteBinEvent(WasteBin bin, float percentOfVolume, double sensorDistance1, double sensorDistance2, boolean tiltState, double temperature, double humidity, String comfort, boolean isFull, LocalDateTime eventDate, boolean wasteReceived) {
+    public WasteBinEvent(WasteBin bin, float percentOfVolume, double sensorDistance1, double sensorDistance2, boolean tiltState, double temperature, double humidity, String comfort, boolean isFull, LocalDateTime eventDate, Boolean wasteReceived) {
         this.bin = bin;
         this.percentOfVolume = percentOfVolume;
         this.sensorDistance1 = sensorDistance1;
@@ -166,7 +167,11 @@ public class WasteBinEvent {
         this.weatherEvent = weatherEvent;
     }
 
-    public boolean isWasteReceived() {
+    public Boolean getWasteReceived() {
         return wasteReceived;
+    }
+
+    public void setWasteReceived(Boolean wasteReceived) {
+        this.wasteReceived = wasteReceived;
     }
 }
