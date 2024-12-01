@@ -42,6 +42,8 @@ public class WeatherEvent {
     private double windSpeed10m;
 
 
+
+
     public WeatherEvent(double temperature, int relativeHumidity, double apparentTemperature, double precipitation, double rain, double showers, double snowfall, int weatherCode, double surfacePressure, int cloudCoverTotal, double windSpeed10m) {
         this.temperature = temperature;
         this.relativeHumidity = relativeHumidity;

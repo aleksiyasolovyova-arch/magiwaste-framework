@@ -42,11 +42,13 @@ public class WasteBinEvent {
     @OneToOne
     private WeatherEvent weatherEvent;
 
+    private boolean wasteReceived;
+
     //CONSTRUCTORS
     public WasteBinEvent() {
     }
 
-    public WasteBinEvent(WasteBin bin, float percentOfVolume, double sensorDistance1, double sensorDistance2, boolean tiltState, double temperature, double humidity, String comfort, boolean isFull, LocalDate eventDate) {
+    public WasteBinEvent(WasteBin bin, float percentOfVolume, double sensorDistance1, double sensorDistance2, boolean tiltState, double temperature, double humidity, String comfort, boolean isFull, LocalDate eventDate, boolean wasteReceived) {
         this.bin = bin;
         this.percentOfVolume = percentOfVolume;
         this.sensorDistance1 = sensorDistance1;
@@ -57,6 +59,7 @@ public class WasteBinEvent {
         this.comfort = comfort;
         this.isFull = isFull;
         this.eventDate = eventDate;
+        this.wasteReceived = wasteReceived;
     }
 
     public WasteBinEvent(double sensorDistance1, double sensorDistance2, boolean tiltState, double temperature) {
@@ -161,5 +164,9 @@ public class WasteBinEvent {
 
     public void setWeatherEvent(WeatherEvent weatherEvent) {
         this.weatherEvent = weatherEvent;
+    }
+
+    public boolean isWasteReceived() {
+        return wasteReceived;
     }
 }
