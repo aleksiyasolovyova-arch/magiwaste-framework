@@ -2,7 +2,7 @@ package be.kdg.magiwastebackend.domain;
 
 import jakarta.persistence.*;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 public class WasteBinEvent {
@@ -37,7 +37,7 @@ public class WasteBinEvent {
     private boolean isFull;
 
     //TODO change to localdatetime
-    private LocalDate eventDate;
+    private LocalDateTime eventDate;
 
     @OneToOne
     private WeatherEvent weatherEvent;
@@ -46,7 +46,7 @@ public class WasteBinEvent {
     public WasteBinEvent() {
     }
 
-    public WasteBinEvent(WasteBin bin, float percentOfVolume, double sensorDistance1, double sensorDistance2, boolean tiltState, double temperature, double humidity, String comfort, boolean isFull, LocalDate eventDate) {
+    public WasteBinEvent(WasteBin bin, float percentOfVolume, double sensorDistance1, double sensorDistance2, boolean tiltState, double temperature, double humidity, String comfort, boolean isFull, LocalDateTime eventDate) {
         this.bin = bin;
         this.percentOfVolume = percentOfVolume;
         this.sensorDistance1 = sensorDistance1;
@@ -99,11 +99,11 @@ public class WasteBinEvent {
         isFull = full;
     }
 
-    public LocalDate getEventDate() {
+    public LocalDateTime getEventDate() {
         return eventDate;
     }
 
-    public void setEventDate(LocalDate eventDate) {
+    public void setEventDate(LocalDateTime eventDate) {
         this.eventDate = eventDate;
     }
 
