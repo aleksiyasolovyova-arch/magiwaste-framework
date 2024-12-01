@@ -36,7 +36,6 @@ public class WasteBinEvent {
 
     private boolean isFull;
 
-    //TODO change to localdatetime
     private LocalDateTime eventDate;
 
     @OneToOne

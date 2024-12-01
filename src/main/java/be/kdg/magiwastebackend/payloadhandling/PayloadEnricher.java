@@ -6,12 +6,16 @@ import be.kdg.magiwastebackend.weatherapi.WeatherDTO;
 import be.kdg.magiwastebackend.weatherapi.WeatherFactory;
 import be.kdg.magiwastebackend.weatherapi.WeatherResponseDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import org.eclipse.paho.client.mqttv3.logging.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.util.logging.Logger;
+
 
 @Component
 class PayloadEnricher implements PayloadHandler {
@@ -31,7 +35,6 @@ class PayloadEnricher implements PayloadHandler {
 
 
     public Payload handlePayload(Payload payload)  {
-        //TODO: use weather API to enrich payload.
 
         ResponseEntity<String> weatherData = callWeatherApi(payload.getLatitude(), payload.getLongitude());
 

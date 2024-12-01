@@ -24,7 +24,6 @@ class AbstractWasteEventLogFactory {
         double percentOfVolume = (bin.getBinType().getHeight() - ((sensorDistance1 + sensorDistance2)/ 2))  / bin.getBinType().getHeight() * 100;
         boolean isFull = percentOfVolume > 85;
 
-        //TODO add all the other required fields in wasteBinEvent - Szymon
         WasteBinEvent event = new WasteBinEvent();
         event.setBin(bin);
         event.setSensorDistance1(sensorDistance1);

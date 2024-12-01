@@ -34,7 +34,7 @@ public class HTTPController {
         logger.debug("received data {}", body);
 
         Payload payload = cleanPayload(body);
-        payloadService.processPayload(payload); //todo: use spring notation to specify which implementation should be autowired
+        payloadService.processPayload(payload);
 
         return new ResponseEntity<>(HttpStatus.CREATED);//206 partial context //201 created resource //200 OK
     }
