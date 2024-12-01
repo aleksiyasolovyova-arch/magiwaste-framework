@@ -1,6 +1,5 @@
 package be.kdg.magiwastebackend.domain;
 
-import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -43,6 +42,8 @@ public class WasteBinEvent {
     @OneToOne
     private WeatherEvent weatherEvent;
 
+
+    @Column(columnDefinition = "BOOLEAN")
     private Boolean wasteReceived;
 
     //CONSTRUCTORS
