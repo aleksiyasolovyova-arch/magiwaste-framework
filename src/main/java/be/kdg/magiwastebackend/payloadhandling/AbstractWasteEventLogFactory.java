@@ -18,6 +18,7 @@ class AbstractWasteEventLogFactory {
         boolean tiltState = payload.isTiltState();
         double temperature = payload.getTemperature();
         double humidity = payload.getHumidity();
+        boolean wasteReceived = payload.getWasteReceived();
         String comfort = payload.getComfort();
 
         //get the fullness of the bin
@@ -48,6 +49,7 @@ class AbstractWasteEventLogFactory {
         double temperature = payload.getTemperature();
         double humidity = payload.getHumidity();
         String comfort = payload.getComfort();
+        boolean wasteReceived = payload.getWasteReceived();
         Map<String, Object> unusedData = payload.getUnusedData();
         String unusedDataJsonString = "";
 
@@ -63,7 +65,7 @@ class AbstractWasteEventLogFactory {
             e.printStackTrace(); // :(
         }
 
-        return new RawDataLog(sensorDistance1, sensorDistance2, tiltState, temperature, humidity, comfort, unusedDataJsonString);
+        return new RawDataLog(sensorDistance1, sensorDistance2, tiltState, temperature, humidity, comfort, wasteReceived,unusedDataJsonString);
 
     }
 }

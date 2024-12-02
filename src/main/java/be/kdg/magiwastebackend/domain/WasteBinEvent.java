@@ -42,8 +42,8 @@ public class WasteBinEvent {
     private WeatherEvent weatherEvent;
 
 
-    @Column(columnDefinition = "BOOLEAN")
-    private Boolean wasteReceived;
+    @Column(columnDefinition = "BOOLEAN", name = "waste_received")
+    private boolean wasteReceived;
 
     //CONSTRUCTORS
     public WasteBinEvent() {

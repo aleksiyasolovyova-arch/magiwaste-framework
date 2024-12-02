@@ -26,11 +26,14 @@ public class RawDataLog {
     @Column(columnDefinition = "DOUBLE PRECISION")
     private double humidity;
 
+    @Column(columnDefinition = "BOOLEAN", name = "waste_received")
+    private boolean wasteReceived;
+
     private String comfort;
     //this field stores the unused controller payload keys and values as a json string. yikes!
     private String unusedData;
 
-    public RawDataLog(double sensorDistance1, double sensorDistance2, boolean tiltState, double temperature, double humidity, String comfort, String unusedData) {
+    public RawDataLog(double sensorDistance1, double sensorDistance2, boolean tiltState, double temperature, double humidity, String comfort,boolean wasteReceived, String unusedData) {
         this.sensorDistance1 = sensorDistance1;
         this.sensorDistance2 = sensorDistance2;
         this.tiltState = tiltState;
@@ -38,6 +41,7 @@ public class RawDataLog {
         this.humidity = humidity;
         this.comfort = comfort;
         this.unusedData = unusedData;
+        this.wasteReceived = wasteReceived;
     }
 
     public RawDataLog(float sensorDistance1, float sensorDistance2, boolean tiltState, float temperature) {
@@ -100,5 +104,25 @@ public class RawDataLog {
 
     public void setTiltState(boolean tiltState) {
         this.tiltState = tiltState;
+    }
+
+    public boolean isWasteReceived() {
+        return wasteReceived;
+    }
+
+    public double getTemperature() {
+        return temperature;
+    }
+
+    public double getHumidity() {
+        return humidity;
+    }
+
+    public String getComfort() {
+        return comfort;
+    }
+
+    public String getUnusedData() {
+        return unusedData;
     }
 }

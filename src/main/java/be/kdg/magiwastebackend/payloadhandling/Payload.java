@@ -16,6 +16,7 @@ public class Payload {
     private double temperature;
     private double humidity;
     private String comfort;
+    private boolean wasteReceived;
 
     //weather data
     private WeatherEvent weather;
@@ -125,5 +126,13 @@ public class Payload {
 
     public void setWeather(WeatherEvent weather) {
         this.weather = weather;
+    }
+
+    public boolean getWasteReceived() {
+        return wasteReceived;
+    }
+
+    public void setWasteReceived(boolean wasteReceived) {
+        this.wasteReceived = wasteReceived;
     }
 }
