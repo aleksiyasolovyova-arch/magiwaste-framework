@@ -1,16 +1,12 @@
 package be.kdg.magiwastebackend.communicationprotocolcontrollers;
 
-import be.kdg.magiwastebackend.facade.ServiceFacade;
 import be.kdg.magiwastebackend.payloadhandling.Payload;
 import be.kdg.magiwastebackend.payloadhandling.PayloadService;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -30,7 +26,7 @@ public class HTTPController {
     }
 
     @PostMapping("/data")
-    public ResponseEntity<String> test(@RequestBody Map<String, Object> body) throws JsonProcessingException {
+    public ResponseEntity<String> test(@RequestBody Map<String, Object> body) {
         logger.debug("received data {}", body);
 
         Payload payload = cleanPayload(body);

@@ -1,6 +1,5 @@
 package be.kdg.magiwastebackend.payloadhandling;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 

@@ -1,6 +1,5 @@
 package be.kdg.magiwastebackend.payloadhandling;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +12,7 @@ class PayloadServiceImplementation implements PayloadService {
     }
 
     @Override
-    public void processPayload(Payload payload) throws JsonProcessingException {
+    public void processPayload(Payload payload) {
         payloadHandler.handlePayload(payload);
     }
 
