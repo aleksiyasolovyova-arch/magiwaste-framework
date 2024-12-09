@@ -29,7 +29,9 @@ dependencies {
     runtimeOnly("org.postgresql:postgresql")
 
     //bootstrap
+    implementation("org.webjars:webjars-locator-core:0.59")
     implementation("org.webjars:bootstrap:5.3.3")
+    implementation("org.webjars.npm:bootstrap-icons:1.11.3")
 
     //MQTT stuff
     compileOnly("org.springframework.integration:spring-integration-mqtt:6.3.5")

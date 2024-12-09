@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title>Waste Bin Fill Level</title>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap-icons/font/bootstrap-icons.css} ">
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+    <script defer th:src="@{/webjars/bootstrap/js/bootstrap.bundle.js}"></script>
+
+<!--    ⠄⠄⠄⠄⠄⠄⠄⠄⠄⠈⠙⠿⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿-->
+<!--    ⠄⠄⣴⣼⣵⣾⣴⣤⣦⣄⣴⣶⣬⣻⣿⣿⣿⣿⣿⣿⣿⡿⠿⠿⠿⠿⠿⠿⠿⠿-->
+<!--    ⢀⣿⣭⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣶⣶⡶⠄⡀⠄⠄⠄⠄-->
+<!--    ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣶⡀⠄⠄-->
+<!--    ⣼⣿⣿⣿⣯⣙⣿⣿⣿⣿⣿⣿⣿⡿⠟⣿⣿⠛⢻⣿⣿⣿⣿⣿⣿⣿⣿⣷⣕⡀-->
+<!--    ⣿⣿⡿⢻⣿⠘⣿⣿⣿⣿⣿⣿⣟⠛⣼⣿⣿⣤⠘⠛⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷-->
+<!--    ⣿⣿⣇⠈⠺⣷⣿⣿⣿⣿⣿⣿⣿⣷⣿⣿⣿⣿⣶⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿-->
+<!--    ⣿⣿⣿⡇⠄⣨⣿⣿⣿⣿⣿⣿⣿⣿⠿⠿⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢿⣿-->
+<!--    ⣽⣿⣿⣳⣿⡌⠙⠛⠿⠛⢋⣛⣿⣿⠇⣠⣤⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣤⣾⣿-->
+<!--    ⣿⣿⣿⣷⣿⣿⡀⠄⠄⠄⠄⠁⠿⠋⠄⠈⠉⣿⣿⣿⣿⣿⣿⣿⠿⠟⢹⣿⣿⣿-->
+<!--    ⣿⣿⣿⣿⣿⣿⣷⣀⠄⠄⠄⠄⠄⣴⣦⣶⠄⠻⢿⠿⠟⠋⠁⠄⠄⠄⣸⣿⣿⣿-->
+<!--    ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣤⣤⣴⣿⣿⣿⣄⠄⠄⠄⠄⠄⠄⠄⣀⠄⣿⣿⣿⣿-->
+<!--    ⣿⣿⣿⣿⣿⣿⣯⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣦⠄⠻⠼⣿⣿⣿⣿-->
+<!--    ⠻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣧⠄⠄⣰⢟⣵⣿-->
+<!--    ⠂⠉⠻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢫⡶⣪⢶⣿⣿⣿-->
+</head>
+<body>
+<div class="container mt-5">
+    <div class="card shadow-sm">
+        <div class="card-header bg-success text-white">
+            <h3 class="text-center">Waste Bin Fill Levels</h3>
+        </div>
+        <div class="card-body">
+            <p class="text-center text-muted">The average fill level percentage of bins over time.</p>
+            <!-- Chart Container -->
+            <div id="Barchart" class="mt-4"></div>
+        </div>
+    </div>
+</div>
+
+<script th:inline="javascript">
+    var eventsByBin = /*[[${eventsByBin}]]*/ '[[${eventsByBin}]]';
+    eventsByBin = JSON.parse(JSON.stringify(eventsByBin));
+
+    var labels = [];
+    var data = [];
+    for (var binId in eventsByBin) {
+        if (eventsByBin.hasOwnProperty(binId)) {
+            var events = eventsByBin[binId];
+            var totalVolume = 0;
+            events.forEach(function (event) {
+                totalVolume += event.percentOfVolume;
+            });
+            var averageVolume = totalVolume / events.length;
+            labels.push("Bin ID: " + binId);
+            data.push(Math.round(averageVolume));
+        }
+    }
+    var barChartOptions = {
+        series: [{
+            name: 'Fill Level (%)',
+            data: data
+        }],
+        chart: {
+            type: 'bar',
+            height: 250
+        },
+        plotOptions: {
+            bar: {
+                horizontal: false,
+            }
+        },
+        xaxis: {
+            categories: labels,
+        }
+    };
+    var barChart = new ApexCharts(document.querySelector("#Barchart"), barChartOptions);
+    barChart.render();
+</script>
+
+
+<h1>Bin data of bin nr. [[${binId}]]</h1>
+<div id="comboChart"></div>
+<script th:inline="javascript">
+    var oneBinEvent = /*[[${oneBinEvent}]]*/ '[[${oneBinEvent}]]';
+    oneBinEvent = JSON.parse(JSON.stringify(oneBinEvent));
+
+    var labels = [];
+    var depthData = [];
+    var tiltData = [];
+    var smokeData = [];
+
+    var startDate = new Date(oneBinEvent[0].eventDate);
+    startDate.setDate(startDate.getDate() - 100);
+    var endDate = new Date(oneBinEvent[oneBinEvent.length - 1].eventDate);
+    endDate.setDate(endDate.getDate() + 100);
+
+    for (var d = new Date(startDate); d <= endDate; d.setDate(d.getDate() + 1)) {
+        labels.push(d.toISOString().split('T')[0]);
+    }
+
+    labels.forEach(function (date) {
+        var event = oneBinEvent.find(e => e.eventDate.startsWith(date));
+
+        depthData.push(event ? event.percentOfVolume : 0);
+        tiltData.push(event && event.tiltState ? 1 : 0);
+        smokeData.push(event && event.comfort === 'smoke' ? 1 : 0);
+    });
+
+    var options = {
+        series: [{
+            name: 'Average Depth (%)',
+            type: 'line',
+            data: depthData
+        }, {
+            name: 'Tilt Events',
+            type: 'column',
+            data: tiltData
+        }, {
+            name: 'Smoke Events',
+            type: 'column',
+            data: smokeData
+        }],
+        chart: {
+            height: 400,
+            type: 'line',
+            stacked: false
+        },
+        stroke: {
+            width: [4, 0, 0]
+        },
+        plotOptions: {
+            bar: {
+                columnWidth: '50%'
+            }
+        },
+        xaxis: {
+            categories: labels,
+            title: {
+                text: 'Date'
+            }
+        },
+        yaxis: [{
+            title: {
+                text: 'Average Depth (%)'
+            }
+        }, {
+            opposite: true,
+            title: {
+                text: 'Tilt & Smoke Events'
+            }
+        }],
+        tooltip: {
+            shared: true,
+            intersect: false
+        },
+        legend: {
+            position: 'top',
+            horizontalAlign: 'center'
+        }
+    };
+    var chart = new ApexCharts(document.querySelector("#comboChart"), options);
+    chart.render();
+</script>
+
+<h1>Waste Bin Depth of Bin [[${binId}]] Over Time</h1>
+<form method="get" action="/charts">
+    <label for="binId">Enter Bin ID:</label>
+    <input type="number" id="binId" name="binId" value="[[${binId}]]" required>
+    <button type="submit">View Chart</button>
+</form>
+
+<div id="comboChart2"></div>
+<script th:inline="javascript">
+    var oneBinEvent = /*[[${oneBinEvent}]]*/ '[[${oneBinEvent}]]';
+    oneBinEvent = JSON.parse(JSON.stringify(oneBinEvent));
+
+    var labels = [];
+    var depthData = [];
+
+    // Define the date range
+    var startDate = new Date(oneBinEvent[0]?.eventDate || new Date());
+    startDate.setDate(startDate.getDate() - 10);
+    var endDate = new Date(oneBinEvent[oneBinEvent.length - 1]?.eventDate || new Date());
+    endDate.setDate(endDate.getDate() + 10);
+
+    // Generate labels for the date range
+    for (var d = new Date(startDate); d <= endDate; d.setDate(d.getDate() + 1)) {
+        labels.push(d.toISOString().split('T')[0]);
+    }
+
+    // Initialize depth with carry-forward logic
+    var lastDepth = 0;
+
+    labels.forEach(function (date) {
+        var event = oneBinEvent.find(e => e.eventDate.startsWith(date));
+        if (event) {
+            lastDepth = event.percentOfVolume;
+        }
+        depthData.push(lastDepth);
+    });
+
+    // Chart options
+    var options = {
+        series: [{
+            name: 'Average Depth (%)',
+            type: 'line',
+            data: depthData
+        }],
+        chart: {
+            height: 400,
+            type: 'line',
+            stacked: false
+        },
+        stroke: {
+            curve: 'smooth',
+            width: [4]
+        },
+        markers: {
+            size: 5
+        },
+        xaxis: {
+            categories: labels,
+            title: {
+                text: 'Date'
+            }
+        },
+        yaxis: [{
+            title: {
+                text: 'Average Depth (%)'
+            }
+        }],
+        tooltip: {
+            shared: true,
+            intersect: false
+        },
+        legend: {
+            position: 'top',
+            horizontalAlign: 'center'
+        },
+        colors: ['#00E396']
+    };
+
+    var chart = new ApexCharts(document.querySelector("#comboChart2"), options);
+    chart.render();
+</script>
+
+
+
+<div id="HeatmapChart"></div>
+<script th:inline="javascript">
+    var eventsByBin = /*[[${eventsByBin}]]*/ '[[${eventsByBin}]]';
+    eventsByBin = JSON.parse(JSON.stringify(eventsByBin));
+
+    var weatherEvents = /*[[${weatherEvents}]]*/ '[[${weatherEvents}]]';
+    weatherEvents = JSON.parse(JSON.stringify(weatherEvents));
+
+    var heatmapData = [];
+    for (var binId in eventsByBin) {
+        if (eventsByBin.hasOwnProperty(binId)) {
+            var events = eventsByBin[binId];
+            events.forEach(function (event) {
+                var weatherEvent = weatherEvents.find(we => we.id === event.weatherEventId);
+                if (weatherEvent) {
+                    heatmapData.push({
+                        x: "Bin ID: " + binId,
+                        y: [54,64,36,35,6]
+                    });
+                }
+            });
+        }
+    }
+
+    var heatmapOptions = {
+        series: [{
+            name: 'Weather Description',
+            data: heatmapData
+        }],
+        chart: {
+            height: 300,
+            type: 'heatmap',
+        },
+        plotOptions: {
+            heatmap: {
+                shadeIntensity: 0.5,
+                radius: 0,
+                useFillColorAsStroke: true,
+                colorScale: {
+                    ranges: [
+                        {from: 0, to: 34, name: 'low usage', color: '#1b8a5a'},
+                        {from: 34, to: 67, name: 'medium usage', color: '#fbb021'},
+                        {from: 68, to: 100, name: 'high usage', color: '#ee3e32'},
+                    ]
+                }
+            }
+        },
+        dataLabels: {
+            enabled: false
+        },
+        stroke: {
+            width: 1
+        },
+        title: {
+            text: 'Bin Usage Over Time'
+        },
+        yaxis: {
+            title: {
+                text: 'Weather Description'
+            }
+        }
+    };
+    var heatmapChart = new ApexCharts(document.querySelector("#HeatmapChart"), heatmapOptions);
+    heatmapChart.render();
+</script>
+
+
+
+
+<h1>Weather Events</h1>
+<div id="weatherEvents"></div>
+
+<script th:inline="javascript">
+    var weatherEvents = /*[[${weatherEvents}]]*/ '[[${weatherEvents}]]';
+    weatherEvents = JSON.parse(JSON.stringify(weatherEvents));
+
+    weatherEvents.forEach(function(event) {
+        var eventDiv = document.createElement('div');
+        eventDiv.innerHTML =' Description: ' + event.weatherCodeDescription;
+        document.getElementById('weatherEvents').appendChild(eventDiv);
+    });
+</script>
+
+
+
+</body>
+</html>
