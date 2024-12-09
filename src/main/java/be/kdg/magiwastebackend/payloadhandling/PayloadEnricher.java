@@ -3,18 +3,13 @@ package be.kdg.magiwastebackend.payloadhandling;
 import be.kdg.magiwastebackend.facade.ServiceFacade;
 import be.kdg.magiwastebackend.domain.WeatherEvent;
 import be.kdg.magiwastebackend.weatherapi.WeatherDTO;
-import be.kdg.magiwastebackend.weatherapi.WeatherFactory;
-import be.kdg.magiwastebackend.weatherapi.WeatherResponseDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import org.eclipse.paho.client.mqttv3.logging.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-import java.util.logging.Logger;
 
 
 @Component
@@ -40,8 +35,20 @@ class PayloadEnricher implements PayloadHandler {
 
         ObjectMapper objectMapper = new ObjectMapper();
         try {
-            WeatherDTO weatherDTO = objectMapper.readValue(weatherData.getBody(), WeatherResponseDTO.class).getHourly();
-            WeatherEvent weather = WeatherFactory.createWeatherEvent(weatherDTO);
+            WeatherDTO weatherDTO = objectMapper.readerFor(WeatherDTO.class).readValue(weatherData.getBody());
+            WeatherEvent weather = new WeatherEvent(
+                    weatherDTO.getTemperature(),
+                    weatherDTO.getRelativeHumidity(),
+                    weatherDTO.getApparentTemperature(),
+                    weatherDTO.getPrecipitation(),
+                    weatherDTO.getRain(),
+                    weatherDTO.getShowers(),
+                    weatherDTO.getSnowfall(),
+                    weatherDTO.getWeatherCode(),
+                    weatherDTO.getSurfacePressure(),
+                    weatherDTO.getCloudCoverTotal(),
+                    weatherDTO.getWindSpeed10m()
+            );
             serviceFacade.saveWeatherEvent(weather);
             payload.setWeather(weather);
         }
@@ -54,7 +61,7 @@ class PayloadEnricher implements PayloadHandler {
 
     public ResponseEntity<String> callWeatherApi(double latitude, double longitude) {
 
-        String url = String.format("https://api.open-meteo.com/v1/forecast?latitude=%f&longitude=%f&hourly=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,rain,showers,snowfall,weather_code,surface_pressure,cloud_cover,wind_speed_10m&forecast_days=1", latitude, longitude);
+        String url = String.format("https://api.open-meteo.com/v1/forecast?latitude=%f&longitude=%f&current=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,rain,showers,snowfall,weather_code,cloud_cover,surface_pressure,wind_speed_10m", latitude, longitude);
 
         // GET request
         ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
