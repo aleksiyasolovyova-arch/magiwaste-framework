@@ -4,6 +4,10 @@ import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 
+@Table( name ="waste_bin_event" , uniqueConstraints={
+        @UniqueConstraint(name="device_id_unique", columnNames={"device_id"})
+})
+
 @Entity
 public class WasteBinEvent {
 

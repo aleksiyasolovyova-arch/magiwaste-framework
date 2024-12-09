@@ -30,7 +30,7 @@ public class ChartController {
                 .collect(Collectors.groupingBy(event -> event.getBin().getId()));
 
         List<WasteBinEvent> oneBinEvent = wasteBinEventService.findAll().stream()
-                .filter(event -> event.getBin().getId() == 1)
+                .filter(event -> event.getBin().getId() == 11)
                 .collect(Collectors.toList());
         model.addAttribute("events", events);
         model.addAttribute("eventsByBin", eventsByBin);
