@@ -6,9 +6,14 @@
 <!--    this is a temporary file for testing out tracer bullet-->
 </head>
 <body>
+<header th:insert="~{header::header}"></header>
+
 <h1>Bin</h1>
 <p th:text="${wasteBin.address}"></p>
 <p th:text="${wasteBin.latitude}"></p>
 <p th:text="${wasteBin.longitude}"></p>
+
+<footer th:insert="~{footer::footer}">Footer</footer>
+
 </body>
 </html>

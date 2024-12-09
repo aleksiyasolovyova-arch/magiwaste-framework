@@ -9,43 +9,7 @@
 </head>
 <body style="background-color: #367c3b">
 <!--Navbar-->
-<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #367c3b">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="#">Magiwaste</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Dashboard</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                       aria-expanded="false">
-                        Services
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="/chart">Charts</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                    </ul>
-                </li>
-            </ul>
-            <form class="d-flex" role="search">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn border border-white text-white" type="submit">Search</button>
-            </form>
-        </div>
-    </div>
-</nav>
+<header th:insert="~{header::header}"></header>
 
 <div class="px-4 pt-5 mt-5 text-center border-bottom">
     <h1 class="display-4 fw-bold text-white">Cleaner city instantly</h1>
@@ -150,21 +114,7 @@
     </section>
 </div>
 
-
-<div class="w-100" style="background-color: white">
-    <div class="container">
-        <footer class="py-3">
-            <ul class="nav justify-content-center border-bottom pb-3 mb-3">
-                <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Home</a></li>
-                <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Features</a></li>
-                <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Pricing</a></li>
-                <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">FAQs</a></li>
-                <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">About</a></li>
-            </ul>
-            <p class="text-center text-body-secondary">© 2024 Magiwaste</p>
-        </footer>
-    </div>
-</div>
+<footer th:insert="~{footer::footer}">Footer</footer>
 
 
 
