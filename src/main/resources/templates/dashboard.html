@@ -1,11 +1,3 @@
-<!--
-Oh, merciful heavens, I come before you not as a humble servant,
-but with hands stained with the unspeakable horrors of inline html logic and nested css styling.
-Forgive me, for I have committed sins against clarity, efficiency, and the sacred principles of DRY.
-And lo, in my darkest hour, I did push directly to main without a single pull request.
-I beseech thee, divine compiler of cosmic order, to forgive me these grievous errors and grant me the strength to refactor.
-Amen.
--->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -140,75 +132,102 @@ Amen.
 </script>
 
 <script th:inline="javascript">
-    //this script needs to be in the main html due to thymeleaf array parsing :(
     function initMap() {
         const map = new google.maps.Map(document.getElementById("map"), {
-            //51.2199° N, 4.4150° E - ANTWERP
             center: {lat: 51.2199, lng: 4.4150},
             zoom: 15,
             disableDefaultUI: true,
             styles: [
                 {
-                    featureType: "poi", // Points of interest
-                    stylers: [{visibility: "off"}], // Hide POIs (businesses, locations, and all that)
+                    featureType: "poi",
+                    stylers: [{visibility: "off"}],
                 },
                 {
-                    featureType: "transit", // Transit stations
-                    stylers: [{visibility: "off"}], // Hide transit
+                    featureType: "transit",
+                    stylers: [{visibility: "off"}],
                 },
                 {
-                    featureType: "administrative.land_parcel", // Land parcels
-                    stylers: [{visibility: "off"}], // Hide land parcels
+                    featureType: "administrative.land_parcel",
+                    stylers: [{visibility: "off"}],
                 },
                 {
-                    featureType: "road", // Roads
-                    elementType: "labels.icon", // Icons (e.g., highway icons)
-                    stylers: [{visibility: "off"}], // Hide road icons
+                    featureType: "road",
+                    elementType: "labels.icon",
+                    stylers: [{visibility: "off"}],
                 },
             ],
         });
 
         // Points data passed from Thymeleaf
         const points = /*[[${points}]]*/ [];
+        console.log(points);
 
-        console.log(points)
-        // Add markers
-        points.forEach(point => {
-            let marker = new google.maps.Marker({
-                position: {lat: point.latitude, lng: point.longitude},
-                map: map,
-                icon: {
-                    path: google.maps.SymbolPath.CIRCLE, // Circle icon
-                    scale: 8,                            // Circle size
-                    fillColor: point.color,              // Dynamic color
-                    fillOpacity: 1,
-                    strokeWeight: 1,                      // No border
-                    strokeColor: "black"
-                }
-            });
+        let markers = []; // Store markers to manage them easily
 
-            // Create an InfoWindow for the marker
-            const infoWindow = new google.maps.InfoWindow({
-                content: `<div style="font-size: 14px; max-width: 200px;">
-                            <h4>Bin Info</h4>
-                            <p><strong>Address:</strong> ${point.address}</p>
-                            <p><strong>Volume:</strong> ${point.percentOfVolume}%</p>
-                          </div>`
-            });
+        // Function to clear all markers
+        function clearMarkers() {
+            markers.forEach(marker => marker.setMap(null));
+            markers = [];
+        }
 
-            // Add mouse listener to open the InfoWindow
-            marker.addListener("mouseover", () => {
-                infoWindow.open({anchor: marker, map, shouldFocus: false});
+        // Function to render markers
+        function renderMarkers() {
+            clearMarkers(); // Clear existing markers
+            points.forEach(point => {
+                const marker = new google.maps.Marker({
+                    position: { lat: point.latitude, lng: point.longitude },
+                    map: map,
+                    icon: {
+                        path: google.maps.SymbolPath.CIRCLE,
+                        scale: 8,
+                        fillColor: point.color,
+                        fillOpacity: 1,
+                        strokeWeight: 1,
+                        strokeColor: "black",
+                    },
+                });
+
+                const infoWindow = new google.maps.InfoWindow({
+                    content: `<div style="font-size: 14px; max-width: 200px;">
+                                <h4>Bin Info</h4>
+                                <p><strong>Address:</strong> ${point.address}</p>
+                                <p><strong>Volume:</strong> ${point.percentOfVolume}%</p>
+                              </div>`,
+                });
+
+                marker.addListener("mouseover", () => {
+                    infoWindow.open({ anchor: marker, map, shouldFocus: false });
+                });
+
+                marker.addListener("mouseout", () => {
+                    infoWindow.close();
+                });
+
+                markers.push(marker); // Add marker to the array
             });
-            marker.addListener("mouseout", () => {
-                infoWindow.close({anchor: marker, map, shouldFocus: false});
-            });
+        }
+
+        // Map events to track movement
+        map.addListener("dragstart", () => {
+            clearMarkers()
         });
+
+        map.addListener("zoom_changed", () => {
+            clearMarkers();
+        });
+
+        map.addListener("idle", () => {
+            renderMarkers(); // Render markers after the map is idle
+        });
+
+        // Initial marker rendering
+        renderMarkers();
     }
 
     // Initialize the map
     window.onload = initMap;
 </script>
+
 
 
 </body>

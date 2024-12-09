@@ -4,6 +4,7 @@ import be.kdg.magiwastebackend.domain.RawDataLog;
 import be.kdg.magiwastebackend.domain.WasteBin;
 import be.kdg.magiwastebackend.domain.WasteBinEvent;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -24,6 +25,8 @@ class AbstractWasteEventLogFactory {
         //get the fullness of the bin
         double percentOfVolume = (bin.getBinType().getHeight() - ((sensorDistance1 + sensorDistance2)/ 2))  / bin.getBinType().getHeight() * 100;
         boolean isFull = percentOfVolume > 85;
+
+        bin.setPercentOfVolume(percentOfVolume);
 
         WasteBinEvent event = new WasteBinEvent();
         event.setBin(bin);

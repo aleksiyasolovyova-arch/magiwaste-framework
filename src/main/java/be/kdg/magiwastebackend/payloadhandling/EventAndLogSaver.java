@@ -1,6 +1,8 @@
 package be.kdg.magiwastebackend.payloadhandling;
 
+import be.kdg.magiwastebackend.domain.RawDataLog;
 import be.kdg.magiwastebackend.domain.WasteBin;
+import be.kdg.magiwastebackend.domain.WasteBinEvent;
 import be.kdg.magiwastebackend.facade.ServiceFacade;
 import org.springframework.stereotype.Component;
 
@@ -18,6 +20,7 @@ class EventAndLogSaver implements PayloadHandler{
         String deviceId = payload.getDeviceId();
         //get Bin associated with Payload
         WasteBin bin = serviceFacade.findBinByDeviceId(deviceId);
+
         if (payload.getAddress()!=null && !payload.getAddress().isEmpty()){
             bin.setAddress(payload.getAddress());
         }
@@ -28,9 +31,18 @@ class EventAndLogSaver implements PayloadHandler{
             bin.setLongitude(payload.getLongitude());
         }
 
-        serviceFacade.saveRawDataLog(AbstractWasteEventLogFactory.createRawDataLog(payload));
-        serviceFacade.saveWasteBinEvent(AbstractWasteEventLogFactory.createWasteBinEvent(payload, bin));
+        WasteBinEvent event = AbstractWasteEventLogFactory.createWasteBinEvent(payload, bin);
+        RawDataLog log = AbstractWasteEventLogFactory.createRawDataLog(payload);
+
+        //here add properties to bin
+        bin.setPercentOfVolume(event.getPercentOfVolume());
+
+        serviceFacade.saveWasteBin(bin);
+        serviceFacade.saveRawDataLog(log);
+        serviceFacade.saveWasteBinEvent(event);
 
         return null;
+
+
     }
 }

@@ -1,6 +1,7 @@
 package be.kdg.magiwastebackend.web;
 
 import be.kdg.magiwastebackend.domain.WasteBin;
+import be.kdg.magiwastebackend.domain.WasteBinEvent;
 import be.kdg.magiwastebackend.facade.ServiceFacade;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,11 +31,32 @@ public class WebController {
         bins = bins.stream().filter(bin -> bin.getLatitude() != 0 && bin.getLongitude() != 0).toList();
 
         List<MapPoint> points = new ArrayList<>();
-        //TODO DO NOT USE RANDOM PERCENT OF FULLNESS
-        //TODO DO NOT USE RANDOM PERCENT OF FULLNESS
-        //TODO DO NOT USE RANDOM PERCENT OF FULLNESS
-        //TODO DO NOT USE RANDOM PERCENT OF FULLNESS
-        bins.forEach(bin -> points.add(new MapPoint(bin.getLatitude(), bin.getLongitude(), (int) serviceFacade.findAllWasteBinEventsByWasteBin(bin).getLast().getPercentOfVolume(), bin.getAddress() )));
+
+        bins.forEach(bin -> {
+            points.add(new MapPoint(
+                    bin.getLatitude(),
+                    bin.getLongitude(),
+                    (int) bin.getPercentOfVolume(),
+                    bin.getAddress()
+            ));
+// this code is for compiling latest bin events into the bins
+//            WasteBinEvent latestEvent = serviceFacade.findAllWasteBinEventsByWasteBin(bin).getLast();
+//            if (latestEvent != null){
+//
+//                double percentOfVolume = latestEvent.getPercentOfVolume();
+//                bin.setPercentOfVolume(percentOfVolume);
+//                serviceFacade.saveWasteBin(bin);
+//
+//                points.add(
+//                        new MapPoint(
+//                                bin.getLatitude(),
+//                                bin.getLongitude(),
+//                                (int) percentOfVolume,
+//                                bin.getAddress()
+//                        )
+//                );
+//            }
+        });
 
         model.addAttribute("points", points);
 

@@ -21,6 +21,9 @@ public class WasteBin {
     String address;
 
     @Column(columnDefinition = "DOUBLE PRECISION")
+    double percentOfVolume = 0.0;
+
+    @Column(columnDefinition = "DOUBLE PRECISION")
     double longitude;
 
     @Column(columnDefinition = "DOUBLE PRECISION")
@@ -108,5 +111,13 @@ public class WasteBin {
 
     public void setBinType(BinType binType) {
         this.binType = binType;
+    }
+
+    public double getPercentOfVolume() {
+        return percentOfVolume;
+    }
+
+    public void setPercentOfVolume(double percentOfVolume) {
+        this.percentOfVolume = percentOfVolume;
     }
 }
