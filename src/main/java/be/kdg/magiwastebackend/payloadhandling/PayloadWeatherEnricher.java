@@ -2,7 +2,7 @@ package be.kdg.magiwastebackend.payloadhandling;
 
 import be.kdg.magiwastebackend.facade.ServiceFacade;
 import be.kdg.magiwastebackend.domain.WeatherEvent;
-import be.kdg.magiwastebackend.weatherapi.WeatherDTO;
+import be.kdg.magiwastebackend.payloadhandling.weatherenriching.WeatherDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Lazy;
@@ -13,12 +13,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 
 @Component
-class PayloadEnricher implements PayloadHandler {
+class PayloadWeatherEnricher implements PayloadHandler {
 
     private final RestTemplate restTemplate;
     private final ServiceFacade serviceFacade;
 
-    PayloadEnricher(@Lazy RestTemplate restTemplate, ServiceFacade serviceFacade) {
+    PayloadWeatherEnricher(@Lazy RestTemplate restTemplate, ServiceFacade serviceFacade) {
         this.restTemplate = restTemplate;
         this.serviceFacade = serviceFacade;
     }
