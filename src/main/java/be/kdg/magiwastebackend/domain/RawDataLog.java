@@ -44,31 +44,9 @@ public class RawDataLog {
         this.wasteReceived = wasteReceived;
     }
 
-    public RawDataLog(float sensorDistance1, float sensorDistance2, boolean tiltState, float temperature) {
-        this.sensorDistance1 = sensorDistance1;
-        this.sensorDistance2 = sensorDistance2;
-        this.tiltState = tiltState;
-        this.temperature = temperature;
-    }
-
-    public RawDataLog(float sensorDistance1, float sensorDistance2, boolean tiltState){
-        this.sensorDistance1 = sensorDistance1;
-        this. sensorDistance2 = sensorDistance2;
-        this.tiltState = tiltState;
-    }
-
     public RawDataLog() {
 
     }
-
-    public RawDataLog(double sensorDistance1, double sensorDistance2, boolean tiltState, double temperature, String unusedDataJsonString) {
-        this.sensorDistance1 = sensorDistance1;
-        this.sensorDistance2 = sensorDistance2;
-        this.tiltState = tiltState;
-        this.temperature = temperature;
-        this.unusedData = unusedDataJsonString;
-    }
-
 
     public void setId(Long id) {
         this.id = id;
