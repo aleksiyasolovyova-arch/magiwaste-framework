@@ -1,4 +1,4 @@
-package be.kdg.magiwastebackend.graphTesting;
+package be.kdg.magiwastebackend.web;
 
 import be.kdg.magiwastebackend.domain.WasteBinEvent;
 import be.kdg.magiwastebackend.domain.WeatherEvent;

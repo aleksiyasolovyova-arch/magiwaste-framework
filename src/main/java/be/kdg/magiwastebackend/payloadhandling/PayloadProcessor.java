@@ -5,12 +5,12 @@ import org.springframework.stereotype.Component;
 
 @Component
 class PayloadProcessor implements PayloadHandler {
-    private final PayloadEnricher payloadEnricher;
+    private final PayloadWeatherEnricher payloadWeatherEnricher;
     private final AlertMessageSystem alertMessageSystem;
     private final EventAndLogSaver eventAndLogSaver;
 
-    public PayloadProcessor(PayloadEnricher payloadEnricher, AlertMessageSystem alertMessageSystem, EventAndLogSaver eventAndLogSaver) {
-        this.payloadEnricher = payloadEnricher;
+    public PayloadProcessor(PayloadWeatherEnricher payloadWeatherEnricher, AlertMessageSystem alertMessageSystem, EventAndLogSaver eventAndLogSaver) {
+        this.payloadWeatherEnricher = payloadWeatherEnricher;
         this.alertMessageSystem = alertMessageSystem;
         this.eventAndLogSaver = eventAndLogSaver;
     }
@@ -18,7 +18,7 @@ class PayloadProcessor implements PayloadHandler {
     @Override
     @Primary
     public Payload handlePayload(Payload payload) {
-        payload = payloadEnricher.handlePayload(payload);
+        payload = payloadWeatherEnricher.handlePayload(payload);
 
         alertMessageSystem.handlePayload(payload);
         eventAndLogSaver.handlePayload(payload);
