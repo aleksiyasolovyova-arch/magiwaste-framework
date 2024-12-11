@@ -7,26 +7,19 @@
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
     <script defer th:src="@{/webjars/bootstrap/js/bootstrap.bundle.js}"></script>
 
-<!--    ⠄⠄⠄⠄⠄⠄⠄⠄⠄⠈⠙⠿⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿-->
-<!--    ⠄⠄⣴⣼⣵⣾⣴⣤⣦⣄⣴⣶⣬⣻⣿⣿⣿⣿⣿⣿⣿⡿⠿⠿⠿⠿⠿⠿⠿⠿-->
-<!--    ⢀⣿⣭⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣶⣶⡶⠄⡀⠄⠄⠄⠄-->
-<!--    ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣶⡀⠄⠄-->
-<!--    ⣼⣿⣿⣿⣯⣙⣿⣿⣿⣿⣿⣿⣿⡿⠟⣿⣿⠛⢻⣿⣿⣿⣿⣿⣿⣿⣿⣷⣕⡀-->
-<!--    ⣿⣿⡿⢻⣿⠘⣿⣿⣿⣿⣿⣿⣟⠛⣼⣿⣿⣤⠘⠛⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷-->
-<!--    ⣿⣿⣇⠈⠺⣷⣿⣿⣿⣿⣿⣿⣿⣷⣿⣿⣿⣿⣶⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿-->
-<!--    ⣿⣿⣿⡇⠄⣨⣿⣿⣿⣿⣿⣿⣿⣿⠿⠿⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢿⣿-->
-<!--    ⣽⣿⣿⣳⣿⡌⠙⠛⠿⠛⢋⣛⣿⣿⠇⣠⣤⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣤⣾⣿-->
-<!--    ⣿⣿⣿⣷⣿⣿⡀⠄⠄⠄⠄⠁⠿⠋⠄⠈⠉⣿⣿⣿⣿⣿⣿⣿⠿⠟⢹⣿⣿⣿-->
-<!--    ⣿⣿⣿⣿⣿⣿⣷⣀⠄⠄⠄⠄⠄⣴⣦⣶⠄⠻⢿⠿⠟⠋⠁⠄⠄⠄⣸⣿⣿⣿-->
-<!--    ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣤⣤⣴⣿⣿⣿⣄⠄⠄⠄⠄⠄⠄⠄⣀⠄⣿⣿⣿⣿-->
-<!--    ⣿⣿⣿⣿⣿⣿⣯⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣦⠄⠻⠼⣿⣿⣿⣿-->
-<!--    ⠻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣧⠄⠄⣰⢟⣵⣿-->
-<!--    ⠂⠉⠻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢫⡶⣪⢶⣿⣿⣿-->
 </head>
 <body>
+
+<style>
+    .container-fluid {
+        padding-left: 3rem;
+        padding-right: 3rem;
+    }
+</style>
+
 <header th:insert="~{header::header}"></header>
 
-<div class="container mt-5">
+<div class="container-fluid mt-5">
     <div class="card shadow-sm">
         <div class="card-header bg-success text-white text-center">
             <h4>Select a Bin</h4>
@@ -55,21 +48,177 @@
 </div>
 
 
-<div class="container mt-5">
-    <div class="card shadow-sm">
-        <div class="card-header bg-success text-white">
-            <h3 class="text-center">Waste Bin Fill Levels</h3>
+<div class="container-fluid mt-3">
+    <!-- Radial chart -->
+    <div class="row mt-5">
+        <div class="col-lg-6 col-md-">
+            <div class="card shadow-sm">
+                <div class="card-header text-white bg-success">
+                    <h3 class="text-center">Bin Fill Level</h3>
+                </div>
+                <div class="card-body">
+                    <div id="radialchart" class="mt-3"></div>
+                </div>
+            </div>
         </div>
-        <div class="card-body">
-            <p class="text-center text-muted">The average fill level percentage of bins over time.</p>
-            <div id="Barchart" class="mt-4"></div>
+        <div class="col-lg-6 col-md-">
+            <div class="card shadow-sm">
+                <div class="card-header text-white bg-success">
+                    <h3 class="text-center">Waste Bin Depth of Bin [[${binId}]] Over Time</h3>
+                </div>
+                <div class="card-body">
+                    <p class="text-center text-muted">The average fill level percentage of bins over time.</p>
+                    <div id="comboChart2" class="mt-4"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Wastebin fill levels -->
+    <div class="row mt-5">
+        <div class="col-lg-6 col-md-">
+            <div class="card shadow-sm">
+                <div class="card-header text-white bg-success">
+                    <h3 class="text-center">Waste Bin Fill Levels</h3>
+                </div>
+                <div class="card-body">
+                    <p class="text-center text-muted">The average fill level percentage of bins over time.</p>
+                    <div id="Barchart" class="mt-4"></div>
+                </div>
+            </div>
+        </div>
+        <!-- Bin Data onebin -->
+        <div class="col-lg-6 col-md-12">
+            <div class="card shadow-sm">
+                <div class="card-header text-white bg-success">
+                    <h3 class="text-center">Bin data of bin nr. [[${binId}]]</h3>
+                </div>
+                <div class="card-body">
+                    <p class="text-center text-muted">The average fill level percentage of bins over time.</p>
+                    <div id="comboChart" class="mt-4"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Bin notifs -->
+    <div class="row mt-5">
+        <div class="col-lg-6 col-md-12">
+            <div class="card shadow-sm">
+                <div class="card-header text-white bg-success">
+                    <h3 class="text-center">Bin notifications by Category</h3>
+                </div>
+                <div class="card-body">
+                    <p class="text-center text-muted">.</p>
+                    <div id="notification" class="mt-4"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-12">
+            <div class="card shadow-sm">
+                <div class="card-header text-white bg-success">
+                    <h3 class="text-center">Bin usage in different weather conditions</h3>
+                </div>
+                <div class="card-body">
+                    <p class="text-center text-muted">The average fill level percentage of bins over time.</p>
+                    <div id="HeatmapChart" class="mt-4"></div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
+
+<!-- all script in one tag, whats the worst that can happen lmao-->
 <script th:inline="javascript">
+    var oneBinEvent = /*[[${oneBinEvent}]]*/ '[[${oneBinEvent}]]';
     var eventsByBin = /*[[${eventsByBin}]]*/ '[[${eventsByBin}]]';
     eventsByBin = JSON.parse(JSON.stringify(eventsByBin));
 
+    try {
+        oneBinEvent = JSON.parse(oneBinEvent);
+        console.log("Parsed Data:", oneBinEvent);
+    } catch (e) {
+        console.error("Error parsing data:", e);
+        oneBinEvent = [];
+    }
+    var lastEvent = oneBinEvent.length > 0 ? oneBinEvent[oneBinEvent.length - 1] : null;
+    var fillLevel = lastEvent ? lastEvent.percentOfVolume : 0;
+
+    console.log("Last Recorded Fill Level:", fillLevel);
+    var radialoptions = {
+        series: [fillLevel],
+        chart: {
+            height: 350,
+            type: 'radialBar',
+        },
+        plotOptions: {
+            radialBar: {
+                startAngle: -135,
+                endAngle: 225,
+                hollow: {
+                    margin: 0,
+                    size: '70%',
+                    background: '#fff',
+                    position: 'front',
+                    dropShadow: {
+                        enabled: true,
+                        top: 3,
+                        left: 0,
+                        blur: 4,
+                        opacity: 0.5
+                    }
+                },
+                track: {
+                    background: '#fff',
+                    strokeWidth: '67%',
+                    margin: 0,
+                    dropShadow: {
+                        enabled: true,
+                        top: -3,
+                        left: 0,
+                        blur: 4,
+                        opacity: 0.7
+                    }
+                },
+                dataLabels: {
+                    show: true,
+                    name: {
+                        offsetY: -10,
+                        show: true,
+                        color: '#888',
+                        fontSize: '17px'
+                    },
+                    value: {
+                        formatter: function (val) {
+                            return parseInt(val);
+                        },
+                        color: '#111',
+                        fontSize: '36px',
+                        show: true,
+                    }
+                }
+            }
+        },
+        fill: {
+            type: 'gradient',
+            gradient: {
+                shade: 'dark',
+                type: 'horizontal',
+                shadeIntensity: 0.5,
+                gradientToColors: ['#ABE5A1'],
+                inverseColors: true,
+                opacityFrom: 1,
+                opacityTo: 1,
+                stops: [0, 100]
+            }
+        },
+        stroke: {
+            lineCap: 'round'
+        },
+        labels: ['Percent'],
+    };
+    var radialchart = new ApexCharts(document.querySelector("#radialchart"), radialoptions);
+    radialchart.render();
+
+    //barchart scriot
     var labels = [];
     var data = [];
     for (var binId in eventsByBin) {
@@ -95,30 +244,20 @@
         },
         plotOptions: {
             bar: {
-                horizontal: false,
+                horizontal: false
             }
         },
         xaxis: {
-            categories: labels,
+            categories: labels
         }
     };
     var barChart = new ApexCharts(document.querySelector("#Barchart"), barChartOptions);
     barChart.render();
+    //TODO FIX THE DAMNED HEATMAPCHAR
 </script>
 
-<div class="container mt-5">
-    <div class="card shadow-sm">
-        <div class="card-header bg-success text-white">
-            <h3 class="text-center">Bin data of bin nr. [[${binId}]]</h3>
-        </div>
-        <div class="card-body">
-            <p class="text-center text-muted">The average fill level percentage of bins over time.</p>
-            <div id="comboChart" class="mt-4"></div>
-        </div>
-    </div>
-</div>
-
 <script th:inline="javascript">
+    //COMBOCHART
     var oneBinEvent = /*[[${oneBinEvent}]]*/ '[[${oneBinEvent}]]';
     oneBinEvent = JSON.parse(JSON.stringify(oneBinEvent));
 
@@ -142,7 +281,7 @@
         smokeData.push(event && event.comfort === 'smoke' ? 1 : 0);
     });
 
-    var options = {
+    var comboOptions = {
         series: [{
             name: 'Average Depth (%)',
             type: 'line',
@@ -194,25 +333,10 @@
             horizontalAlign: 'center'
         }
     };
-    var chart = new ApexCharts(document.querySelector("#comboChart"), options);
-    chart.render();
-</script>
+    var combochart = new ApexCharts(document.querySelector("#comboChart"), comboOptions);
+    combochart.render();
 
-<div class="container mt-5">
-    <div class="card shadow-sm">
-        <div class="card-header bg-success text-white">
-            <h3 class="text-center">Waste Bin Depth of Bin [[${binId}]] Over Time</h3>
-        </div>
-        <div class="card-body">
-            <p class="text-center text-muted">The average fill level percentage of bins over time.</p>
-            <div id="comboChart2" class="mt-4"></div>
-        </div>
-    </div>
-</div>
-<script th:inline="javascript">
-    var oneBinEvent = /*[[${oneBinEvent}]]*/ '[[${oneBinEvent}]]';
-    oneBinEvent = JSON.parse(JSON.stringify(oneBinEvent));
-
+    //overtimechart
     var labels = [];
     var depthData = [];
     var startDate = new Date(oneBinEvent[0]?.eventDate || new Date());
@@ -230,7 +354,7 @@
         }
         depthData.push(lastDepth);
     });
-    var options = {
+    var overTimeChart = {
         series: [{
             name: 'Average Depth (%)',
             type: 'line',
@@ -269,87 +393,9 @@
         },
         colors: ['#00E396']
     };
-
-    var chart = new ApexCharts(document.querySelector("#comboChart2"), options);
-    chart.render();
+    var combochart2 = new ApexCharts(document.querySelector("#comboChart2"), overTimeChart);
+    combochart2.render();
 </script>
 
-
-<div class="container mt-5">
-    <div class="card shadow-sm">
-        <div class="card-header bg-success text-white">
-            <h3 class="text-center">Bin usage in different weather condition</h3>
-        </div>
-        <div class="card-body">
-            <p class="text-center text-muted">The average fill level percentage of bins over time.</p>
-            <div id="Heatmapchart" class="mt-4"></div>
-        </div>
-    </div>
-</div>
-<script th:inline="javascript">
-    var eventsByBin = /*[[${eventsByBin}]]*/ '[[${eventsByBin}]]';
-    eventsByBin = JSON.parse(JSON.stringify(eventsByBin));
-
-    var weatherEvents = /*[[${weatherEvents}]]*/ '[[${weatherEvents}]]';
-    weatherEvents = JSON.parse(JSON.stringify(weatherEvents));
-
-    var heatmapData = [];
-    for (var binId in eventsByBin) {
-        if (eventsByBin.hasOwnProperty(binId)) {
-            var events = eventsByBin[binId];
-            events.forEach(function (event) {
-                var weatherEvent = weatherEvents.find(we => we.id === event.weatherEventId);
-                if (weatherEvent) {
-                    heatmapData.push({
-                        x: "Bin ID: " + binId,
-                        y: [54,64,36,35,6]
-                    });
-                }
-            });
-        }
-    }
-
-    var heatmapOptions = {
-        series: [{
-            name: 'Weather Description',
-            data: heatmapData
-        }],
-        chart: {
-            height: 300,
-            type: 'heatmap',
-        },
-        plotOptions: {
-            heatmap: {
-                shadeIntensity: 0.5,
-                radius: 0,
-                useFillColorAsStroke: true,
-                colorScale: {
-                    ranges: [
-                        {from: 0, to: 34, name: 'low usage', color: '#1b8a5a'},
-                        {from: 34, to: 67, name: 'medium usage', color: '#fbb021'},
-                        {from: 68, to: 100, name: 'high usage', color: '#ee3e32'},
-                    ]
-                }
-            }
-        },
-        dataLabels: {
-            enabled: false
-        },
-        stroke: {
-            width: 1
-        },
-        title: {
-            text: 'Bin Usage Over Time'
-        },
-        yaxis: {
-            title: {
-                text: 'Weather Description'
-            }
-        }
-    };
-    var heatmapChart = new ApexCharts(document.querySelector("#HeatmapChart"), heatmapOptions);
-    heatmapChart.render();
-</script>
-<footer th:insert="~{footer::footer}">Footer</footer>
 </body>
 </html>
