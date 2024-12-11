@@ -18,7 +18,6 @@
 </style>
 
 <header th:insert="~{header::header}"></header>
-
 <div class="container-fluid mt-5">
     <div class="card shadow-sm">
         <div class="card-header bg-success text-white text-center">
@@ -47,7 +46,6 @@
     </div>
 </div>
 
-
 <div class="container-fluid mt-3">
     <!-- Radial chart -->
     <div class="row mt-5">
@@ -75,14 +73,14 @@
     </div>
     <!-- Wastebin fill levels -->
     <div class="row mt-5">
-        <div class="col-lg-6 col-md-">
+        <div class="col-lg-6 col-md-12">
             <div class="card shadow-sm">
                 <div class="card-header text-white bg-success">
-                    <h3 class="text-center">Waste Bin Fill Levels</h3>
+                    <h3 class="text-center">Notification chart</h3>
                 </div>
                 <div class="card-body">
-                    <p class="text-center text-muted">The average fill level percentage of bins over time.</p>
-                    <div id="Barchart" class="mt-4"></div>
+                    <p class="text-center text-muted">Amount of tilts compared to total waste received</p>
+                    <div id="donutChart" class="mt-4"></div>
                 </div>
             </div>
         </div>
@@ -99,174 +97,78 @@
             </div>
         </div>
     </div>
-    <!-- Bin notifs -->
-    <div class="row mt-5">
-        <div class="col-lg-6 col-md-12">
-            <div class="card shadow-sm">
-                <div class="card-header text-white bg-success">
-                    <h3 class="text-center">Bin notifications by Category</h3>
-                </div>
-                <div class="card-body">
-                    <p class="text-center text-muted">.</p>
-                    <div id="notification" class="mt-4"></div>
-                </div>
+    <!-- Bin notifs , idk i ended up not?-->
+</div>
+
+<div class="container-fluid mt-3">
+    <div class="col-lg-12 col-md-">
+        <div class="card shadow-sm">
+            <div class="card-header text-white bg-success">
+                <h3 class="text-center">Waste Bin Fill Levels</h3>
             </div>
-        </div>
-        <div class="col-lg-6 col-md-12">
-            <div class="card shadow-sm">
-                <div class="card-header text-white bg-success">
-                    <h3 class="text-center">Bin usage in different weather conditions</h3>
-                </div>
-                <div class="card-body">
-                    <p class="text-center text-muted">The average fill level percentage of bins over time.</p>
-                    <div id="HeatmapChart" class="mt-4"></div>
-                </div>
+            <div class="card-body">
+                <p class="text-center text-muted">The average fill level percentage of bins.</p>
+                <div id="Barchart" class="mt-4"></div>
             </div>
         </div>
     </div>
 </div>
 
+<footer th:insert="~{footer::footer}">Footer</footer>
 <!-- all script in one tag, whats the worst that can happen lmao-->
 <script th:inline="javascript">
-    var oneBinEvent = /*[[${oneBinEvent}]]*/ '[[${oneBinEvent}]]';
-    var eventsByBin = /*[[${eventsByBin}]]*/ '[[${eventsByBin}]]';
-    eventsByBin = JSON.parse(JSON.stringify(eventsByBin));
-
-    try {
-        oneBinEvent = JSON.parse(oneBinEvent);
-        console.log("Parsed Data:", oneBinEvent);
-    } catch (e) {
-        console.error("Error parsing data:", e);
-        oneBinEvent = [];
-    }
-    var lastEvent = oneBinEvent.length > 0 ? oneBinEvent[oneBinEvent.length - 1] : null;
-    var fillLevel = lastEvent ? lastEvent.percentOfVolume : 0;
-
-    console.log("Last Recorded Fill Level:", fillLevel);
+    var oneBinEvent = /*[[${oneBinEvent}]]*/ '[[${oneBinEvent}]]',
+        eventsByBin = /*[[${eventsByBin}]]*/ '[[${eventsByBin}]]',
+        lastPercentOfVolume = /*[[${lastPercentOfVolume}]]*/ '[[${lastPercentOfVolume}]]';
+    console.log("Last Recorded Fill Level:", lastPercentOfVolume);
     var radialoptions = {
-        series: [fillLevel],
-        chart: {
-            height: 350,
-            type: 'radialBar',
-        },
+        series: [lastPercentOfVolume],
+        chart: {height: 350, type: 'radialBar',},
         plotOptions: {
             radialBar: {
-                startAngle: -135,
-                endAngle: 225,
-                hollow: {
-                    margin: 0,
-                    size: '70%',
-                    background: '#fff',
-                    position: 'front',
-                    dropShadow: {
-                        enabled: true,
-                        top: 3,
-                        left: 0,
-                        blur: 4,
-                        opacity: 0.5
-                    }
-                },
+                startAngle: -135, endAngle: 225, hollow: {margin: 0,
+                    size: '70%', background: '#fff', position: 'front',
+                    dropShadow: {enabled: true, top: 3, left: 0, blur: 4, opacity: 0.5}},
                 track: {
-                    background: '#fff',
-                    strokeWidth: '67%',
-                    margin: 0,
-                    dropShadow: {
-                        enabled: true,
-                        top: -3,
-                        left: 0,
-                        blur: 4,
-                        opacity: 0.7
-                    }
-                },
-                dataLabels: {
-                    show: true,
-                    name: {
-                        offsetY: -10,
-                        show: true,
-                        color: '#888',
-                        fontSize: '17px'
-                    },
-                    value: {
-                        formatter: function (val) {
-                            return parseInt(val);
-                        },
-                        color: '#111',
-                        fontSize: '36px',
-                        show: true,
-                    }
-                }
-            }
-        },
-        fill: {
-            type: 'gradient',
-            gradient: {
-                shade: 'dark',
-                type: 'horizontal',
-                shadeIntensity: 0.5,
-                gradientToColors: ['#ABE5A1'],
-                inverseColors: true,
-                opacityFrom: 1,
-                opacityTo: 1,
-                stops: [0, 100]
-            }
-        },
-        stroke: {
-            lineCap: 'round'
-        },
+                    background: '#fff', strokeWidth: '67%', margin: 0,
+                    dropShadow: {enabled: true, top: -3, left: 0, blur: 4, opacity: 0.7}},
+                dataLabels: {show: true, name: {offsetY: -10, show: true, color: '#888', fontSize: '17px'},
+                    value: {formatter: function (val) {return parseInt(val);}, color: '#111', fontSize: '36px', show: true}}}},
+        fill: {type: 'gradient', gradient: {
+                shade: 'dark', type: 'horizontal', shadeIntensity: 0.5, gradientToColors: ['#ABE5A1'],
+                inverseColors: true, opacityFrom: 1, opacityTo: 1, stops: [0, 100]}},
+        stroke: {lineCap: 'round'},
         labels: ['Percent'],
     };
-    var radialchart = new ApexCharts(document.querySelector("#radialchart"), radialoptions);
-    radialchart.render();
-
     //barchart scriot
-    var labels = [];
-    var data = [];
+    var labels = [], data = [];
     for (var binId in eventsByBin) {
         if (eventsByBin.hasOwnProperty(binId)) {
             var events = eventsByBin[binId];
             var totalVolume = 0;
-            events.forEach(function (event) {
-                totalVolume += event.percentOfVolume;
-            });
+            events.forEach(function (event) {totalVolume += event.percentOfVolume;});
             var averageVolume = totalVolume / events.length;
             labels.push("Bin ID: " + binId);
             data.push(Math.round(averageVolume));
         }
     }
     var barChartOptions = {
-        series: [{
-            name: 'Fill Level (%)',
-            data: data
-        }],
-        chart: {
-            type: 'bar',
-            height: 250
-        },
-        plotOptions: {
-            bar: {
-                horizontal: false
-            }
-        },
-        xaxis: {
-            categories: labels
-        }
+        series: [{name: 'Fill Level (%)', data: data}], chart: {type: 'bar', height: 250},
+        plotOptions: {bar: {horizontal: false}}, xaxis: {categories: labels}
     };
+
+    var radialchart = new ApexCharts(document.querySelector("#radialchart"), radialoptions);
+    radialchart.render();
     var barChart = new ApexCharts(document.querySelector("#Barchart"), barChartOptions);
     barChart.render();
-    //TODO FIX THE DAMNED HEATMAPCHAR
+    //TODO FIX THE DAMNED HEATMAPCHAR NVM IM NOT FIXING THISFUCK THE HEATMAP
 </script>
 
 <script th:inline="javascript">
     //COMBOCHART
     var oneBinEvent = /*[[${oneBinEvent}]]*/ '[[${oneBinEvent}]]';
     oneBinEvent = JSON.parse(JSON.stringify(oneBinEvent));
-
-    var labels = [];
-    var depthData = [];
-    var tiltData = [];
-    var smokeData = [];
-
-    var startDate = new Date(oneBinEvent[0].eventDate);
+    var labels = [], depthData = [], tiltData = [], smokeData = [], startDate = new Date(oneBinEvent[0].eventDate);
     startDate.setDate(startDate.getDate() - 100);
     var endDate = new Date(oneBinEvent[oneBinEvent.length - 1].eventDate);
     endDate.setDate(endDate.getDate() + 100);
@@ -282,64 +184,20 @@
     });
 
     var comboOptions = {
-        series: [{
-            name: 'Average Depth (%)',
-            type: 'line',
-            data: depthData
-        }, {
-            name: 'Tilt Events',
-            type: 'column',
-            data: tiltData
-        }, {
-            name: 'Smoke Events',
-            type: 'column',
-            data: smokeData
-        }],
-        chart: {
-            height: 400,
-            type: 'line',
-            stacked: false
-        },
-        stroke: {
-            width: [4, 0, 0]
-        },
-        plotOptions: {
-            bar: {
-                columnWidth: '50%'
-            }
-        },
-        xaxis: {
-            categories: labels,
-            title: {
-                text: 'Date'
-            }
-        },
-        yaxis: [{
-            title: {
-                text: 'Average Depth (%)'
-            }
-        }, {
-            opposite: true,
-            title: {
-                text: 'Tilt & Smoke Events'
-            }
-        }],
-        tooltip: {
-            shared: true,
-            intersect: false
-        },
-        legend: {
-            position: 'top',
-            horizontalAlign: 'center'
-        }
+        series: [{name: 'Average Depth (%)', type: 'line', data: depthData}, {
+            name: 'Tilt Events', type: 'column', data: tiltData
+        }, {name: 'Smoke Events', type: 'column', data: smokeData}],
+        chart: {height: 400, type: 'line', stacked: false},
+        stroke: {width: [4, 0, 0]},
+        plotOptions: {bar: {columnWidth: '50%'}},
+        xaxis: {categories: labels, title: {text: 'Date'}},
+        yaxis: [{title: {text: 'Average Depth (%)'}}, {opposite: true, title: {text: 'Tilt & Smoke Events'}}],
+        tooltip: {shared: true, intersect: false},
+        legend: {position: 'top', horizontalAlign: 'center'}
     };
-    var combochart = new ApexCharts(document.querySelector("#comboChart"), comboOptions);
-    combochart.render();
 
     //overtimechart
-    var labels = [];
-    var depthData = [];
-    var startDate = new Date(oneBinEvent[0]?.eventDate || new Date());
+    var labels = [], depthData = [], startDate = new Date(oneBinEvent[0]?.eventDate || new Date());
     startDate.setDate(startDate.getDate() - 10);
     var endDate = new Date(oneBinEvent[oneBinEvent.length - 1]?.eventDate || new Date());
     endDate.setDate(endDate.getDate() + 10);
@@ -355,47 +213,34 @@
         depthData.push(lastDepth);
     });
     var overTimeChart = {
-        series: [{
-            name: 'Average Depth (%)',
-            type: 'line',
-            data: depthData
-        }],
-        chart: {
-            height: 400,
-            type: 'line',
-            stacked: false
-        },
-        stroke: {
-            curve: 'smooth',
-            width: [4]
-        },
-        markers: {
-            size: 5
-        },
-        xaxis: {
-            categories: labels,
-            title: {
-                text: 'Date'
-            }
-        },
-        yaxis: [{
-            title: {
-                text: 'Average Depth (%)'
-            }
-        }],
-        tooltip: {
-            shared: true,
-            intersect: false
-        },
-        legend: {
-            position: 'top',
-            horizontalAlign: 'center'
-        },
+        series: [{name: 'Average Depth (%)', type: 'line', data: depthData}],
+        chart: {height: 400, type: 'line', stacked: false},
+        stroke: {curve: 'smooth', width: [4]},
+        markers: {size: 5},
+        xaxis: {categories: labels, title: {text: 'Date'}},
+        yaxis: [{title: {text: 'Average Depth (%)'}}],
+        tooltip: {shared: true, intersect: false},
+        legend: {position: 'top', horizontalAlign: 'center'},
         colors: ['#00E396']
     };
+
+    //donutchart
+    var totalTilts = /*[[${totalTilts}]]*/ '[[${totalTilts}]]';
+    var totalWasteReceived = /*[[${totalWasteReceived}]]*/ '[[${totalWasteReceived}]]';
+    var donutChartOptions = {
+        series: [totalTilts, totalWasteReceived], chart: {type: 'donut', height: 350,},
+        labels: ['Total Tilts', 'Total Waste Received'], colors: ['#FF4560', '#00E396'],
+        plotOptions: {pie: {donut: {size: '50%',},},},
+        dataLabels: {enabled: true, style: {fontSize: '14px', fontWeight: 'bold', colors: ['#000'],},},
+        tooltip: {y: {formatter: function (val) {return val;},},}, stroke: {width: 1, colors: ['#fff'],},
+    };
+
+    var combochart = new ApexCharts(document.querySelector("#comboChart"), comboOptions);
+    combochart.render();
     var combochart2 = new ApexCharts(document.querySelector("#comboChart2"), overTimeChart);
     combochart2.render();
+    var donutChart = new ApexCharts(document.querySelector("#donutChart"), donutChartOptions);
+    donutChart.render();
 </script>
-
 </body>
 </html>

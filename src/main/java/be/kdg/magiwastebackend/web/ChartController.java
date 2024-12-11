@@ -29,26 +29,17 @@ public class ChartController {
     @GetMapping("/charts")
     public String getChartData(@RequestParam(required = false, defaultValue = "1") Long binId, Model model) {
         List<WasteBinEvent> events = wasteBinEventService.findAll();
-
-        Map<Long, List<WasteBinEvent>> eventsByBin = events.stream()
-                .collect(Collectors.groupingBy(event -> event.getBin().getId()))
-                .entrySet()
-                .stream()
-                .limit(10)
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-
-        List<WasteBinEvent> oneBinEvent = events.stream()
-                .filter(event -> event.getBin().getId().equals(binId))
-                .collect(Collectors.toList());
-
         List<WeatherEvent> weatherEvents = weatherEventService.findAll();
 
-        long totalBins = events.size();
-        long totalTilts = events.stream().filter(
-                event -> event.isTiltState()
-        ).count();
+        Map<Long, List<WasteBinEvent>> eventsByBin = getEventsByBin(events);
 
-        long totalWasteReceived = events.stream().filter(event -> event.getWasteReceived() == true).count();
+        List<WasteBinEvent> oneBinEvent = getEventsForBin(events, binId);
+
+        long totalBins = events.size();
+        long totalTilts = countTilts(events);
+        long totalWasteReceived = countWasteReceived(events);
+        WasteBinEvent lastEvent = getLastEvent(oneBinEvent);
+        Double lastPercentOfVolume = getLastPercentOfVolume(lastEvent);
 
         model.addAttribute("events", events);
         model.addAttribute("weatherEvents", weatherEvents);
@@ -58,8 +49,44 @@ public class ChartController {
         model.addAttribute("totalBins", totalBins);
         model.addAttribute("totalTilts", totalTilts);
         model.addAttribute("totalWasteReceived", totalWasteReceived);
-        return "charts";
+        model.addAttribute("lastPercentOfVolume", lastPercentOfVolume);
 
+        return "charts";
+    }
+
+    private Map<Long, List<WasteBinEvent>> getEventsByBin(List<WasteBinEvent> events) {
+        return events.stream()
+                .collect(Collectors.groupingBy(event -> event.getBin().getId()))
+                .entrySet()
+                .stream()
+                .limit(35)
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+    }
+
+    private List<WasteBinEvent> getEventsForBin(List<WasteBinEvent> events, Long binId) {
+        return events.stream()
+                .filter(event -> event.getBin().getId().equals(binId))
+                .collect(Collectors.toList());
+    }
+
+    private long countTilts(List<WasteBinEvent> events) {
+        return events.stream()
+                .filter(WasteBinEvent::isTiltState)
+                .count();
+    }
+
+    private long countWasteReceived(List<WasteBinEvent> events) {
+        return events.stream()
+                .filter(event -> event.getWasteReceived() == true)
+                .count();
+    }
+
+    private WasteBinEvent getLastEvent(List<WasteBinEvent> events) {
+        return events.isEmpty() ? null : events.get(events.size() - 1);
+    }
+
+    private Double getLastPercentOfVolume(WasteBinEvent lastEvent) {
+        return lastEvent != null ? lastEvent.getPercentOfVolume() : 0.0;
     }
 }
 
