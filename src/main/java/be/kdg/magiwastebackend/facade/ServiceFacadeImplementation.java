@@ -1,13 +1,7 @@
 package be.kdg.magiwastebackend.facade;
 
-import be.kdg.magiwastebackend.domain.RawDataLog;
-import be.kdg.magiwastebackend.domain.WasteBin;
-import be.kdg.magiwastebackend.domain.WasteBinEvent;
-import be.kdg.magiwastebackend.service.RawDataLogService;
-import be.kdg.magiwastebackend.service.WasteBinEventService;
-import be.kdg.magiwastebackend.service.WasteBinService;
-import be.kdg.magiwastebackend.service.WeatherEventService;
-import be.kdg.magiwastebackend.domain.WeatherEvent;
+import be.kdg.magiwastebackend.domain.*;
+import be.kdg.magiwastebackend.service.*;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -19,13 +13,15 @@ public class ServiceFacadeImplementation implements ServiceFacade {
     private final WasteBinEventService wasteBinEventService;
     private final RawDataLogService rawDataLogService;
     private final WeatherEventService weatherEventService;
+    private final NotificationEventService notificationEventService;
 
 
-    public ServiceFacadeImplementation(WasteBinService wasteBinService, WasteBinEventService wasteBinEventService, RawDataLogService rawDataLogService, WeatherEventService weatherEventService) {
+    public ServiceFacadeImplementation(WasteBinService wasteBinService, WasteBinEventService wasteBinEventService, RawDataLogService rawDataLogService, WeatherEventService weatherEventService, NotificationEventService notificationEventService) {
         this.wasteBinService = wasteBinService;
         this.wasteBinEventService = wasteBinEventService;
         this.rawDataLogService = rawDataLogService;
         this.weatherEventService = weatherEventService;
+        this.notificationEventService = notificationEventService;
     }
 
     @Override
@@ -46,6 +42,11 @@ public class ServiceFacadeImplementation implements ServiceFacade {
     @Override
     public List<WeatherEvent> findAllWeatherEvents() {
         return weatherEventService.findAll();
+    }
+
+    @Override
+    public List<NotificationEvent> findAllNotificationEvents() {
+        return notificationEventService.findAll();
     }
 
     @Override

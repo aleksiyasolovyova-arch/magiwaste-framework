@@ -10,6 +10,8 @@ class AlertMessageSystem implements PayloadHandler{
     @Override
     public Payload handlePayload(Payload payload) {
 
+        //TODO check tiltstate/fire here
+        payload.isTiltState();
         return null;
 
     }

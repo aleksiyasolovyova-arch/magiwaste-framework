@@ -1,9 +1,6 @@
 package be.kdg.magiwastebackend.facade;
 
-import be.kdg.magiwastebackend.domain.RawDataLog;
-import be.kdg.magiwastebackend.domain.WasteBin;
-import be.kdg.magiwastebackend.domain.WasteBinEvent;
-import be.kdg.magiwastebackend.domain.WeatherEvent;
+import be.kdg.magiwastebackend.domain.*;
 
 import java.util.List;
 
@@ -12,6 +9,7 @@ public interface ServiceFacade {
     List<WasteBinEvent> findAllWasteBinEvents();
     List<RawDataLog> findAllDataLogs();
     List<WeatherEvent> findAllWeatherEvents();
+    List<NotificationEvent> findAllNotificationEvents();
 
     void saveWasteBin(WasteBin wasteBin);
     void saveWasteBinEvent(WasteBinEvent wasteBinEvent);
