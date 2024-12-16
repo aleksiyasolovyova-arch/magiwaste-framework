@@ -18,7 +18,7 @@ public class MapPoint {
 
     public String parseColor(double percentOfVolume){
         if (percentOfVolume > 90) return "red";
-        if (percentOfVolume > 50) return "orange";
+        if (percentOfVolume > 70) return "yellow";
         return "green";
     }
 
