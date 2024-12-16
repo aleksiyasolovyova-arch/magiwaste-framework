@@ -1,17 +1,19 @@
 package be.kdg.magiwastebackend.notification;
 
+import be.kdg.magiwastebackend.domain.NotificationEvent;
 import be.kdg.magiwastebackend.service.NotificationEventService;
 import be.kdg.magiwastebackend.service.NotificationEventServiceImplementation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
-import java.time.format.DateTimeFormatter;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-@RestController
+@Controller
 public class NotificationController {
 
     private final List<SseEmitter> emitters = new CopyOnWriteArrayList<>();
@@ -23,20 +25,42 @@ public class NotificationController {
     }
 
     @GetMapping("/notifications")
-    public SseEmitter subscribeNotifications() {
-        SseEmitter emitter = new SseEmitter(100L);
-        emitters.add(emitter);
-        emitter.onCompletion(() -> emitters.remove(emitter));
-        emitter.onTimeout(() -> emitters.remove(emitter));
-        emitter.onError((e) -> emitters.remove(emitter));
+    public String getNotificationsPage(Model model) {
+        List<NotificationEvent> notifications = notificationEventService.findAll();
+        model.addAttribute("notifications", notifications);
+        return "notifications";
+    }
 
-        notificationEventService.findAll().forEach(notificationEvent -> {
+    @GetMapping("/notifications-stream")
+    public SseEmitter subscribeNotifications() {
+            SseEmitter emitter = new SseEmitter(100L);
+            emitters.add(emitter);
+
+            emitter.onCompletion(() -> emitters.remove(emitter));
+            emitter.onTimeout(() -> emitters.remove(emitter));
+            emitter.onError((e) -> emitters.remove(emitter));
+
+            notificationEventService.findAll().forEach(notificationEvent -> {
+                try {
+                    emitter.send(SseEmitter.event().name("notification").data(notificationEvent.getNotificationMessage()));
+                } catch (Exception e) {
+                    emitter.completeWithError(e);
+                }
+            });
+
+            return emitter;
+    }
+
+    public void sendNotificationToClients(NotificationEvent notificationEvent) {
+        String message = notificationEvent.getNotificationMessage();
+        emitters.forEach(emitter -> {
             try {
-                emitter.send(SseEmitter.event().name(notificationEvent.getNotificationTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))).data(notificationEvent.getNotificationMessage()));
+                emitter.send(SseEmitter.event().name("notification").data(message));
             } catch (Exception e) {
                 emitter.completeWithError(e);
             }
         });
-        return emitter;
     }
+
+
 }

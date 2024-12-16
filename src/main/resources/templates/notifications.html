@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Notification Testing</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap-icons/font/bootstrap-icons.css} ">
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+    <script defer th:src="@{/webjars/bootstrap/js/bootstrap.bundle.js}"></script>
+
+  </script>
+</head>
+<body>
+
+
+<div class="container mt-5">
+    <h1>Notifications</h1>
+
+    <div class="dropdown">
+        <button class="dropbtn btn btn-primary">
+            <span class="notificationCount" style="display:none">0</span>
+            Notifications
+        </button>
+        <div class="dropdown-content" style="display:none">
+            <div class="notifications"></div>
+            <button class="clearNotifications btn btn-danger">Clear Notifications</button>
+        </div>
+    </div>
+
+</div>
+
+<script th:inline="javascript">
+    document.addEventListener("DOMContentLoaded", () => {
+        const notificationBells = document.querySelectorAll(".dropbtn");
+        const notificationLists = document.querySelectorAll(".dropdown-content");
+        const notificationCounts = document.querySelectorAll(".notificationCount");
+        const notifications = document.querySelectorAll(".dropdown-content .notifications");
+        const clearNotificationsButtons = document.querySelectorAll(".clearNotifications");
+
+        const eventSource = new EventSource("/notifications-stream");
+
+        loadNotifications();
+
+        eventSource.addEventListener("alert", (event) => {
+            console.log("New Notification Received:", event.data);
+            const message = event.data;
+
+            notifications.forEach((notificationContainer, index) => {
+                const notificationItem = document.createElement("div");
+                notificationItem.className = "notification-item";
+                notificationItem.textContent = message;
+
+                notificationContainer.appendChild(notificationItem);
+
+                const countElement = notificationCounts[index];
+                const currentCount = parseInt(countElement.textContent || "0");
+                countElement.textContent = currentCount + 1;
+                countElement.style.display = "inline-block";
+
+                saveNotifications();
+            });
+        });
+
+        notificationBells.forEach((bell, index) => {
+            bell.addEventListener("click", () => {
+                const currentDropdown = notificationLists[index];
+                currentDropdown.style.display = currentDropdown.style.display === "block" ? "none" : "block";
+            });
+        });
+
+        clearNotificationsButtons.forEach((button, index) => {
+            button.addEventListener("click", () => {
+                notifications[index].innerHTML = "<p>No new notifications</p>";
+                notificationCounts[index].style.display = "none";
+                notificationCounts[index].textContent = "0";
+
+                clearStoredNotifications();
+            });
+        });
+
+        function saveNotifications() {
+            const allNotifications = [];
+            notifications.forEach((notificationContainer, index) => {
+                const notificationItems = notificationContainer.querySelectorAll(".notification-item");
+                const messages = Array.from(notificationItems).map(item => item.textContent);
+                allNotifications[index] = messages;
+            });
+
+            localStorage.setItem("notifications", JSON.stringify(allNotifications));
+
+            const allCounts = Array.from(notificationCounts).map(count => count.textContent || "0");
+            localStorage.setItem("notificationCounts", JSON.stringify(allCounts));
+        }
+
+        function loadNotifications() {
+            const savedNotifications = localStorage.getItem("notifications");
+            const savedCounts = localStorage.getItem("notificationCounts");
+
+            if (savedNotifications) {
+                const allNotifications = JSON.parse(savedNotifications);
+                const allCounts = JSON.parse(savedCounts);
+
+                notifications.forEach((notificationContainer, index) => {
+                    const messages = allNotifications[index] || [];
+                    messages.forEach(message => {
+                        const notificationItem = document.createElement("div");
+                        notificationItem.className = "notification-item";
+                        notificationItem.textContent = message;
+                        notificationContainer.appendChild(notificationItem);
+                    });
+
+                    const countElement = notificationCounts[index];
+                    const savedCount = parseInt(allCounts[index] || "0");
+                    countElement.textContent = savedCount;
+                    if (savedCount > 0) {
+                        countElement.style.display = "inline-block";
+                    }
+
+                    const noNotificationsMessage = notificationContainer.querySelector("p");
+                    if (noNotificationsMessage && messages.length > 0) {
+                        noNotificationsMessage.style.display = "none";
+                    }
+                });
+            }
+        }
+
+        function clearStoredNotifications() {
+            localStorage.removeItem("notifications");
+            localStorage.removeItem("notificationCounts");
+        }
+    });
+</script>
+
+
+
+</body>
+</html>
