@@ -27,6 +27,11 @@ public class NotificationController {
     @GetMapping("/notifications")
     public String getNotificationsPage(Model model) {
         List<NotificationEvent> notifications = notificationEventService.findAll();
+
+        NotificationEvent latestNotification = notifications.isEmpty() ? null : notifications.get(notifications.size() - 1);
+        String latestNotificationTime = latestNotification != null ? latestNotification.getNotificationTime().toString() : null;
+
+        model.addAttribute("latestNotificationTime", latestNotificationTime);
         model.addAttribute("notifications", notifications);
         return "notifications";
     }

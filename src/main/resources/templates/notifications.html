@@ -11,51 +11,92 @@
 </head>
 <body>
 
+<header th:insert="~{header::header}"></header>
 
 <div class="container mt-5">
-    <h1>Notifications</h1>
     <div class="dropdown">
-        <button class="dropbtn">Notifications <span class="notificationCount">0</span></button>
+        <button class="dropbtn btn btn-light position-relative">
+            <i class="bi bi-bell"></i>
+            <span class="notificationCount position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                0
+            </span>
+        </button>
         <div class="dropdown-content notifications">
-            <p>No new notifications</p>
         </div>
     </div>
 </div>
 
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="notificationToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <strong class="me-auto">New Notification</strong>
+            <small>Just now</small>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+            This is a new notification.
+        </div>
+    </div>
+</div>
+
+<div class="container mt-5">
+    <h1>Notifications</h1>
+    <table class="table table-striped table-bordered">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Message</th>
+            <th>Time</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="notification : ${notifications}">
+            <td th:text="${notification.notifcationId}"></td>
+            <td th:text="${notification.notificationMessage}"></td>
+            <td th:text="${notification.notificationTime}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<footer th:insert="~{footer::footer}">Footer</footer>
 <script th:inline="javascript">
-
-
     document.addEventListener("DOMContentLoaded", () => {
         console.log("Initializing EventSource...");
 
         const eventSource = new EventSource("/notifications-stream");
 
-        const notificationsContainer = document.querySelector(".notifications");
         const notificationCountElement = document.querySelector(".notificationCount");
+
+        const toastElement = document.getElementById("notificationToast");
+        const toast = new bootstrap.Toast(toastElement);
+
+        // Get the latest notification time from the server (passed from the controller)
+        const latestNotificationTime = /*[[${latestNotificationTime}]]*/ null;
+
+        let lastNotificationTime = latestNotificationTime;
 
         eventSource.addEventListener("notification", (event) => {
             console.log("New Notification Received:", event.data);
             const message = event.data;
+            const currentNotificationTime = new Date().toISOString();
 
-            const notificationItem = document.createElement("div");
-            notificationItem.className = "notification-item";
-            notificationItem.textContent = message;
-
-            const noNotificationsMessage = notificationsContainer.querySelector("p");
-            if (noNotificationsMessage) {
-                noNotificationsMessage.remove();
+            if (lastNotificationTime === currentNotificationTime) {
+                return;
             }
-            notificationsContainer.appendChild(notificationItem);
+
+            toastElement.querySelector(".toast-body").textContent = message;
+            toast.show();
 
             const currentCount = parseInt(notificationCountElement.textContent || "0");
             notificationCountElement.textContent = currentCount + 1;
             notificationCountElement.style.display = "inline-block";
+
+            lastNotificationTime = currentNotificationTime;
         });
 
         console.log("EventSource ready to receive events.");
     });
 </script>
-
 
 
 </body>
