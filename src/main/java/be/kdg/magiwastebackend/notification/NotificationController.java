@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.io.IOException;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -20,7 +21,7 @@ import java.util.concurrent.Executors;
 public class NotificationController {
 
     private final List<SseEmitter> emitters = new CopyOnWriteArrayList<>();
-    private final NotificationEventServiceImplementation notificationEventService;
+    private final NotificationEventService notificationEventService;
 
     @Autowired
     public NotificationController(NotificationEventServiceImplementation notificationEventService) {
@@ -38,7 +39,7 @@ public class NotificationController {
 
         notificationEventService.findAll().forEach(notificationEvent -> {
             try {
-                emitter.send(SseEmitter.event().name("TRASH").data(notificationEvent.getNotificationMessage()));
+                emitter.send(SseEmitter.event().name(notificationEvent.getNotificationTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))).data(notificationEvent.getNotificationMessage()));
             } catch (Exception e) {
                 emitter.completeWithError(e);
             }
@@ -46,33 +47,8 @@ public class NotificationController {
         return emitter;
     }
 
-    public void dispatchNotificationEvents(NotificationEvent notificationEvent) {
-        List<SseEmitter> deadEmitters = new ArrayList<>();
-        emitters.forEach(emitter -> {
-            try {
-                emitter.send(SseEmitter.event().name("TRASH").data(notificationEvent.getNotificationMessage()));
-            } catch (Exception e) {
-                deadEmitters.add(emitter);
-            }
-        });
-        emitters.removeAll(deadEmitters);
-    }
 
-//    @GetMapping("/stream-sse")
-//    public SseEmitter streamSseEvents(){
-//        SseEmitter sseEmitter = new SseEmitter(Long.MAX_VALUE);
-//        executor.execute(() -> {
-//           try{
-//               for (int i = 0; i < 10; i++){
-//                   Thread.sleep(100);
-//                   sseEmitter.send("SSE MVC-" + System.currentTimeMillis() + " count " + i);
-//               }
-//               sseEmitter.complete();
-//           } catch (IOException | InterruptedException e) {
-//               sseEmitter.completeWithError(e);
-//           }
-//        });
-//        return sseEmitter;
-//    }
+
+
 
 }
