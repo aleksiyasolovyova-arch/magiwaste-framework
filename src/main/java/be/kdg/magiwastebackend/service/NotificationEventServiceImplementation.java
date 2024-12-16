@@ -5,8 +5,6 @@ import be.kdg.magiwastebackend.notification.NotificationController;
 import be.kdg.magiwastebackend.repository.NotificationEventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
@@ -32,6 +30,7 @@ public class NotificationEventServiceImplementation implements NotificationEvent
     public NotificationEvent save(NotificationEvent notificationEvent) {
         return notificationEventRepository.save(notificationEvent);
     }
+
 
 
 }

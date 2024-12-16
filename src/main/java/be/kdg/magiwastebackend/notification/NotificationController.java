@@ -33,7 +33,7 @@ public class NotificationController {
 
     @GetMapping("/notifications-stream")
     public SseEmitter subscribeNotifications() {
-            SseEmitter emitter = new SseEmitter(100L);
+            SseEmitter emitter = new SseEmitter(1000L);
             emitters.add(emitter);
 
             emitter.onCompletion(() -> emitters.remove(emitter));
@@ -50,17 +50,4 @@ public class NotificationController {
 
             return emitter;
     }
-
-    public void sendNotificationToClients(NotificationEvent notificationEvent) {
-        String message = notificationEvent.getNotificationMessage();
-        emitters.forEach(emitter -> {
-            try {
-                emitter.send(SseEmitter.event().name("notification").data(message));
-            } catch (Exception e) {
-                emitter.completeWithError(e);
-            }
-        });
-    }
-
-
 }
