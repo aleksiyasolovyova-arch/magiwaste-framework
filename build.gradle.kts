@@ -34,9 +34,9 @@ dependencies {
     implementation("org.webjars.npm:bootstrap-icons:1.11.3")
 
     //MQTT stuff
-    compileOnly("org.springframework.integration:spring-integration-mqtt:6.3.5")
+    compileOnly("org.springframework.integration:spring-integration-mqtt:6.4.0")
     implementation ("org.springframework:spring-context:6.1.14") //THIS IS HERE BECAUSE OF A 5.3 VULNERABILITY.
-    compileOnly("org.eclipse.paho:org.eclipse.paho.mqttv5.client:1.2.5")
+//    compileOnly("org.eclipse.paho:org.eclipse.paho.mqtt3.client:1.2.5")
 
 
 
