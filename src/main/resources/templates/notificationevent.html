@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Notification Testing</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap-icons/font/bootstrap-icons.css} ">
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+    <script defer th:src="@{/webjars/bootstrap/js/bootstrap.bundle.js}"></script>
+
+    </script>
+</head>
+<body>
+
+<div class="container mt-1">
+    <div class="dropdown">
+        <button class="dropbtn btn btn-light position-relative">
+            <i class="bi bi-bell"></i>
+            <span class="notificationCount position-absolute top-0 start-50 translate-middle badge rounded-pill bg-danger">
+                0
+            </span>
+        </button>
+        <div class="dropdown-content notifications">
+        </div>
+    </div>
+</div>
+
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="notificationToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <strong class="me-auto">New Notification</strong>
+            <small>Just now</small>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+            This is a new notification.
+        </div>
+    </div>
+</div>
+
+
+
+<script th:inline="javascript">
+    document.addEventListener("DOMContentLoaded", () => {
+        console.log("Initializing EventSource...");
+
+        const eventSource = new EventSource("/notifications-stream");
+
+        const notificationCountElement = document.querySelector(".notificationCount");
+        const toastElement = document.getElementById("notificationToast");
+        const toast = new bootstrap.Toast(toastElement);
+        const processedNotifications = new Set();
+
+        eventSource.onopen = () => {
+            console.log("EventSource connection established.");
+        };
+
+        eventSource.addEventListener("notification", (event) => {
+            console.log("New Notification Received:", event.data);
+            const message = event.data.trim();
+
+            const timestamp = new Date().toISOString();
+            const notificationId = `${message}:${timestamp}`;
+
+            if (processedNotifications.has(notificationId)) {
+                console.log("Duplicate notification ignored:", notificationId);
+                return;
+            }
+
+            processedNotifications.add(notificationId);
+
+            toastElement.querySelector(".toast-body").textContent = message;
+            toast.show();
+            const currentCount = parseInt(notificationCountElement.textContent || "0", 10);
+            notificationCountElement.textContent = currentCount + 1;
+            notificationCountElement.style.display = "inline-block";
+        });
+
+        eventSource.onerror = (error) => {
+            console.error("EventSource error:", error);
+            console.error("ReadyState:", eventSource.readyState);
+            eventSource.close();
+        };
+
+        console.log("EventSource ready to receive events.");
+    });
+</script>
+
+</body>
+</html>

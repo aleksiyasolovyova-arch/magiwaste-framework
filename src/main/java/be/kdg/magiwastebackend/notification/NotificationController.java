@@ -19,6 +19,8 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 @Controller
 public class NotificationController {
@@ -43,24 +45,29 @@ public class NotificationController {
         return "notifications";
     }
 
-    @RequestMapping(value = "/notifications-stream",method = RequestMethod.GET)
+    @RequestMapping(value = "/notifications-stream", method = RequestMethod.GET)
     public SseEmitter subscribeNotifications() {
-            SseEmitter emitter = new SseEmitter(1000L);
-            emitters.add(emitter);
+        SseEmitter emitter = new SseEmitter(0L);
+        emitters.add(emitter);
 
-            emitter.onCompletion(() -> emitters.remove(emitter));
-            emitter.onTimeout(() -> emitters.remove(emitter));
-            emitter.onError((e) -> emitters.remove(emitter));
+        emitter.onCompletion(() -> emitters.remove(emitter));
+        emitter.onTimeout(() -> emitters.remove(emitter));
+        emitter.onError((e) -> emitters.remove(emitter));
 
-            notificationEventService.findAll().forEach(notificationEvent -> {
-                try {
-                    emitter.send(SseEmitter.event().name("notification").data(notificationEvent.getNotificationMessage()));
-                } catch (Exception e) {
-                    emitter.completeWithError(e);
+        Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(() -> {
+            try {
+                List<NotificationEvent> notifications = notificationEventService.findAll();
+                if (!notifications.isEmpty()) {
+                    NotificationEvent latestNotification = notifications.get(notifications.size() - 1);
+                    String notificationMessage = latestNotification.getNotificationMessage();
+                    emitter.send(SseEmitter.event().name("notification").data(notificationMessage));
                 }
-            });
+            } catch (Exception e) {
+                emitter.completeWithError(e);
+            }
+        }, 0, 5, TimeUnit.SECONDS);
 
-            return emitter;
+        return emitter;
     }
 
 }

@@ -13,31 +13,7 @@
 
 <header th:insert="~{header::header}"></header>
 
-<div class="container mt-5">
-    <div class="dropdown">
-        <button class="dropbtn btn btn-light position-relative">
-            <i class="bi bi-bell"></i>
-            <span class="notificationCount position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                0
-            </span>
-        </button>
-        <div class="dropdown-content notifications">
-        </div>
-    </div>
-</div>
-
-<div class="toast-container position-fixed bottom-0 end-0 p-3">
-    <div id="notificationToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-        <div class="toast-header">
-            <strong class="me-auto">New Notification</strong>
-            <small>Just now</small>
-            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-        </div>
-        <div class="toast-body">
-            This is a new notification.
-        </div>
-    </div>
-</div>
+<div th:replace="~{notificationevent}"></div>
 
 <div class="container mt-5">
     <h1>Notifications</h1>
@@ -59,45 +35,6 @@
     </table>
 </div>
 <footer th:insert="~{footer::footer}">Footer</footer>
-<script th:inline="javascript">
-    document.addEventListener("DOMContentLoaded", () => {
-        console.log("Initializing EventSource...");
-
-        const eventSource = new EventSource("/notifications-stream");
-
-        const notificationCountElement = document.querySelector(".notificationCount");
-
-        const toastElement = document.getElementById("notificationToast");
-        const toast = new bootstrap.Toast(toastElement);
-
-        // Get the latest notification time from the server (passed from the controller)
-        const latestNotificationTime = /*[[${latestNotificationTime}]]*/ null;
-
-        let lastNotificationTime = latestNotificationTime;
-
-        eventSource.addEventListener("notification", (event) => {
-            console.log("New Notification Received:", event.data);
-            const message = event.data;
-            const currentNotificationTime = new Date().toISOString();
-
-            if (lastNotificationTime === currentNotificationTime) {
-                return;
-            }
-
-            toastElement.querySelector(".toast-body").textContent = message;
-            toast.show();
-
-            const currentCount = parseInt(notificationCountElement.textContent || "0");
-            notificationCountElement.textContent = currentCount + 1;
-            notificationCountElement.style.display = "inline-block";
-
-            lastNotificationTime = currentNotificationTime;
-        });
-
-        console.log("EventSource ready to receive events.");
-    });
-</script>
-
 
 </body>
 </html>
