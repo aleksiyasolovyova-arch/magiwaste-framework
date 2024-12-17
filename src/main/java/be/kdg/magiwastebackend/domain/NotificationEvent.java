@@ -1,28 +1,29 @@
 package be.kdg.magiwastebackend.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
 @Entity
 public class NotificationEvent {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long notifcationId;
+    @Column(name = "notification_id")
+    private Long notificationId;
 
+    @Column(name = "notification_message", nullable = false, length = 255)
     private String notificationMessage;
+
+    @Column(name = "notification_time")
     private LocalDateTime notificationTime;
 
 
-    public void setNotifcationId(Long notifcationId) {
-        this.notifcationId = notifcationId;
+    public Long getNotificationId() {
+        return notificationId;
     }
 
-    public Long getNotifcationId() {
-        return notifcationId;
+    public void setNotificationId(Long notificationId) {
+        this.notificationId = notificationId;
     }
 
     public String getNotificationMessage() {
@@ -33,8 +34,7 @@ public class NotificationEvent {
         this.notificationMessage = notificationMessage;
     }
 
-    public NotificationEvent(Long notifcationId, String notificationMessage, LocalDateTime notificationTime) {
-        this.notifcationId = notifcationId;
+    public NotificationEvent( String notificationMessage, LocalDateTime notificationTime) {
         this.notificationMessage = notificationMessage;
         this.notificationTime = notificationTime;
     }
@@ -53,7 +53,7 @@ public class NotificationEvent {
     @Override
     public String toString() {
         return "NotificationEvent{" +
-                "notifcationId=" + notifcationId +
+                "notifcationId=" + notificationId +
                 ", notificationMessage='" + notificationMessage + '\'' +
                 ", notificationTime=" + notificationTime +
                 '}';
