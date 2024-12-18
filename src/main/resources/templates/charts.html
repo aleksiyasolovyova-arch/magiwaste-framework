@@ -16,7 +16,7 @@
     }
 </style>
 <header th:insert="~{header::header}"></header>
-<div th:replace="~{notificationevent}"></div>
+<!--<div th:replace="~{notificationevent}"></div>-->
 
 <div class="container-fluid mt-5">
     <div class="card shadow-sm">
@@ -116,7 +116,7 @@
 <footer th:insert="~{footer::footer}">Footer</footer>
 <!-- all script in one tag, whats the worst that can happen lmao-->
 <script th:inline="javascript">
-    var oneBinEvent = /*[[${oneBinEvent}]]*/ '[[${oneBinEvent}]]',
+        var oneBinEvent = /*[[${oneBinEvent}]]*/ '[[${oneBinEvent}]]',
         eventsByBin = /*[[${eventsByBin}]]*/ '[[${eventsByBin}]]',
         lastPercentOfVolume = /*[[${lastPercentOfVolume}]]*/ '[[${lastPercentOfVolume}]]';
     console.log("Last Recorded Fill Level:", lastPercentOfVolume);
