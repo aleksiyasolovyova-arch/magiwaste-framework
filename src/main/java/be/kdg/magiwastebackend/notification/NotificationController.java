@@ -17,6 +17,7 @@ import reactor.core.publisher.Flux;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.Executors;
@@ -38,7 +39,7 @@ public class NotificationController {
         List<NotificationEvent> notifications = notificationEventService.findAll();
 
         NotificationEvent latestNotification = notifications.isEmpty() ? null : notifications.get(notifications.size() - 1);
-        String latestNotificationTime = latestNotification != null ? latestNotification.getNotificationTime().toString() : null;
+        String latestNotificationTime = latestNotification != null ? latestNotification.getNotificationTime().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")).toString() : null;
 
         model.addAttribute("latestNotificationTime", latestNotificationTime);
         model.addAttribute("notifications", notifications);

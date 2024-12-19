@@ -15,6 +15,7 @@ public interface ServiceFacade {
     void saveWasteBinEvent(WasteBinEvent wasteBinEvent);
     void saveRawDataLog(RawDataLog rawDataLog);
     void saveWeatherEvent(WeatherEvent weatherEvent);
+    void saveNotificationEvent(NotificationEvent notificationEvent);
 
     WasteBin findWasteBinById(Long binId);
     WasteBin findBinByDeviceId(String deviceId);

@@ -68,6 +68,11 @@ public class ServiceFacadeImplementation implements ServiceFacade {
     }
 
     @Override
+    public void saveNotificationEvent(NotificationEvent notificationEvent) {
+            notificationEventService.save(notificationEvent);
+    }
+
+    @Override
     public WasteBin findWasteBinById(Long binId) {
         return wasteBinService.findWasteBinById(binId);
     }

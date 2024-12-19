@@ -6,17 +6,18 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "notification_event")
 public class NotificationEvent {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "notification_id")
     private Long notificationId;
 
-    @Column(name = "notification_message", nullable = false, length = 255)
+    @Column(name = "notification_message")
     private String notificationMessage;
 
     @Column(name = "notification_time")
     private LocalDateTime notificationTime;
-
 
     public Long getNotificationId() {
         return notificationId;

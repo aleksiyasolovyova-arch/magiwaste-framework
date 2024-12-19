@@ -32,23 +32,26 @@ public class HTTPController {
 
     @PostMapping("/data")
     public ResponseEntity<String> test(@RequestBody Map<String, Object> body) {
-        logger.debug("received data {}", body);
+        logger.debug("Received data: {}", body);
 
+        try {
+            Payload payload = cleanPayload(body);
+            logger.debug("Cleaned payload: {}", payload);
 
+            payloadService.processPayload(payload);
 
-        Payload payload = cleanPayload(body);
+            if (payload.isTiltState()) {
+                NotificationEvent notificationEvent = new NotificationEvent();
+                notificationEvent.setNotificationMessage("Bin has been tilted");
+                notificationEvent.setNotificationTime(LocalDateTime.now());
+                notificationEventService.save(notificationEvent);
+            }
 
-
-        payloadService.processPayload(payload);
-
-        if (payload.isTiltState()) {
-            NotificationEvent notificationEvent = new NotificationEvent();
-            notificationEvent.setNotificationMessage("Bin has been tilted");
-            notificationEvent.setNotificationTime(LocalDateTime.now());
-            notificationEventService.save(notificationEvent);
-        }
-
-        return new ResponseEntity<>(HttpStatus.CREATED);//206 partial context //201 created resource //200 OK
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        } catch (Exception ex) {
+            logger.error("Error processing payload: {}", ex.getMessage(), ex);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }//206 partial context //201 created resource //200 OK
     }
 
     //CLEANING HERE:

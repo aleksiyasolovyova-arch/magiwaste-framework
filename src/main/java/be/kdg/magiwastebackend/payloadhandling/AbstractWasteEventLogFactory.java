@@ -1,5 +1,6 @@
 package be.kdg.magiwastebackend.payloadhandling;
 
+import be.kdg.magiwastebackend.domain.NotificationEvent;
 import be.kdg.magiwastebackend.domain.RawDataLog;
 import be.kdg.magiwastebackend.domain.WasteBin;
 import be.kdg.magiwastebackend.domain.WasteBinEvent;
@@ -22,7 +23,7 @@ class AbstractWasteEventLogFactory {
         String comfort = payload.getComfort();
 
         //get the fullness of the bin
-        double percentOfVolume = (bin.getBinType().getHeight() - ((sensorDistance1 + sensorDistance2)/ 2))  / bin.getBinType().getHeight() * 100;
+        double percentOfVolume = (bin.getBinType().getHeight() - ((sensorDistance1 + sensorDistance2) / 2)) / bin.getBinType().getHeight() * 100;
         boolean isFull = percentOfVolume > 85;
 
         bin.setPercentOfVolume(percentOfVolume);
@@ -67,7 +68,13 @@ class AbstractWasteEventLogFactory {
             e.printStackTrace(); // :(
         }
 
-        return new RawDataLog(sensorDistance1, sensorDistance2, tiltState, temperature, humidity, comfort, wasteReceived,unusedDataJsonString);
+        return new RawDataLog(sensorDistance1, sensorDistance2, tiltState, temperature, humidity, comfort, wasteReceived, unusedDataJsonString);
 
     }
+
+    static NotificationEvent createNotificationEvent(Payload payload) {
+
+        return new NotificationEvent();
+    }
+
 }
