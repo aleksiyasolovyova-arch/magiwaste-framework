@@ -140,13 +140,10 @@
                     position: { lat: point.latitude, lng: point.longitude },
                     map: map,
                     icon: {
-                        path: google.maps.SymbolPath.CIRCLE,
-                        scale: 8,
-                        fillColor: point.color,
-                        fillOpacity: 1,
-                        strokeWeight: 1,
-                        strokeColor: "black",
-                    },
+                        url: "/images/mapicons/bin-" + point.color + ".png",
+                        scaledSize: new google.maps.Size(25, 30)
+
+                    }
                 });
 
                 const infoWindow = new google.maps.InfoWindow({
