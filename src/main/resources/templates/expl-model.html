@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explorative Model</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap-icons/font/bootstrap-icons.css} ">
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+    <script defer th:src="@{/webjars/bootstrap/js/bootstrap.bundle.js}"></script>
+</head>
+<body class="bg-light text-dark">
+<!-- Navbar -->
+<header th:insert="~{header::header}"></header>
+
+<section class="container my-5">
+
+    <div class="text-center mb-5">
+        <h1 class="display-4 fw-bold text-success mb-3">Data Explorative Model</h1>
+        <p class="lead text-muted fs-5">Discovering spaces of scarcity and optimizing waste management through data-driven insights.</p>
+    </div>
+
+
+    <div class="row justify-content-center g-4">
+
+        <div class="col-md-4 d-flex justify-content-center">
+            <img th:src="@{/images/aleks.jpg}" class="img-fluid rounded shadow-sm" alt="Graph 1">
+        </div>
+        <div class="col-md-4 d-flex justify-content-center">
+            <img th:src="@{/images/mj.jpg}" class="img-fluid rounded shadow-sm" alt="Graph 2">
+        </div>
+        <div class="col-md-4 d-flex justify-content-center">
+            <img th:src="@{/images/storm.jpg}" class="img-fluid rounded shadow-sm" alt="Graph 3">
+        </div>
+        <div class="col-md-4 d-flex justify-content-center">
+            <img th:src="@{/images/szymon.jpg}" class="img-fluid rounded shadow-sm" alt="Graph 4">
+        </div>
+        <div class="col-md-4 d-flex justify-content-center">
+            <img th:src="@{/images/pam.jpg}" class="img-fluid rounded shadow-sm" alt="Graph 5">
+        </div>
+    </div>
+
+
+    <div class="mt-5">
+        <h2 class="text-center text-success mb-4">Key Highlights</h2>
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <ul class="list-group list-group-flush fs-5">
+                    <li class="list-group-item bg-light text-dark">
+                        <strong>Problem Addressed:</strong> Identifying areas within the city with insufficient waste management resources.
+                    </li>
+                    <li class="list-group-item bg-light text-dark">
+                        <strong>Data-Driven Insights:</strong> Utilizes geospatial data, population density, and activity heatmaps to pinpoint areas of need.
+                    </li>
+                    <li class="list-group-item bg-light text-dark">
+                        <strong>Custom Route Optimization:</strong> Generates efficient waste collection paths tailored to high-activity zones.
+                    </li>
+                    <li class="list-group-item bg-light text-dark">
+                        <strong>Resource Allocation:</strong> Ensures bins and collection resources are deployed where they are needed most.
+                    </li>
+                    <li class="list-group-item bg-light text-dark">
+                        <strong>Sustainability Focus:</strong> Reduces carbon footprint through optimized routes, minimizing travel distance and time.
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<footer th:insert="~{footer::footer}">Footer</footer>
+</body>
+</html>

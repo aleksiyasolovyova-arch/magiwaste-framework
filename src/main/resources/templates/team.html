@@ -1,34 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!--TODO: change photos-->
   <meta charset="UTF-8">
   <title>Our Team</title>
   <link rel="stylesheet" th:href="@{/webjars/bootstrap-icons/font/bootstrap-icons.css} ">
   <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
   <script defer th:src="@{/webjars/bootstrap/js/bootstrap.bundle.js}"></script>
 
-  <style>
-    .team-images {
-      width: 100%;
-      height: 400px;
-      object-fit: cover;
-    }
-  </style>
 </head>
-<body style="background-color: #bae6bf">
+<body class="bg-light text-dark">
 <!--Navbar-->
 <header th:insert="~{header::header}"></header>
 
   <main class="container my-5">
-    <h1 class="font-weight-bold text-center mb-4">Meet Our Team</h1>
+    <div class="text-center mb-5">
+      <h1 class="display-4 fw-bold text-success mb-3">Meet Our Team</h1>
+      <p class="lead text-muted fs-5">The driving forces behind our innovative vision.</p>
+    </div>
+
     <div class="d-flex justify-content-center">
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4 justify-content-center">
 
       <div class="col">
-        <div class="card h-100">
-          <img th:src="@{/images/mj.jpg}" class="card-img-top team-images" alt="Photo of MJ">
+        <div class="card h-100 shadow rounded">
+          <img th:src="@{/images/mj.jpg}" class="card-img-top shadow" alt="Photo of MJ">
           <div class="card-body">
-            <h5 class="card-title"><b>MJ</b></h5>
+            <h5 class="card-title text-success"><b>MJ</b></h5>
             <p class="card-text">
               MJ focused mainly on sensor work, as well as establishing connection between our server and our device. However, it is important to note that he was always there to help and worked diligently on any issue he was assigned.
             </p>
@@ -37,10 +35,10 @@
       </div>
 
       <div class="col">
-        <div class="card h-100">
-          <img th:src="@{/images/szymon.jpg}" class="card-img-top team-images" alt="Photo of Szymon">
+        <div class="card h-100 shadow rounded">
+          <img th:src="@{/images/szymon.jpg}" class="card-img-top shadow" alt="Photo of Szymon">
           <div class="card-body">
-            <h5 class="card-title"><b>Szymon</b></h5>
+            <h5 class="card-title text-success"><b>Szymon</b></h5>
             <p class="card-text">
               Szymon worked predominantly on creating, organising and polishing our web-application, with focus on making it as efficient as possible. Additionally, he offered help where needed.
             </p>
@@ -49,10 +47,10 @@
       </div>
 
       <div class="col">
-        <div class="card h-100">
-          <img th:src="@{/images/storm.jpg}" class="card-img-top team-images" alt="Photo of Storm">
+        <div class="card h-100 shadow rounded">
+          <img th:src="@{/images/storm.jpg}" class="card-img-top shadow" alt="Photo of Storm">
           <div class="card-body">
-            <h5 class="card-title"><b>Storm</b></h5>
+            <h5 class="card-title text-success"><b>Storm</b></h5>
             <p class="card-text">
               Storm focused on polishing technical aspects of our project, making sure everything is fast, well-organised and flowed logically. Their work on the explorative data model was essential for our final product.
             </p>
@@ -61,10 +59,10 @@
       </div>
 
       <div class="col">
-        <div class="card h-100">
-          <img th:src="@{/images/aleks.jpg}" class="card-img-top team-images" alt="Photo of Aleks">
+        <div class="card h-100 shadow rounded">
+          <img th:src="@{/images/aleks.jpg}" class="card-img-top shadow" alt="Photo of Aleks">
           <div class="card-body">
-            <h5 class="card-title"><b>Aleks</b></h5>
+            <h5 class="card-title text-success"><b>Aleks</b></h5>
             <p class="card-text">
               Aleks worked on multiple aspects of the project, hopping from task to task. She had a hand in the initial explorative data model, protocol implementation and others.
             </p>
@@ -73,10 +71,10 @@
       </div>
 
       <div class="col">
-        <div class="card h-100">
-          <img th:src="@{/images/pam.jpg}" class="card-img-top team-images" alt="Photo of Pam">
+        <div class="card h-100 shadow rounded">
+          <img th:src="@{/images/pam.jpg}" class="card-img-top shadow" alt="Photo of Pam">
           <div class="card-body">
-            <h5 class="card-title"><b>Pam</b></h5>
+            <h5 class="card-title text-success"><b>Pam</b></h5>
             <p class="card-text">
               Pam focused on early project structuring and planning. She had also helped on the data aspect, providing much needed expertise.
             </p>
