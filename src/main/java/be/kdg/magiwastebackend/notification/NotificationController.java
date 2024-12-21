@@ -48,7 +48,7 @@ public class NotificationController {
 
     @RequestMapping(value = "/notifications-stream", method = RequestMethod.GET)
     public SseEmitter subscribeNotifications() {
-        SseEmitter emitter = new SseEmitter(0L);
+        SseEmitter emitter = new SseEmitter(2000L);
         emitters.add(emitter);
 
         emitter.onCompletion(() -> emitters.remove(emitter));

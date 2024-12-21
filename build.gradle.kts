@@ -37,8 +37,6 @@ dependencies {
     //MQTT stuff
     implementation("org.springframework.integration:spring-integration-mqtt:6.4.1")
 
-
-
 //    runtimeOnly("com.h2database:h2")
 }
 

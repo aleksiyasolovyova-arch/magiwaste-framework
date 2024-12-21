@@ -103,7 +103,7 @@ public class MqttConfig {
             return objectMapper.readValue(payload, Map.class);
         } catch (Exception e) {
             logger.error("Error parsing payload", e);
-            return new HashMap<>();  // Return empty Map on error
+            return new HashMap<>();
         }
     }
 
