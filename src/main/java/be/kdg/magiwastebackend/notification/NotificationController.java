@@ -55,13 +55,21 @@ public class NotificationController {
         emitter.onTimeout(() -> emitters.remove(emitter));
         emitter.onError((e) -> emitters.remove(emitter));
 
+        final String[] lastSentNotificationId = {null};
+
         Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(() -> {
             try {
                 List<NotificationEvent> notifications = notificationEventService.findAll();
                 if (!notifications.isEmpty()) {
                     NotificationEvent latestNotification = notifications.get(notifications.size() - 1);
-                    String notificationMessage = latestNotification.getNotificationMessage();
-                    emitter.send(SseEmitter.event().name("notification").data(notificationMessage));
+                    String latestNotificationId = latestNotification.getNotificationId().toString();
+
+                    if (!latestNotificationId.equals(lastSentNotificationId[0])) {
+                        String notificationMessage = latestNotification.getNotificationMessage();
+                        emitter.send(SseEmitter.event().name("notification").data(notificationMessage));
+
+                        lastSentNotificationId[0] = latestNotificationId;
+                    }
                 }
             } catch (Exception e) {
                 emitter.completeWithError(e);
@@ -70,5 +78,6 @@ public class NotificationController {
 
         return emitter;
     }
+
 
 }

@@ -22,12 +22,27 @@ class AlertMessageSystem implements PayloadHandler{
         List<NotificationEvent> notificationEvents = serviceFacade.findAllNotificationEvents();
 
         if (!notificationEvents.isEmpty()) {
-            NotificationEvent notificationEvent = notificationEvents.get(0);
             if (payload.isTiltState()) {
-                notificationEvent.setNotificationTime(LocalDateTime.now());
-                notificationEvent.setNotificationMessage("This bin has been tilted at " + notificationEvent.getNotificationTime().format(DateTimeFormatter.ofPattern("HH:mm")) );
+                LocalDateTime now = LocalDateTime.now();
+
+
+                NotificationEvent existingEvent = notificationEvents.stream()
+                        .filter(event -> event.getNotificationTime().toLocalDate().isEqual(now.toLocalDate()) &&
+                                event.getNotificationTime().toLocalTime().equals(now.toLocalTime()))
+                        .findFirst()
+                        .orElse(null);
+
+                if (existingEvent != null) {
+                    existingEvent.setNotificationMessage("This bin has been tilted at " + now);
+                    serviceFacade.saveNotificationEvent(existingEvent);
+                } else {
+                    NotificationEvent notificationEvent = new NotificationEvent();
+                    notificationEvent.setNotificationTime(now);
+                    notificationEvent.setNotificationMessage("This bin has been tilted at " + now);
+
+                    serviceFacade.saveNotificationEvent(notificationEvent);
+                }
             }
-            serviceFacade.saveNotificationEvent(notificationEvent);
         }
 
         return null;

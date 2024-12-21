@@ -38,7 +38,6 @@
 </div>
 
 
-
 <script th:inline="javascript">
     document.addEventListener("DOMContentLoaded", () => {
         console.log("Initializing EventSource...");
@@ -58,18 +57,20 @@
             console.log("New Notification Received:", event.data);
             const message = event.data.trim();
 
-            const timestamp = new Date().toISOString();
-            const notificationId = `${message}:${timestamp}`;
+            const notificationId = event.lastEventId;
 
-            if (processedNotifications.has(notificationId)) {
-                console.log("Duplicate notification ignored:", notificationId);
+            const uniqueNotificationId = notificationId || `${message}:${new Date().toISOString()}`;
+
+            if (processedNotifications.has(uniqueNotificationId)) {
+                console.log("Duplicate notification ignored:", uniqueNotificationId);
                 return;
             }
 
-            processedNotifications.add(notificationId);
+            processedNotifications.add(uniqueNotificationId);
 
             toastElement.querySelector(".toast-body").textContent = message;
             toast.show();
+
             const currentCount = parseInt(notificationCountElement.textContent || "0", 10);
             notificationCountElement.textContent = currentCount + 1;
             notificationCountElement.style.display = "inline-block";
