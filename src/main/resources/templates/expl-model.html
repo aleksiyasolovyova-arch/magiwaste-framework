@@ -9,64 +9,45 @@
     <script defer th:src="@{/webjars/bootstrap/js/bootstrap.bundle.js}"></script>
 </head>
 <body class="bg-light text-dark">
-<!-- Navbar -->
 <header th:insert="~{header::header}"></header>
 
-<section class="container my-5">
+<div class="container-fluid py-5 bg-white d-flex flex-column justify-content-center align-items-center" style="min-height: 100vh;">
+    <img th:src="@{/images/initialModel.jpg}" class="img-fluid rounded shadow-sm mb-4" alt="Pic of sensor in bin" style="max-height: 60vh">
+    <h2 class="text-success fw-bold mb-3">Initial Model</h2>
+    <p class="text-muted text-center lead">This model represents the early stages of development, a time of uncertainty, yet fueled by a readiness to experiment and explore new possibilities.</p>
+    <button class="btn btn-link text-muted mt-3" onclick="scrollToNext(this)">Scroll Down<i class="bi bi-arrow-down-circle fs-4"></i></button>
+</div>
 
-    <div class="text-center mb-5">
-        <h1 class="display-4 fw-bold text-success mb-3">Data Explorative Model</h1>
-        <p class="lead text-muted fs-5">Discovering spaces of scarcity and optimizing waste management through data-driven insights.</p>
-    </div>
+<div class="container-fluid py-5 bg-light d-flex flex-column justify-content-center align-items-center" style="min-height: 100vh;">
+    <img th:src="@{/images/hole-sensor.png}" class="img-fluid rounded shadow-sm mb-4" alt="Pic of sensors attached" style="max-height: 60vh">
+    <h2 class="text-success fw-bold mb-3">Our SetUp</h2>
+    <p class="text-muted text-center lead">A network of sensors transforms raw inputs into vital data, forming the cornerstone of exploration and discovery.</p>
+    <button class="btn btn-link text-muted mt-3" onclick="scrollToNext(this)">Scroll Down<i class="bi bi-arrow-down-circle fs-4"></i></button>
+</div>
 
+<div class="container-fluid py-5 bg-white d-flex flex-column justify-content-center align-items-center" style="min-height: 100vh;">
+    <img th:src="@{/images/hold-sensor.jpg}" class="img-fluid rounded shadow-sm mb-4" alt="Pic of sensor in bin" style="max-height: 60vh">
+    <h2 class="text-success fw-bold mb-3">Essence of exploration</h2>
+    <p class="text-muted text-center lead">This single tool embodies the power of technology to transform observations into the essential insights that drive discovery.</p>
+    <button class="btn btn-link text-muted mt-3" onclick="scrollToNext(this)">Scroll Down<i class="bi bi-arrow-down-circle fs-4"></i></button>
+</div>
 
-    <div class="row justify-content-center g-4">
-
-        <div class="col-md-4 d-flex justify-content-center">
-            <img th:src="@{/images/aleks.jpg}" class="img-fluid rounded shadow-sm" alt="Graph 1">
-        </div>
-        <div class="col-md-4 d-flex justify-content-center">
-            <img th:src="@{/images/mj.jpg}" class="img-fluid rounded shadow-sm" alt="Graph 2">
-        </div>
-        <div class="col-md-4 d-flex justify-content-center">
-            <img th:src="@{/images/storm.jpg}" class="img-fluid rounded shadow-sm" alt="Graph 3">
-        </div>
-        <div class="col-md-4 d-flex justify-content-center">
-            <img th:src="@{/images/szymon.jpg}" class="img-fluid rounded shadow-sm" alt="Graph 4">
-        </div>
-        <div class="col-md-4 d-flex justify-content-center">
-            <img th:src="@{/images/pam.jpg}" class="img-fluid rounded shadow-sm" alt="Graph 5">
-        </div>
-    </div>
-
-
-    <div class="mt-5">
-        <h2 class="text-center text-success mb-4">Key Highlights</h2>
-        <div class="row justify-content-center">
-            <div class="col-lg-8">
-                <ul class="list-group list-group-flush fs-5">
-                    <li class="list-group-item bg-light text-dark">
-                        <strong>Problem Addressed:</strong> Identifying areas within the city with insufficient waste management resources.
-                    </li>
-                    <li class="list-group-item bg-light text-dark">
-                        <strong>Data-Driven Insights:</strong> Utilizes geospatial data, population density, and activity heatmaps to pinpoint areas of need.
-                    </li>
-                    <li class="list-group-item bg-light text-dark">
-                        <strong>Custom Route Optimization:</strong> Generates efficient waste collection paths tailored to high-activity zones.
-                    </li>
-                    <li class="list-group-item bg-light text-dark">
-                        <strong>Resource Allocation:</strong> Ensures bins and collection resources are deployed where they are needed most.
-                    </li>
-                    <li class="list-group-item bg-light text-dark">
-                        <strong>Sustainability Focus:</strong> Reduces carbon footprint through optimized routes, minimizing travel distance and time.
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</section>
+<div class="container-fluid py-5 bg-light d-flex flex-column justify-content-center align-items-center" style="min-height: 100vh;">
+    <img th:src="@{/images/mj-setUp.jpg}" class="img-fluid rounded shadow-sm mb-4" alt="Mj setting up MagiWaste" style="max-height: 60vh">
+    <h2 class="text-success fw-bold mb-3">Field Work</h2>
+    <p class="text-muted text-center lead">A tirelessly working developer, installing MagiWaste, setting up the system to collect and process critical data for efficient waste management and resource optimization.</p>
+    <button class="btn btn-link text-muted mt-3" onclick="scrollToNext(this)">Scroll Down<i class="bi bi-arrow-down-circle fs-4"></i></button>
+</div>
 
 
 <footer th:insert="~{footer::footer}">Footer</footer>
+<script>
+    function scrollToNext(button) {
+        const nextSection = button.closest('.container-fluid').nextElementSibling
+        if (nextSection) {
+            nextSection.scrollIntoView({behavior: 'smooth'})
+        }
+    }
+</script>
 </body>
 </html>
