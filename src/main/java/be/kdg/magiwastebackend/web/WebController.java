@@ -118,17 +118,35 @@ public class WebController {
     }
 
     @GetMapping("/team")
-    public String getTeamPage() {
+    public String getTeamPage(HttpSession session, Model model) {
+        AppUser user = (AppUser) session.getAttribute("user");
+
+        if (user == null || (!user.getPermissionLevel().equals("EMPLOYEE") && !user.getPermissionLevel().equals("ADMIN"))) {
+            return "redirect:/login"; // Redirect if not logged in or not an admin
+        }
+        model.addAttribute("isUserLoggedIn", true);
         return "team";
     }
 
     @GetMapping("/architecture")
-    public String getArchitecturePage() {
+    public String getArchitecturePage(HttpSession session, Model model) {
+        AppUser user = (AppUser) session.getAttribute("user");
+
+        if (user == null || (!user.getPermissionLevel().equals("EMPLOYEE") && !user.getPermissionLevel().equals("ADMIN"))) {
+            return "redirect:/login"; // Redirect if not logged in or not an admin
+        }
+        model.addAttribute("isUserLoggedIn", true);
         return "architecture";
     }
 
     @GetMapping("/expl-model")
-    public String getModelPage() {
+    public String getModelPage(HttpSession session, Model model) {
+        AppUser user = (AppUser) session.getAttribute("user");
+
+        if (user == null || (!user.getPermissionLevel().equals("EMPLOYEE") && !user.getPermissionLevel().equals("ADMIN"))) {
+            return "redirect:/login"; // Redirect if not logged in or not an admin
+        }
+        model.addAttribute("isUserLoggedIn", true);
         return "expl-model";
     }
 }
