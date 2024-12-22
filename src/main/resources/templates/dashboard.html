@@ -165,18 +165,18 @@
             });
         }
 
-        // Map events to track movement
-        map.addListener("dragstart", () => {
-            clearMarkers()
-        });
-
-        map.addListener("zoom_changed", () => {
-            clearMarkers();
-        });
-
-        map.addListener("idle", () => {
-            renderMarkers(); // Render markers after the map is idle
-        });
+        // // Map events to track movement
+        // map.addListener("dragstart", () => {
+        //     clearMarkers()
+        // });
+        //
+        // map.addListener("zoom_changed", () => {
+        //     clearMarkers();
+        // });
+        //
+        // map.addListener("idle", () => {
+        //     renderMarkers(); // Render markers after the map is idle
+        // });
 
         // Initial marker rendering
         renderMarkers();

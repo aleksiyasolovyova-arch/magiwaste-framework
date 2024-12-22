@@ -80,7 +80,7 @@ public class MQTTController {
     }
 
 
-//see HTTP controller clas for explanation
+//see HTTP controller class for explanation
     Payload cleanPayload(Map<String, Object> body) {
         Map<String, Object> unusedData = new HashMap<>();
         Payload payload = new Payload();
@@ -97,7 +97,7 @@ public class MQTTController {
         return payload;
     }
 
-    //see HTPP Controller for explanation
+    //see HTTP Controller for explanation
     private void setAttribute(Object obj, String attributeName, Object value) throws Exception {
         Class<?> objClass = obj.getClass();
 
