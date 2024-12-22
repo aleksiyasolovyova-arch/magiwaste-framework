@@ -4,6 +4,7 @@ import be.kdg.magiwastebackend.payloadhandling.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.eclipse.paho.client.mqttv3.*;
 import org.slf4j.*;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.integration.annotation.ServiceActivator;
@@ -23,6 +24,15 @@ public class MQTTController {
     private MqttClient mqttClient;
     Logger logger = LoggerFactory.getLogger(MQTTController.class);
 
+    @Value("${mqtt.server-uri}")
+    private String serverUri;
+
+    @Value("${mqtt.username}")
+    private String username;
+
+    @Value("${mqtt.password}")
+    private String password;
+
     public MQTTController(PayloadService payloadService) {
         this.payloadService = payloadService;
     }
@@ -31,9 +41,9 @@ public class MQTTController {
     public MqttPahoClientFactory mqttClientFactory() {
         DefaultMqttPahoClientFactory factory = new DefaultMqttPahoClientFactory();
         MqttConnectOptions options = new MqttConnectOptions();
-        options.setServerURIs(new String[]{"tcp://10.134.178.158:1883"});
-        options.setUserName("admin2");
-        options.setPassword("initial01".toCharArray());
+        options.setServerURIs(new String[]{serverUri});
+        options.setUserName(username);
+        options.setPassword(password.toCharArray());
         options.setCleanSession(true);
         factory.setConnectionOptions(options);
         return factory;
