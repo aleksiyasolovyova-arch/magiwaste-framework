@@ -1,8 +1,10 @@
 package be.kdg.magiwastebackend.web;
 
+import be.kdg.magiwastebackend.domain.AppUser;
 import be.kdg.magiwastebackend.domain.NotificationEvent;
 import be.kdg.magiwastebackend.service.NotificationEventService;
 import be.kdg.magiwastebackend.service.NotificationEventServiceImplementation;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,7 +31,14 @@ public class NotificationController {
     }
 
     @GetMapping("/notifications")
-    public String getNotificationsPage(Model model) {
+    public String getNotificationsPage(HttpSession session, Model model) {
+        AppUser user = (AppUser) session.getAttribute("user");
+
+        if (user == null || (!user.getPermissionLevel().equals("EMPLOYEE") && !user.getPermissionLevel().equals("ADMIN"))) {
+            return "redirect:/login"; // Redirect if not logged in or not an admin
+        }
+        model.addAttribute("isUserLoggedIn", true);
+
         List<NotificationEvent> notifications = notificationEventService.findAll();
 
         NotificationEvent latestNotification = notifications.isEmpty() ? null : notifications.get(notifications.size() - 1);
