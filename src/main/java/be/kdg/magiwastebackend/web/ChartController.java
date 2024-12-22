@@ -1,9 +1,11 @@
 package be.kdg.magiwastebackend.web;
 
+import be.kdg.magiwastebackend.domain.AppUser;
 import be.kdg.magiwastebackend.domain.WasteBinEvent;
 import be.kdg.magiwastebackend.domain.WeatherEvent;
 import be.kdg.magiwastebackend.service.WasteBinEventService;
 import be.kdg.magiwastebackend.service.WeatherEventService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,7 +29,14 @@ public class ChartController {
     }
 
     @GetMapping("/charts")
-    public String getChartData(@RequestParam(required = false) Long binId, Model model) {
+    public String getChartData(HttpSession session, @RequestParam(required = false) Long binId, Model model) {
+        AppUser user = (AppUser) session.getAttribute("user");
+
+        if (user == null || (!user.getPermissionLevel().equals("EMPLOYEE") && !user.getPermissionLevel().equals("ADMIN"))) {
+            return "index"; // Redirect if not logged in or not an admin
+        }
+        model.addAttribute("isUserLoggedIn", true);
+
         List<WasteBinEvent> events = wasteBinEventService.findAll();
         List<WeatherEvent> weatherEvents = weatherEventService.findAll();
 
