@@ -33,7 +33,7 @@ public class ChartController {
         AppUser user = (AppUser) session.getAttribute("user");
 
         if (user == null || (!user.getPermissionLevel().equals("EMPLOYEE") && !user.getPermissionLevel().equals("ADMIN"))) {
-            return "index"; // Redirect if not logged in or not an admin
+            return "login"; // Redirect if not logged in or not an admin
         }
         model.addAttribute("isUserLoggedIn", true);
 
