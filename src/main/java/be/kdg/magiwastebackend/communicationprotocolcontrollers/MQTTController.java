@@ -1,4 +1,4 @@
-package be.kdg.magiwastebackend.mqtt;
+package be.kdg.magiwastebackend.communicationprotocolcontrollers;
 
 import be.kdg.magiwastebackend.payloadhandling.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -17,13 +17,13 @@ import java.lang.reflect.Field;
 import java.util.*;
 
 @Configuration
-public class MqttConfig {
+public class MQTTController {
 
     private final PayloadService payloadService;
     private MqttClient mqttClient;
-    Logger logger = LoggerFactory.getLogger(MqttConfig.class);
+    Logger logger = LoggerFactory.getLogger(MQTTController.class);
 
-    public MqttConfig(PayloadService payloadService) {
+    public MQTTController(PayloadService payloadService) {
         this.payloadService = payloadService;
     }
 
@@ -63,7 +63,7 @@ public class MqttConfig {
     @Bean
     @ServiceActivator(inputChannel = "mqttInputChannel")
     public MessageHandler handler() {
-        Logger logger = LoggerFactory.getLogger(MqttConfig.class);
+        Logger logger = LoggerFactory.getLogger(MQTTController.class);
 
         return message -> {
             logger.info("Received Payload: {}", message.getPayload());

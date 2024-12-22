@@ -1,7 +1,7 @@
 package be.kdg.magiwastebackend.service;
 
 import be.kdg.magiwastebackend.domain.NotificationEvent;
-import be.kdg.magiwastebackend.notification.NotificationController;
+import be.kdg.magiwastebackend.web.NotificationController;
 import be.kdg.magiwastebackend.repository.NotificationEventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

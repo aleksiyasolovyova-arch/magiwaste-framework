@@ -1,4 +1,4 @@
-package be.kdg.magiwastebackend.notification;
+package be.kdg.magiwastebackend.web;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
