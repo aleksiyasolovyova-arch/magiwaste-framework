@@ -72,4 +72,19 @@ public class WebController {
         model.addAttribute(bin);
         return "bin";
     }
+
+    @GetMapping("/team")
+    public String getTeamPage() {
+        return "team";
+    }
+
+    @GetMapping("/architecture")
+    public String getArchitecturePage() {
+        return "architecture";
+    }
+
+    @GetMapping("/expl-model")
+    public String getModelPage() {
+        return "expl-model";
+    }
 }
