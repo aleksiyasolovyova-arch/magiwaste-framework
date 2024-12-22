@@ -25,7 +25,6 @@ class AlertMessageSystem implements PayloadHandler{
             if (payload.isTiltState()) {
                 LocalDateTime now = LocalDateTime.now();
 
-
                 NotificationEvent existingEvent = notificationEvents.stream()
                         .filter(event -> event.getNotificationTime().toLocalDate().isEqual(now.toLocalDate()) &&
                                 event.getNotificationTime().toLocalTime().equals(now.toLocalTime()))

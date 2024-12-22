@@ -77,11 +77,11 @@
         });
 
         eventSource.onerror = (error) => {
-            console.error("EventSource error:", error);
-            console.error("ReadyState:", eventSource.readyState);
-            eventSource.close();
+                console.error("EventSource error. Reconnecting...");
+                setTimeout(() => {
+                    initializeEventSource();
+                }, 5000);
         };
-
         console.log("EventSource ready to receive events.");
     });
 </script>
