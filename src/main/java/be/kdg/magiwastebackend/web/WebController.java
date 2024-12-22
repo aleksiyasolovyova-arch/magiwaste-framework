@@ -120,33 +120,27 @@ public class WebController {
     @GetMapping("/team")
     public String getTeamPage(HttpSession session, Model model) {
         AppUser user = (AppUser) session.getAttribute("user");
-
-        if (user == null || (!user.getPermissionLevel().equals("EMPLOYEE") && !user.getPermissionLevel().equals("ADMIN"))) {
-            return "redirect:/login"; // Redirect if not logged in or not an admin
-        }
-        model.addAttribute("isUserLoggedIn", true);
+        boolean userLoggedOut;
+        userLoggedOut = user == null || (!user.getPermissionLevel().equals("EMPLOYEE") && !user.getPermissionLevel().equals("ADMIN"));
+        model.addAttribute("isUserLoggedIn", !userLoggedOut);
         return "team";
     }
 
     @GetMapping("/architecture")
     public String getArchitecturePage(HttpSession session, Model model) {
         AppUser user = (AppUser) session.getAttribute("user");
-
-        if (user == null || (!user.getPermissionLevel().equals("EMPLOYEE") && !user.getPermissionLevel().equals("ADMIN"))) {
-            return "redirect:/login"; // Redirect if not logged in or not an admin
-        }
-        model.addAttribute("isUserLoggedIn", true);
+        boolean userLoggedOut;
+        userLoggedOut = user == null || (!user.getPermissionLevel().equals("EMPLOYEE") && !user.getPermissionLevel().equals("ADMIN"));
+        model.addAttribute("isUserLoggedIn", !userLoggedOut);
         return "architecture";
     }
 
     @GetMapping("/expl-model")
     public String getModelPage(HttpSession session, Model model) {
         AppUser user = (AppUser) session.getAttribute("user");
-
-        if (user == null || (!user.getPermissionLevel().equals("EMPLOYEE") && !user.getPermissionLevel().equals("ADMIN"))) {
-            return "redirect:/login"; // Redirect if not logged in or not an admin
-        }
-        model.addAttribute("isUserLoggedIn", true);
+        boolean userLoggedOut;
+        userLoggedOut = user == null || (!user.getPermissionLevel().equals("EMPLOYEE") && !user.getPermissionLevel().equals("ADMIN"));
+        model.addAttribute("isUserLoggedIn", !userLoggedOut);
         return "expl-model";
     }
 }
