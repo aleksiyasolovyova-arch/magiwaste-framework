@@ -1,86 +1,86 @@
 package be.kdg.magiwastebackend.communicationprotocolcontrollers;
 
-import be.kdg.magiwastebackend.payloadhandling.Payload;
-import be.kdg.magiwastebackend.payloadhandling.PayloadService;
+import be.kdg.magiwastebackend.payloadhandling.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.eclipse.paho.client.mqttv3.*;
+import org.slf4j.*;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.integration.annotation.ServiceActivator;
 import org.springframework.integration.channel.DirectChannel;
 import org.springframework.integration.core.MessageProducer;
+import org.springframework.integration.mqtt.core.*;
 import org.springframework.integration.mqtt.inbound.MqttPahoMessageDrivenChannelAdapter;
 import org.springframework.integration.mqtt.support.DefaultPahoMessageConverter;
-import org.springframework.messaging.MessageChannel;
-import org.springframework.messaging.MessageHandler;
-import org.springframework.web.bind.annotation.*;
-
+import org.springframework.messaging.*;
 import java.lang.reflect.Field;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
-@RestController
-@RequestMapping("data2")
+@Configuration
 public class MQTTController {
 
-    Logger logger = LoggerFactory.getLogger(MQTTController.class);
     private final PayloadService payloadService;
-    private final String topic = "mqtt-topic";
-    private final String userName = "admin";
-    private final String password = "initial01";
+    private MqttClient mqttClient;
+    Logger logger = LoggerFactory.getLogger(MQTTController.class);
 
-
-    private MQTTController(PayloadService payloadService) {
+    public MQTTController(PayloadService payloadService) {
         this.payloadService = payloadService;
     }
 
     @Bean
-    public MessageChannel mqqtInputChannel() {
-        return new DirectChannel();
+    public MqttPahoClientFactory mqttClientFactory() {
+        DefaultMqttPahoClientFactory factory = new DefaultMqttPahoClientFactory();
+        MqttConnectOptions options = new MqttConnectOptions();
+        options.setServerURIs(new String[]{"tcp://10.134.178.158:1883"});
+        options.setUserName("admin2");
+        options.setPassword("initial01".toCharArray());
+        options.setCleanSession(true);
+        factory.setConnectionOptions(options);
+        return factory;
     }
 
     @Bean
-    public MessageProducer inbound(MessageChannel mqqtInputChannel) {
-
-        MqttConnectOptions options = new MqttConnectOptions();
-        options.setUserName(userName);
-        options.setPassword(password.toCharArray());
-        options.setCleanSession(true);
-
-        MqttPahoMessageDrivenChannelAdapter adapter =
-                new MqttPahoMessageDrivenChannelAdapter("tcp://10.134.178.158:1883", "HJVU",topic);
+    public MessageProducer inbound() {
+        String clientId = "uniqueClientId-" + UUID.randomUUID();
+        MqttPahoMessageDrivenChannelAdapter adapter = new MqttPahoMessageDrivenChannelAdapter(
+                clientId,
+                mqttClientFactory(),
+                "test/topic", "mqtt-topic"
+        );
         adapter.setCompletionTimeout(5000);
         adapter.setConverter(new DefaultPahoMessageConverter());
-        adapter.setQos(0);
-        adapter.setOutputChannel(mqqtInputChannel);
+        adapter.setQos(1);
+        adapter.setOutputChannel(mqttInputChannel());
         return adapter;
     }
 
     @Bean
-    @ServiceActivator(inputChannel = "mqqtInputChannel")
+    public MessageChannel mqttInputChannel() {
+        return new DirectChannel();
+    }
+
+
+    @Bean
+    @ServiceActivator(inputChannel = "mqttInputChannel")
     public MessageHandler handler() {
+        Logger logger = LoggerFactory.getLogger(MQTTController.class);
+
         return message -> {
+            logger.info("Received Payload: {}", message.getPayload());
+            System.out.println(message.getPayload());
             try {
-                logger.debug("Message received: " + message.getPayload());
-                Map<String, Object> body = parsePayload(message.getPayload());
+                Map<String, Object> body = parsePayloadToMap(message.getPayload().toString());
                 Payload payload = cleanPayload(body);
                 payloadService.processPayload(payload);
-
-                logger.debug("Payload processed: " + payload);
-            }catch (Exception e) {
-                logger.error("Error processing payload", e);
+            } catch (Exception e) {
+                logger.error("Error processing MQTT message", e);
             }
+            logger.info("Headers: {}", message.getHeaders());
+            logger.info("Topic: {}", message.getHeaders().get("mqtt_receivedTopic"));
+            logger.info("QoS: {}", message.getHeaders().get("mqtt_receivedQos"));
         };
     }
 
-    private Map<String, Object> parsePayload(Object rawPayload) throws Exception {
-        return new ObjectMapper().readValue(rawPayload.toString(), HashMap.class);
-    }
-
-
-//see HTTP controller class for explanation
     Payload cleanPayload(Map<String, Object> body) {
         Map<String, Object> unusedData = new HashMap<>();
         Payload payload = new Payload();
@@ -97,15 +97,21 @@ public class MQTTController {
         return payload;
     }
 
-    //see HTTP Controller for explanation
-    private void setAttribute(Object obj, String attributeName, Object value) throws Exception {
-        Class<?> objClass = obj.getClass();
-
-        Field field = objClass.getDeclaredField(attributeName);
-
-        field.setAccessible(true);
-
-        field.set(obj, value);
+    private Map<String, Object> parsePayloadToMap(String payload) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            return objectMapper.readValue(payload, Map.class);
+        } catch (Exception e) {
+            logger.error("Error parsing payload", e);
+            return new HashMap<>();
+        }
     }
 
+
+    private void setAttribute(Object obj, String attributeName, Object value) throws Exception {
+        Class<?> objClass = obj.getClass();
+        Field field = objClass.getDeclaredField(attributeName);
+        field.setAccessible(true);
+        field.set(obj, value);
+    }
 }

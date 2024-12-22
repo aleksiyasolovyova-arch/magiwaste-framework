@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!--TODO: Add in padding between the different elements, perhaps increase font?-->
+    <meta charset="UTF-8">
+    <title>Application Architecture</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap-icons/font/bootstrap-icons.css} ">
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+    <script defer th:src="@{/webjars/bootstrap/js/bootstrap.bundle.js}"></script>
+</head>
+<body class="bg-light text-dark">
+    <header th:insert="~{header::header}"></header>
+
+    <section class="container my-5">
+        <div class="text-center mb-5">
+            <h1 class="display-4 fw-bold text-success mb-3">Application Architecture</h1>
+            <p class="lead text-muted fs-5">A modern and scalable design for innovation and growth.</p>
+        </div>
+
+        <div class="text-center mb-5">
+            <img th:src="@{/images/High-Architecture.jpg}" alt="Application Architecture" class="img-fluid rounded shadow">
+        </div>
+
+        <h2 class="text-center mt-5 text-success">Architecture Breakdown</h2>
+        <div class="table-responsive mt-4">
+            <table class="table table-bordered table-striped text-center align-middle">
+                <thead class="table-success text-dark fs-5">
+                <tr>
+                    <th>Callout</th>
+                    <th>Description</th>
+                </tr>
+                </thead>
+                <tbody class="fs-6">
+                <tr>
+                    <td>1</td>
+                    <td>Clients include any type of users, who open and/or interact with our web-application.</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Our server hosts variety of services, including out web-application, secure database and communication broker, all ensuring efficient and enjoyable experience for our clients. </td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>The backbone of our application is the Spring Boot tool, which reduces time in our development and increases productivity. It helps our developers to bring better experience for our clients, faster.</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>Our secure database ensures data persistence and is pivotal for our data analytics, as well as ensuring we have a centralized repository for later scalability and overall organization. </td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>We use the Mosquitto broker to properly coordinate communication between our server and device. It is lightweight, efficient and ideal for our use-case.</td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>Our top-of-the-line device combines multiple sensors to deliver accurate and up-to-date data, which it then sends to our server for further manipulation.</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <footer th:insert="~{footer::footer}">Footer</footer>
+</body>
+</html>

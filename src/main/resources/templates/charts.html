@@ -9,15 +9,15 @@
 
 </head>
 <body>
-
 <style>
     .container-fluid {
         padding-left: 3rem;
         padding-right: 3rem;
     }
 </style>
-
 <header th:insert="~{header::header}"></header>
+<!--<div th:replace="~{notificationevent}"></div>-->
+
 <div class="container-fluid mt-5">
     <div class="card shadow-sm">
         <div class="card-header bg-success text-white text-center">
@@ -113,11 +113,10 @@
         </div>
     </div>
 </div>
-
 <footer th:insert="~{footer::footer}">Footer</footer>
 <!-- all script in one tag, whats the worst that can happen lmao-->
 <script th:inline="javascript">
-    var oneBinEvent = /*[[${oneBinEvent}]]*/ '[[${oneBinEvent}]]',
+        var oneBinEvent = /*[[${oneBinEvent}]]*/ '[[${oneBinEvent}]]',
         eventsByBin = /*[[${eventsByBin}]]*/ '[[${eventsByBin}]]',
         lastPercentOfVolume = /*[[${lastPercentOfVolume}]]*/ '[[${lastPercentOfVolume}]]';
     console.log("Last Recorded Fill Level:", lastPercentOfVolume);
@@ -156,14 +155,12 @@
         series: [{name: 'Fill Level (%)', data: data}], chart: {type: 'bar', height: 250},
         plotOptions: {bar: {horizontal: false}}, xaxis: {categories: labels}
     };
-
     var radialchart = new ApexCharts(document.querySelector("#radialchart"), radialoptions);
     radialchart.render();
     var barChart = new ApexCharts(document.querySelector("#Barchart"), barChartOptions);
     barChart.render();
     //TODO FIX THE DAMNED HEATMAPCHAR NVM IM NOT FIXING THISFUCK THE HEATMAP
 </script>
-
 <script th:inline="javascript">
     //COMBOCHART
     var oneBinEvent = /*[[${oneBinEvent}]]*/ '[[${oneBinEvent}]]';
@@ -188,12 +185,10 @@
             name: 'Tilt Events', type: 'column', data: tiltData
         }, {name: 'Smoke Events', type: 'column', data: smokeData}],
         chart: {height: 400, type: 'line', stacked: false},
-        stroke: {width: [4, 0, 0]},
-        plotOptions: {bar: {columnWidth: '50%'}},
+        stroke: {width: [4, 0, 0]}, plotOptions: {bar: {columnWidth: '50%'}},
         xaxis: {categories: labels, title: {text: 'Date'}},
         yaxis: [{title: {text: 'Average Depth (%)'}}, {opposite: true, title: {text: 'Tilt & Smoke Events'}}],
-        tooltip: {shared: true, intersect: false},
-        legend: {position: 'top', horizontalAlign: 'center'}
+        tooltip: {shared: true, intersect: false}, legend: {position: 'top', horizontalAlign: 'center'}
     };
 
     //overtimechart
@@ -215,15 +210,11 @@
     var overTimeChart = {
         series: [{name: 'Average Depth (%)', type: 'line', data: depthData}],
         chart: {height: 400, type: 'line', stacked: false},
-        stroke: {curve: 'smooth', width: [4]},
-        markers: {size: 5},
+        stroke: {curve: 'smooth', width: [4]}, markers: {size: 5},
         xaxis: {categories: labels, title: {text: 'Date'}},
-        yaxis: [{title: {text: 'Average Depth (%)'}}],
-        tooltip: {shared: true, intersect: false},
-        legend: {position: 'top', horizontalAlign: 'center'},
-        colors: ['#00E396']
+        yaxis: [{title: {text: 'Average Depth (%)'}}], tooltip: {shared: true, intersect: false},
+        legend: {position: 'top', horizontalAlign: 'center'}, colors: ['#00E396']
     };
-
     //donutchart
     var totalTilts = /*[[${totalTilts}]]*/ '[[${totalTilts}]]';
     var totalWasteReceived = /*[[${totalWasteReceived}]]*/ '[[${totalWasteReceived}]]';

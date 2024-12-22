@@ -22,6 +22,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
+    implementation("org.springframework.boot:spring-boot-starter-amqp")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
@@ -34,11 +35,7 @@ dependencies {
     implementation("org.webjars.npm:bootstrap-icons:1.11.3")
 
     //MQTT stuff
-    implementation("org.springframework.integration:spring-integration-mqtt:6.4.0")
-    implementation ("org.springframework:spring-context:6.1.14") //THIS IS HERE BECAUSE OF A 5.3 VULNERABILITY.
-//    compileOnly("org.eclipse.paho:org.eclipse.paho.mqtt3.client:1.2.5")
-
-
+    implementation("org.springframework.integration:spring-integration-mqtt:6.4.1")
 
 //    runtimeOnly("com.h2database:h2")
 }

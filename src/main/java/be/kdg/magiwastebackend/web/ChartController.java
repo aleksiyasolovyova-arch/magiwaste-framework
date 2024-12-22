@@ -27,7 +27,7 @@ public class ChartController {
     }
 
     @GetMapping("/charts")
-    public String getChartData(@RequestParam(required = false, defaultValue = "1") Long binId, Model model) {
+    public String getChartData(@RequestParam(required = false) Long binId, Model model) {
         List<WasteBinEvent> events = wasteBinEventService.findAll();
         List<WeatherEvent> weatherEvents = weatherEventService.findAll();
 

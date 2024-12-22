@@ -1,5 +1,6 @@
 package be.kdg.magiwastebackend.payloadhandling;
 
+import be.kdg.magiwastebackend.domain.NotificationEvent;
 import be.kdg.magiwastebackend.domain.WeatherEvent;
 import org.springframework.stereotype.Component;
 import java.util.Map;
@@ -26,6 +27,9 @@ public class Payload {
     private double longitude;
     private double latitude;
     private String deviceId;
+
+    //notification data
+    private NotificationEvent notificationEvent;
 
 
     public Payload(){}
@@ -134,5 +138,13 @@ public class Payload {
 
     public void setWasteReceived(boolean wasteReceived) {
         this.wasteReceived = wasteReceived;
+    }
+
+    public NotificationEvent getNotificationEvent() {
+        return notificationEvent;
+    }
+
+    public void setNotificationEvent(NotificationEvent notificationEvent) {
+        this.notificationEvent = notificationEvent;
     }
 }
