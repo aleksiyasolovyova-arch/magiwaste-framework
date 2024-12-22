@@ -33,11 +33,9 @@ public class NotificationController {
     @GetMapping("/notifications")
     public String getNotificationsPage(HttpSession session, Model model) {
         AppUser user = (AppUser) session.getAttribute("user");
-
-        if (user == null || (!user.getPermissionLevel().equals("EMPLOYEE") && !user.getPermissionLevel().equals("ADMIN"))) {
-            return "redirect:/login"; // Redirect if not logged in or not an admin
-        }
-        model.addAttribute("isUserLoggedIn", true);
+        boolean userLoggedOut;
+        userLoggedOut = user == null || (!user.getPermissionLevel().equals("EMPLOYEE") && !user.getPermissionLevel().equals("ADMIN"));
+        model.addAttribute("isUserLoggedIn", !userLoggedOut);
 
         List<NotificationEvent> notifications = notificationEventService.findAll();
 
