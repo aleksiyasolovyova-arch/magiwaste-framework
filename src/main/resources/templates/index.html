@@ -17,8 +17,10 @@
         <p class="lead mb-4 text-white">Optimize waste collection with real-time monitoring of city trash bins to keep
             your streets clean and beautiful.</p>
         <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mb-5">
-            <button type="button" class="btn btn-light btn-lg px-4 me-sm-3">Get Started</button>
-            <button type="button" class="btn border border-white btn-lg px-4 text-white">Learn More</button>
+            <button type="button" class="btn btn-light btn-lg px-4 me-sm-3"
+                    th:onclick="'window.location.href=\'' + @{/dashboard} + '\''">Get Started</button>
+            <button type="button" class="btn border border-white btn-lg px-4 text-white"
+                    th:onclick="'window.location.href=\'' + @{/architecture} + '\''">Learn More</button>
         </div>
     </div>
     <div class="overflow-hidden" style="max-height: 40vh;">

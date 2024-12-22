@@ -14,8 +14,8 @@
       </div>
       <ul class="nav justify-content-center border-bottom pb-3 mb-3">
         <li class="nav-item"><a th:href="@{/}" class="nav-link px-2 text-body-secondary">Home</a></li>
-        <li class="nav-item"><a th:href="@{dashboard}" class="nav-link px-2 text-body-secondary">Dashboard</a></li>
-        <li class="nav-item"><a th:href="@{expl-model}" class="nav-link px-2 text-body-secondary">Data Exploration</a></li>
+        <li class="nav-item"><a th:href="@{dashboard}" class="nav-link px-2 text-body-secondary" th:if="${isUserLoggedIn}" >Dashboard</a></li>
+        <li class="nav-item"><a th:href="@{expl-model}" class="nav-link px-2 text-body-secondary" th:if="${isUserLoggedIn}" >Data Exploration</a></li>
         <li class="nav-item"><a th:href="@{team}" class="nav-link px-2 text-body-secondary">Team</a></li>
         <li class="nav-item"><a th:href="@{architecture}" class="nav-link px-2 text-body-secondary">Architecture</a></li>
       </ul>

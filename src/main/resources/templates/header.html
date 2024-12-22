@@ -19,13 +19,13 @@
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" th:href="@{/}">Home</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" th:if="${isUserLoggedIn}" >
                     <a class="nav-link" th:href="@{dashboard}">Dashboard</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" th:if="${isUserLoggedIn}" >
                     <a class="nav-link" th:href="@{expl-model}">Data Exploration</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" th:if="${isUserLoggedIn}" >
                 <a class="nav-link" th:href="@{/charts}">Charts</a>
 
                 </li>
