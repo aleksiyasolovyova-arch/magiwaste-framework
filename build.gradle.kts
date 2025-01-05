@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "be.kdg"
-version = "0.1.0-TRACERBULLET"
+version = "1..0-VERSION-1"
 
 java {
     toolchain {

@@ -38,7 +38,6 @@ public class ChartController {
         model.addAttribute("isUserLoggedIn", true);
 
         List<WasteBinEvent> events = wasteBinEventService.findAll();
-        List<WeatherEvent> weatherEvents = weatherEventService.findAll();
 
         Map<Long, List<WasteBinEvent>> eventsByBin = getEventsByBin(events);
 
@@ -51,7 +50,6 @@ public class ChartController {
         Double lastPercentOfVolume = getLastPercentOfVolume(lastEvent);
 
         model.addAttribute("events", events);
-        model.addAttribute("weatherEvents", weatherEvents);
         model.addAttribute("eventsByBin", eventsByBin);
         model.addAttribute("oneBinEvent", oneBinEvent);
         model.addAttribute("binId", binId);
