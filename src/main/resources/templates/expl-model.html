@@ -12,96 +12,219 @@
 <header th:insert="~{header::header}"></header>
 
 <section class="container my-5">
-<div class="text-center mb-5">
-    <h1 class="display-4 fw-bold text-success mb-3">Data Evolution</h1>
-    <p class="lead text-muted fs-5">A glimpse into our process</p>
-</div>
+    <div class="text-center mb-5">
+        <h1 class="display-4 fw-bold text-success mb-3">Data Evolution</h1>
+        <p class="lead text-muted fs-5">A glimpse into our process</p>
+    </div>
 
-<div class="container-fluid py-5 bg-white d-flex flex-column justify-content-center align-items-center" style="min-height: 100vh;">
-    <img th:src="@{/images/initialModel.jpg}" class="img-fluid rounded shadow-lg border border-light mb-4" alt="Pic of sensor in bin" style="max-height: 70vh">
-    <h2 class="text-success fw-bold mb-3">Initial Model</h2>
-    <p class="text-muted text-center lead">This model represents the early stages of development, a time of uncertainty, yet fueled by a readiness to experiment and explore new possibilities.</p>
-    <button class="btn btn-outline-success mt-4 d-flex align-items-center justify-content-center" onclick="scrollToNext(this)" style="width: 200px; height: 50px; font-size: 16px;">
-        Scroll Down
-        <i class="bi bi-arrow-down-circle ms-3 fs-3"></i>
-    </button>
-</div>
+    <div class="container-fluid py-5 bg-white d-flex flex-column justify-content-center align-items-center"
+         style="min-height: 100vh;">
+        <img th:src="@{/images/initialModel.jpg}" class="img-fluid rounded shadow-lg border border-light mb-4"
+             alt="Pic of sensor in bin" style="max-height: 70vh">
+        <h2 class="text-success fw-bold mb-3">Initial Model</h2>
+        <p class="text-muted text-center lead">This model represents the early stages of development, a time of
+            uncertainty, yet fueled by a readiness to experiment and explore new possibilities.</p>
+        <button class="btn btn-outline-success mt-4 d-flex align-items-center justify-content-center"
+                onclick="scrollToNext(this)" style="width: 200px; height: 50px; font-size: 16px;">
+            Scroll Down
+            <i class="bi bi-arrow-down-circle ms-3 fs-3"></i>
+        </button>
+    </div>
 
-<div class="container-fluid py-5 bg-light d-flex flex-column justify-content-center align-items-center" style="min-height: 100vh;">
-    <img th:src="@{/images/hole-sensor.png}" class="img-fluid rounded shadow-lg border border-light mb-4" alt="Pic of sensors attached" style="max-height: 70vh">
-    <h2 class="text-success fw-bold mb-3">Our SetUp</h2>
-    <p class="text-muted text-center lead">A network of sensors transforms raw inputs into vital data, forming the cornerstone of exploration and discovery.</p>
-    <button class="btn btn-outline-success mt-4 d-flex align-items-center justify-content-center" onclick="scrollToNext(this)" style="width: 200px; height: 50px; font-size: 16px;">
-        Scroll Down
-        <i class="bi bi-arrow-down-circle ms-3 fs-3"></i>
-    </button>
-</div>
+    <div class="container-fluid py-5 bg-light d-flex flex-column justify-content-center align-items-center"
+         style="min-height: 100vh;">
+        <img th:src="@{/images/hole-sensor.png}" class="img-fluid rounded shadow-lg border border-light mb-4"
+             alt="Pic of sensors attached" style="max-height: 70vh">
+        <h2 class="text-success fw-bold mb-3">Our SetUp</h2>
+        <p class="text-muted text-center lead">A network of sensors transforms raw inputs into vital data, forming the
+            cornerstone of exploration and discovery.</p>
+        <button class="btn btn-outline-success mt-4 d-flex align-items-center justify-content-center"
+                onclick="scrollToNext(this)" style="width: 200px; height: 50px; font-size: 16px;">
+            Scroll Down
+            <i class="bi bi-arrow-down-circle ms-3 fs-3"></i>
+        </button>
+    </div>
 
-<div class="container-fluid py-5 bg-white d-flex flex-column justify-content-center align-items-center" style="min-height: 100vh;">
-    <img th:src="@{/images/hold-sensor.jpg}" class="img-fluid rounded shadow-lg border border-light mb-4" alt="Pic of sensor in bin" style="max-height: 70vh">
-    <h2 class="text-success fw-bold mb-3">Essence of exploration</h2>
-    <p class="text-muted text-center lead">This single tool embodies the power of technology to transform observations into the essential insights that drive discovery.</p>
-    <button class="btn btn-outline-success mt-4 d-flex align-items-center justify-content-center" onclick="scrollToNext(this)" style="width: 200px; height: 50px; font-size: 16px;">
-    Scroll Down
-    <i class="bi bi-arrow-down-circle ms-3 fs-3"></i>
-</button>
-</div>
+    <div class="container-fluid py-5 bg-white d-flex flex-column justify-content-center align-items-center"
+         style="min-height: 100vh;">
+        <img th:src="@{/images/hold-sensor.jpg}" class="img-fluid rounded shadow-lg border border-light mb-4"
+             alt="Pic of sensor in bin" style="max-height: 70vh">
+        <h2 class="text-success fw-bold mb-3">Essence of exploration</h2>
+        <p class="text-muted text-center lead">This single tool embodies the power of technology to transform
+            observations into the essential insights that drive discovery.</p>
+        <button class="btn btn-outline-success mt-4 d-flex align-items-center justify-content-center"
+                onclick="scrollToNext(this)" style="width: 200px; height: 50px; font-size: 16px;">
+            Scroll Down
+            <i class="bi bi-arrow-down-circle ms-3 fs-3"></i>
+        </button>
+    </div>
 
-<div class="container-fluid py-5 bg-light d-flex flex-column justify-content-center align-items-center" style="min-height: 100vh;">
-    <img th:src="@{/images/mj-setUp.jpg}" class="img-fluid rounded shadow-lg border border-light mb-4" alt="Mj setting up MagiWaste" style="max-height: 70vh">
-    <h2 class="text-success fw-bold mb-3">Field Work</h2>
-    <p class="text-muted text-center lead">A tirelessly working developer, installing MagiWaste, setting up the system to collect and process critical data for efficient waste management and resource optimization.</p>
-    <button class="btn btn-outline-success mt-4 d-flex align-items-center justify-content-center" onclick="scrollToNext(this)" style="width: 200px; height: 50px; font-size: 16px;">
-        Scroll Down
-        <i class="bi bi-arrow-down-circle ms-3 fs-3"></i>
-    </button>
-</div>
+    <div class="container-fluid py-5 bg-light d-flex flex-column justify-content-center align-items-center"
+         style="min-height: 100vh;">
+        <img th:src="@{/images/mj-setUp.jpg}" class="img-fluid rounded shadow-lg border border-light mb-4"
+             alt="Mj setting up MagiWaste" style="max-height: 70vh">
+        <h2 class="text-success fw-bold mb-3">Field Work</h2>
+        <p class="text-muted text-center lead">A tirelessly working developer, installing MagiWaste, setting up the
+            system to collect and process critical data for efficient waste management and resource optimization.</p>
+        <button class="btn btn-outline-success mt-4 d-flex align-items-center justify-content-center"
+                onclick="scrollToNext(this)" style="width: 200px; height: 50px; font-size: 16px;">
+            Scroll Down
+            <i class="bi bi-arrow-down-circle ms-3 fs-3"></i>
+        </button>
+    </div>
 
-<div class="container-fluid py-5 bg-white d-flex flex-column justify-content-center align-items-center" style="min-height: 100vh;">
-    <img th:src="@{/images/storm.jpg}" class="img-fluid rounded shadow-lg border border-light mb-4" alt="Graph 1" style="max-height: 70vh">
-    <h2 class="text-success fw-bold mb-3">Graph 1</h2>
-    <p class="text-muted text-center lead">Placeholder sentence here, add in a new one later. Lalala this is the second sentence there ya go.</p>
-    <button class="btn btn-outline-success mt-4 d-flex align-items-center justify-content-center" onclick="scrollToNext(this)" style="width: 200px; height: 50px; font-size: 16px;">
-        Scroll Down
-        <i class="bi bi-arrow-down-circle ms-3 fs-3"></i>
-    </button>
-</div>
+    <div class="container-fluid py-5 d-flex flex-column justify-content-center align-items-center"
+         style="min-height: 100vh;">
+        <div class="row w-100">
+            <div class="col-md-6 mb-4">
+                <div class="d-flex flex-column justify-content-center align-items-center">
+                    <img th:src="@{/images/layer-1-bins-inside.png}"
+                         class="img-fluid rounded shadow-lg border border-light" alt="Graph 1"
+                         style="max-height: 70vh; width: 100%;">
+                </div>
+            </div>
 
-<div class="container-fluid py-5 bg-light d-flex flex-column justify-content-center align-items-center" style="min-height: 100vh;">
-    <img th:src="@{/images/mj.jpg}" class="img-fluid rounded shadow-lg border border-light mb-4" alt="Graph 2" style="max-height: 70vh">
-    <h2 class="text-success fw-bold mb-3">Graph 2</h2>
-    <p class="text-muted text-center lead">Placeholder sentence here, add in a new one later. Lalala this is the second sentence there ya go.</p>
-    <button class="btn btn-outline-success mt-4 d-flex align-items-center justify-content-center" onclick="scrollToNext(this)" style="width: 200px; height: 50px; font-size: 16px;">
-        Scroll Down
-        <i class="bi bi-arrow-down-circle ms-3 fs-3"></i>
-    </button>
-</div>
+            <div class="col-md-6 mb-4">
+                <div class="d-flex flex-column justify-content-center align-items-center">
+                    <img th:src="@{/images/layer-1-bins-outside.png}"
+                         class="img-fluid rounded shadow-lg border border-light" alt="Graph 2"
+                         style="max-height: 70vh; width: 100%;">
+                </div>
+            </div>
+        </div>
 
-<div class="container-fluid py-5 bg-white d-flex flex-column justify-content-center align-items-center" style="min-height: 100vh;">
-    <img th:src="@{/images/aleks.jpg}" class="img-fluid rounded shadow-lg border border-light mb-4" alt="Graph 3" style="max-height: 70vh">
-    <h2 class="text-success fw-bold mb-3">Graph 3</h2>
-    <p class="text-muted text-center lead">Placeholder sentence here, add in a new one later. Lalala this is the second sentence there ya go.</p>
-    <button class="btn btn-outline-success mt-4 d-flex align-items-center justify-content-center" onclick="scrollToNext(this)" style="width: 200px; height: 50px; font-size: 16px;">
-        Scroll Down
-        <i class="bi bi-arrow-down-circle ms-3 fs-3"></i>
-    </button>
-</div>
+        <div class="row w-100">
+            <div class="col-md-6 mb-4">
+                <div class="d-flex flex-column justify-content-center align-items-center">
+                    <img th:src="@{/images/layer-1-roads-inside.png}"
+                         class="img-fluid rounded shadow-lg border border-light" alt="Graph 3"
+                         style="max-height: 70vh; width: 100%;">
+                </div>
+            </div>
 
-<div class="container-fluid py-5 bg-light d-flex flex-column justify-content-center align-items-center" style="min-height: 100vh;">
-    <img th:src="@{/images/szymon.jpg}" class="img-fluid rounded shadow-lg border border-light mb-4" alt="Graph 4" style="max-height: 70vh">
-    <h2 class="text-success fw-bold mb-3">Graph 4</h2>
-    <p class="text-muted text-center lead">Placeholder sentence here, add in a new one later. Lalala this is the second sentence there ya go.</p>
-    <button class="btn btn-outline-success mt-4 d-flex align-items-center justify-content-center" onclick="scrollToNext(this)" style="width: 200px; height: 50px; font-size: 16px;">
-        Scroll Down
-        <i class="bi bi-arrow-down-circle ms-3 fs-3"></i>
-    </button>
-</div>
+            <div class="col-md-6 mb-4">
+                <div class="d-flex flex-column justify-content-center align-items-center">
+                    <img th:src="@{/images/layer-1-roads-outside.png}"
+                         class="img-fluid rounded shadow-lg border border-light" alt="Graph 4"
+                         style="max-height: 70vh; width: 100%;">
+                </div>
+            </div>
+        </div>
+    </div>
 
-<div class="container-fluid py-5 bg-white d-flex flex-column justify-content-center align-items-center" style="min-height: 100vh;">
-    <img th:src="@{/images/pam.jpg}" class="img-fluid rounded shadow-lg border border-light mb-4" alt="Graph 5" style="max-height: 70vh">
-    <h2 class="text-success fw-bold mb-3">Graph 5</h2>
-    <p class="text-muted text-center lead">Placeholder sentence here, add in a new one later. Lalala this is the second sentence there ya go.</p>
-</div>
+    <div class="container-fluid py-5 d-flex flex-column justify-content-center align-items-center"
+         style="min-height: 100vh;">
+        <div class="row w-100">
+            <div class="col-md-6 mb-4">
+                <div class="d-flex flex-column justify-content-center align-items-center">
+                    <img th:src="@{/images/layer-2-service-pointcloud.png}"
+                         class="img-fluid rounded shadow-lg border border-light" alt="Graph 1"
+                         style="max-height: 70vh; width: 100%;">
+                </div>
+            </div>
+
+            <div class="col-md-6 mb-4">
+                <div class="d-flex flex-column justify-content-center align-items-center">
+                    <img th:src="@{/images/layer-2-service-polygon.png}"
+                         class="img-fluid rounded shadow-lg border border-light" alt="Graph 2"
+                         style="max-height: 70vh; width: 100%;">
+                </div>
+            </div>
+        </div>
+
+        <div class="row w-100">
+            <div class="col-md-6 mb-4">
+                <div class="d-flex flex-column justify-content-center align-items-center">
+                    <img th:src="@{/images/layer-3-wijk-lines.png}"
+                         class="img-fluid rounded shadow-lg border border-light" alt="Graph 3"
+                         style="max-height: 70vh; width: 100%;">
+                </div>
+            </div>
+
+            <div class="col-md-6 mb-4">
+                <div class="d-flex flex-column justify-content-center align-items-center">
+                    <img th:src="@{/images/layer-3-wijk-zones.png}"
+                         class="img-fluid rounded shadow-lg border border-light" alt="Graph 4"
+                         style="max-height: 70vh; width: 100%;">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid py-5 d-flex flex-column justify-content-center align-items-center"
+         style="min-height: 100vh;">
+        <div class="row w-100">
+            <div class="col-md-6 mb-4">
+                <div class="d-flex flex-column justify-content-center align-items-center">
+                    <img th:src="@{/images/layer-4-bin-minmax.png}"
+                         class="img-fluid rounded shadow-lg border border-light" alt="Graph 1"
+                         style="max-height: 70vh; width: 100%;">
+                </div>
+            </div>
+
+            <div class="col-md-6 mb-4">
+                <div class="d-flex flex-column justify-content-center align-items-center">
+                    <img th:src="@{/images/layer-4-mobility_score-foot.png}"
+                         class="img-fluid rounded shadow-lg border border-light" alt="Graph 2"
+                         style="max-height: 70vh; width: 100%;">
+                </div>
+            </div>
+        </div>
+        <div class="row w-100">
+            <div class="col-md-6 mb-4">
+                <div class="d-flex flex-column justify-content-center align-items-center">
+                    <img th:src="@{/images/layer-4-mobility_score-full.png}"
+                         class="img-fluid rounded shadow-lg border border-light" alt="Graph 3"
+                         style="max-height: 70vh; width: 100%;">
+                </div>
+            </div>
+
+            <div class="col-md-6 mb-4">
+                <div class="d-flex flex-column justify-content-center align-items-center">
+                    <img th:src="@{/images/layer-4-bin-minmax.png}"
+                         class="img-fluid rounded shadow-lg border border-light" alt="Graph 4"
+                         style="max-height: 70vh; width: 100%;">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid py-5 d-flex flex-column justify-content-center align-items-center"
+         style="min-height: 100vh;">
+        <div class="row w-100">
+            <div class="col-md-6 mb-4">
+                <div class="d-flex flex-column justify-content-center align-items-center">
+                    <img th:src="@{/images/layer-4-pop-density.png}"
+                         class="img-fluid rounded shadow-lg border border-light" alt="Graph 1"
+                         style="max-height: 70vh; width: 100%;">
+                </div>
+            </div>
+
+            <div class="col-md-6 mb-4">
+                <div class="d-flex flex-column justify-content-center align-items-center">
+                    <img th:src="@{/images/layer-4-sluik_stort.png}"
+                         class="img-fluid rounded shadow-lg border border-light" alt="Graph 2"
+                         style="max-height: 70vh; width: 100%;">
+                </div>
+            </div>
+        </div>
+        <div class="row w-100">
+            <div class="col-md-6 mb-4">
+                <div class="d-flex flex-column justify-content-center align-items-center">
+                    <img th:src="@{/images/layer-5-service-inside.png}"
+                         class="img-fluid rounded shadow-lg border border-light" alt="Graph 3"
+                         style="max-height: 70vh; width: 100%;">
+                </div>
+            </div>
+
+            <div class="col-md-6 mb-4">
+                <div class="d-flex flex-column justify-content-center align-items-center">
+                    <img th:src="@{/images/layer-5-service-outside.png}"
+                         class="img-fluid rounded shadow-lg border border-light" alt="Graph 4"
+                         style="max-height: 70vh; width: 100%;">
+                </div>
+            </div>
+        </div>
+    </div>
+
 
 </section>
 
