@@ -97,6 +97,30 @@
             </div>
         </div>
     </div>
+    <!-- TTF card -->
+    <div id="ttfCard" class="card shadow-sm d-none">
+        <div class="card-header text-white bg-success d-flex justify-content-between align-items-center">
+            <h3 class="mb-0">Time-to-Fill (TTF)</h3>
+            <span id="ttfBadge" class="badge bg-secondary">n/a</span>
+        </div>
+        <div class="card-body">
+            <p class="text-muted mb-3">
+                Latest prediction for <strong>Bin <span id="ttfBin">—</span></strong>
+            </p>
+
+            <div id="ttfDetails" class="d-none">
+                <ul class="list-unstyled mb-0">
+                    <li><strong>Predicted hours:</strong> <span id="ttfHours">—</span></li>
+                    <li><strong>Predicted at:</strong> <span id="ttfAt">—</span></li>
+                    <li id="ttfMaeRow"><strong>Model MAE:</strong> <span id="ttfMae">—</span></li>
+                    <li id="ttfVerRow"><strong>Model version:</strong> <span id="ttfVer">—</span></li>
+                </ul>
+            </div>
+
+            <div id="ttfEmpty" class="text-muted">No prediction available for this bin yet.</div>
+        </div>
+    </div>
+
     <!-- Bin notifs , idk i ended up not?-->
 </div>
 
@@ -151,11 +175,83 @@
             data.push(Math.round(averageVolume));
         }
     }
-    var barChartOptions = {
-        series: [{name: 'Fill Level (%)', data: data}], chart: {type: 'bar', height: 250},
-        plotOptions: {bar: {horizontal: false}}, xaxis: {categories: labels}
-    };
-    var radialchart = new ApexCharts(document.querySelector("#radialchart"), radialoptions);
+    // var barChartOptions = {
+    //     series: [{name: 'Fill Level (%)', data: data}], chart: {type: 'bar', height: 250},
+    //     plotOptions: {bar: {horizontal: false}}, xaxis: {categories: labels}
+    // };
+        function parseBinId(label){
+            var parts = String(label).split(':');
+            return parts.length > 1 ? parseInt(parts[1].trim(), 10) : parseInt(label, 10);
+        }
+
+        function ttfColor(ttf){
+            if (ttf == null) return '#6c757d';
+            if (ttf < 12)   return '#dc3545';
+            if (ttf < 24)   return '#ffc107';
+            return '#198754';
+        }
+
+        var ttfByBin = /*[[${ttfByBin}]]*/ {};
+
+        var barChartOptions = {
+            series: [{ name: 'Fill Level (%)', data: data }],
+            chart: { type: 'bar', height: 360, toolbar: { show: true } },
+            plotOptions: { bar: { columnWidth: '60%', borderRadius: 6 } },
+            dataLabels: { enabled: false },
+            xaxis: {
+                categories: labels,
+                title: { text: 'Bin' },
+                labels: {
+                    rotate: -35,
+                    formatter: function (v) {
+                        const s = String(v).trim();
+                        if (/^bin\b/i.test(s)) return s;
+                        if (/^\d+$/.test(s)) return 'Bin ID: ' + s;
+                        return 'Bin ' + s;
+                    },
+                    style: { fontSize: '13px', fontWeight: 600 }
+                }
+            },
+
+            yaxis: { title: { text: 'Fill Level (%)' }, min: 0, max: 100, tickAmount: 5 },
+
+            tooltip: {
+                custom: function({ series, seriesIndex, dataPointIndex, w }) {
+                    var fillPct = series[seriesIndex][dataPointIndex];
+                    var label   = w.globals.labels[dataPointIndex];
+                    var binId   = parseBinId(label);
+
+                    var rec = ttfByBin && (ttfByBin[binId] || ttfByBin[String(binId)]);
+                    var ttf = rec && rec.predictedHours != null ? Number(rec.predictedHours) : null;
+                    var dot = '<span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:'+
+                        ttfColor(ttf)+';margin-right:6px;"></span>';
+
+                    return (
+                        '<div style="padding:8px 10px;">' +
+                        '<div style="font-weight:600;margin-bottom:6px;">Bin ID: ' + binId + '</div>' +
+                        '<div><span style="font-weight:600;">Fill Level (%):</span> ' + fillPct + '%</div>' +
+                        '<div style="margin-top:4px;">' + dot +
+                        (ttf == null ? '<span class="text-muted">TTF n/a</span>'
+                            : 'TTF ' + ttf.toFixed(1) + ' h') +
+                        '</div>' +
+                        '</div>'
+                    );
+                }
+            },
+
+            grid: { strokeDashArray: 4 },
+            responsive: [{
+                breakpoint: 992,
+                options: {
+                    chart: { height: 420 },
+                    plotOptions: { bar: { horizontal: true, barHeight: '70%' } },
+                    xaxis: { labels: { rotate: 0 }, title: { text: 'Fill Level (%)' } },
+                    yaxis: { title: { text: 'Bin' } }
+                }
+            }]
+        };
+
+        var radialchart = new ApexCharts(document.querySelector("#radialchart"), radialoptions);
     radialchart.render();
     var barChart = new ApexCharts(document.querySelector("#Barchart"), barChartOptions);
     barChart.render();
@@ -233,5 +329,157 @@
     var donutChart = new ApexCharts(document.querySelector("#donutChart"), donutChartOptions);
     donutChart.render();
 </script>
+<script th:inline="javascript">
+    // // APPEND: inject TTF map and overlay it as labels on the bar chart
+    // var ttfByBin = /*[[${ttfByBin}]]*/ {};
+    //
+    // // helper: from "Bin ID: 1234" -> 1234
+    // function parseBinIdFromLabel(label) {
+    //     var parts = String(label).split(':');
+    //     return parts.length > 1 ? parseInt(parts[1].trim(), 10) : NaN;
+    // }
+    //
+    // // enable dataLabels that include TTF when available
+    // if (typeof barChart !== 'undefined') {
+    //     barChart.updateOptions({
+    //         dataLabels: {
+    //             enabled: true,
+    //             formatter: function (val, opts) {
+    //                 var label = opts.w.globals.labels[opts.dataPointIndex]; // "Bin ID: 1234"
+    //                 var binId = parseBinIdFromLabel(label);
+    //                 var ttf = (ttfByBin && ttfByBin[binId]) ? ttfByBin[binId].predictedHours : null;
+    //                 if (ttf == null) return val;                   // just the fill % if no prediction
+    //                 return val + ' (TTF ' + ttf.toFixed(1) + 'h)'; // e.g., "63 (TTF 7.4h)"
+    //             }
+    //         }
+    //     });
+    // }
+
+    var ttfByBin = /*[[${ttfByBin}]]*/ {};  // Thymeleaf injects the map
+
+    function buildTickerItems(map){
+        var out = [];
+        if(!map) return out;
+        Object.keys(map).forEach(function(k){
+            var v = map[k];
+            if(v && v.predictedHours != null){
+                out.push({ binId: k, ttf: Number(v.predictedHours), at: v.predictedAt });
+            }
+        });
+        out.sort(function(a,b){ return a.ttf - b.ttf; });
+        return out;
+    }
+
+    var tickerItems = buildTickerItems(ttfByBin);
+    var textEl = document.getElementById('ttfTickerText');
+    var metaEl = document.getElementById('ttfTickerMeta');
+    var barEl  = document.getElementById('ttfTicker');
+    var idx = 0;
+
+    function renderTicker(i){
+        if(!textEl) return;
+        if(!tickerItems.length){
+            textEl.textContent = 'No predictions available.';
+            if (metaEl) metaEl.textContent = '';
+            return;
+        }
+        var it = tickerItems[i % tickerItems.length];
+        textEl.textContent = 'Bin ' + it.binId + ' — TTF ' + it.ttf.toFixed(1) + ' h';
+        if (metaEl) metaEl.textContent = it.at ? formatDateDMY(it.at) : '';
+    }
+    renderTicker(idx);
+
+    var tickerTimer = setInterval(function(){
+        idx = (idx + 1) % Math.max(tickerItems.length, 1);
+        renderTicker(idx);
+    }, 2500);
+
+    // pause on hover
+    if (barEl) {
+        barEl.addEventListener('mouseenter', function(){ clearInterval(tickerTimer); });
+        barEl.addEventListener('mouseleave', function(){
+            tickerTimer = setInterval(function(){
+                idx = (idx + 1) % Math.max(tickerItems.length, 1);
+                renderTicker(idx);
+            }, 2500);
+        });
+    }
+
+</script>
+
+<script th:inline="javascript">
+    // inputs from server
+    var binId    = /*[[${binId}]]*/ null;
+    var ttfByBin = /*[[${ttfByBin}]]*/ {};
+
+    // find record for a binId regardless of key type
+    function findTtf(map, id) {
+        if (id == null) return null;
+        var s = String(id);
+        var n = isNaN(Number(id)) ? null : Number(id);
+        return (map && (map[s] || (n != null ? map[n] : null))) || null;
+    }
+
+    (function renderTtfCard(){
+        if (binId == null) return;                         // nothing searched
+        var card   = document.getElementById('ttfCard');
+        var badge  = document.getElementById('ttfBadge');
+        var binEl  = document.getElementById('ttfBin');
+        var hours  = document.getElementById('ttfHours');
+        var at     = document.getElementById('ttfAt');
+        var mae    = document.getElementById('ttfMae');
+        var ver    = document.getElementById('ttfVer');
+        var maeRow = document.getElementById('ttfMaeRow');
+        var verRow = document.getElementById('ttfVerRow');
+        var details= document.getElementById('ttfDetails');
+        var empty  = document.getElementById('ttfEmpty');
+
+        binEl.textContent = binId;
+        card.classList.remove('d-none');
+
+        var rec = findTtf(ttfByBin, binId);
+
+        function setBadge(h) {
+            badge.classList.remove('bg-secondary','bg-danger','bg-warning','text-dark','bg-primary');
+            if (h == null) { badge.textContent = 'n/a'; badge.classList.add('bg-secondary'); return; }
+            var v = Number(h);
+            badge.textContent = v.toFixed(1) + ' h';
+            if (v < 12) badge.classList.add('bg-danger');
+            else if (v < 24) { badge.classList.add('bg-warning','text-dark'); }
+            else badge.classList.add('bg-primary');
+        }
+
+        if (rec && rec.predictedHours != null) {
+            var h = Number(rec.predictedHours);
+            setBadge(h);
+            hours.textContent = h.toFixed(1) + ' h';
+            at.textContent    = rec.predictedAt ? formatDateDMY(rec.predictedAt) : '—';
+
+            if (rec.modelMae != null) { mae.textContent = Number(rec.modelMae).toFixed(2); maeRow.classList.remove('d-none'); }
+            else { maeRow.classList.add('d-none'); }
+
+            if (rec.modelVersion) { ver.textContent = new Date(rec.modelVersion).toLocaleString(); verRow.classList.remove('d-none'); }
+            else { verRow.classList.add('d-none'); }
+
+            empty.classList.add('d-none');
+            details.classList.remove('d-none');
+        } else {
+            setBadge(null);
+            details.classList.add('d-none');
+            empty.classList.remove('d-none');
+        }
+    })();
+
+    function formatDateDMY(val){
+        const d = new Date(val);
+        if (isNaN(d)) return '—';
+        const dd = String(d.getDate()).padStart(2,'0');
+        const mm = String(d.getMonth()+1).padStart(2,'0');
+        const yyyy = d.getFullYear();
+        return `${dd}/${mm}/${yyyy}`;
+    }
+
+</script>
+
 </body>
 </html>

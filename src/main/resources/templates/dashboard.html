@@ -15,10 +15,49 @@
     <header th:insert="~{header::header}"></header>
 <!--    <div th:replace="~{notificationevent}"></div>-->
 
+
+
+
+
     <!--    Map-->
-    <div id="content" class="d-flex flex-column flex-wrap flex-grow-1 h-100">
+    <div id="content" class="d-flex flex-column flex-wrap flex-grow-1 h-100 position-relative">
         <div id="map" class="vh-100 vw-100"></div>
+        <!-- Route UI -->
+        <form id="routeForm"
+              class="position-absolute top-0 start-50 translate-middle-x bg-white p-2 rounded shadow m-2"
+              onsubmit="return false;"
+              style="z-index:1000; width:min(700px,92%);">
+            <div class="row g-2 align-items-center">
+                <div class="col">
+                    <input id="routeStart" class="form-control" placeholder="Start address">
+                </div>
+                <div class="col">
+                    <input id="routeEnd" class="form-control" placeholder="End address (or click a bin)">
+                </div>
+                <div class="col-auto d-flex gap-2">
+                    <button id="routeGo"    type="button" class="btn btn-success">Route</button>
+                    <button id="routeClear" type="button" class="btn btn-outline-secondary">Clear</button>
+                </div>
+            </div>
+        </form>
+
+        <!-- Directions panel -->
+        <div id="directionsCard"
+             class="position-absolute end-0 m-2"
+             style="top:72px; z-index:1000; width:min(380px,92vw); max-height:calc(100vh - 88px);">
+            <div class="card shadow">
+                <div class="card-header py-2 d-flex justify-content-between align-items-center">
+                    <strong>Directions</strong>
+                    <button id="routeClear2" type="button" class="btn btn-sm btn-outline-secondary">Clear</button>
+                </div>
+                <div id="directionsPanel" class="card-body p-2"
+                     style="overflow:auto;max-height:calc(100vh - 120px);">
+                    <div class="text-muted">Enter start & end, or click a bin.</div>
+                </div>
+            </div>
+        </div>
     </div>
+
 
     <!--    Button for expanding dashboard tiles-->
     <p id="dashboard-button-container">
@@ -30,11 +69,9 @@
 
     <!--UI-->
     <div class="container p-3" id="dashboard-ui-container">
-        <!--        collapsed div-->
         <div class="collapse" id="collapseExample">
             <div class="card card-body "
                  style="height: 80vh;background-color: white;">
-                <!--Search bar/filter-->
                 <div class="w-100 mb-2">
                     <p>Search Bin by Address</p>
                     <input class="form-control" id="searchInput" type="text" placeholder="Search..">
@@ -89,8 +126,9 @@
 </div>
 
 <script
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAvsioZ4aiVs6PxJ8VodFIOh2e2nTWXcDo&loading=async&libraries=maps&v=beta"
-        defer>
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAvsioZ4aiVs6PxJ8VodFIOh2e2nTWXcDo&libraries=geometry&callback=initMap"
+        async defer>
+
 </script>
 
 <script th:inline="javascript">
@@ -120,19 +158,26 @@
             ],
         });
 
-        // Points data passed from Thymeleaf
+        // Google Directions
+        const directionsService  = new google.maps.DirectionsService();
+        const directionsRenderer = new google.maps.DirectionsRenderer({
+            map,
+            panel: document.getElementById('directionsPanel'),
+            preserveViewport: false,      // auto-fit to the route
+            suppressMarkers: false        // show A, B, and waypoint pins
+        });
+
+
         const points = /*[[${points}]]*/ [];
         console.log(points);
 
         let markers = []; // Store markers to manage them easily
 
-        // Function to clear all markers
         function clearMarkers() {
             markers.forEach(marker => marker.setMap(null));
             markers = [];
         }
 
-        // Function to render markers
         function renderMarkers() {
             clearMarkers(); // Clear existing markers
             points.forEach(point => {
@@ -162,25 +207,216 @@
                     infoWindow.close();
                 });
 
+                marker.addListener("click", () => {
+                    endInp.value = point.address;
+                    if (startInp.value) routeNow(startInp.value, endInp.value);
+                });
+
                 markers.push(marker); // Add marker to the array
             });
         }
 
-        // // Map events to track movement
-        // map.addListener("dragstart", () => {
-        //     clearMarkers()
-        // });
-        //
-        // map.addListener("zoom_changed", () => {
-        //     clearMarkers();
-        // });
-        //
-        // map.addListener("idle", () => {
-        //     renderMarkers(); // Render markers after the map is idle
-        // });
 
-        // Initial marker rendering
         renderMarkers();
+
+
+        const form     = document.getElementById('routeForm');
+        const startInp = document.getElementById('routeStart');
+        const endInp   = document.getElementById('routeEnd');
+        const goBtn    = document.getElementById('routeGo');
+        const clearBtn = document.getElementById('routeClear');
+
+        let startLoc = null;   // google.maps.LatLng | null
+        let endLoc   = null;
+
+// Parse "lat,lng" typed by the user
+        function latLngFromText(s) {
+            if (!s) return null;
+            const m = String(s).trim().match(/^\s*(-?\d+(\.\d+)?)\s*,\s*(-?\d+(\.\d+)?)\s*$/);
+            return m ? new google.maps.LatLng(parseFloat(m[1]), parseFloat(m[3])) : null;
+        }
+
+// Geocode with free Nominatim
+        async function geocode(q) {
+            const ll = latLngFromText(q);
+            if (ll) return ll;
+            const url = "https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&q=" + encodeURIComponent(q);
+            const res = await fetch(url, { headers: { "Accept": "application/json" } });
+            const data = await res.json();
+            if (!data.length) throw new Error("Address not found: " + q);
+            return new google.maps.LatLng(parseFloat(data[0].lat), parseFloat(data[0].lon));
+        }
+
+// Draw/clear polyline on the Google map
+        let routePolyline = null;
+        function clearRoute() {
+            if (routePolyline) { routePolyline.setMap(null); routePolyline = null; }
+        }
+
+        // --- config
+        const STOP_RADIUS_M = 120;   // change if you want a different proximity
+        const MAX_STOPS     = 12;    // cap to keep routes manageable
+
+// --- OSRM: get route coordinates for a list of LatLngs
+        async function osrmRouteFor(latLngs) {
+            const coordsStr = latLngs.map(ll => `${ll.lng()},${ll.lat()}`).join(';');
+            const url = `https://router.project-osrm.org/route/v1/driving/${coordsStr}?overview=full&geometries=geojson`;
+            const res = await fetch(url);
+            const json = await res.json();
+            if (json.code !== "Ok" || !json.routes?.length) throw new Error(json.message || "No route found");
+            return json.routes[0].geometry.coordinates.map(([lon, lat]) => ({ lat, lng: lon }));
+        }
+
+// --- quick distance to polyline: nearest vertex
+        function nearestVertexDistance(ptLL, pathLLs) {
+            let min = Infinity, nearestIndex = 0;
+            for (let i = 0; i < pathLLs.length; i++) {
+                const d = google.maps.geometry.spherical.computeDistanceBetween(ptLL, pathLLs[i]);
+                if (d < min) { min = d; nearestIndex = i; }
+            }
+            return { distance: min, nearestIndex };
+        }
+
+        // Ask OSRM for a route and draw it
+        async function routeNow() {
+            const originLL = startLoc || latLngFromText(startInp.value) || await geocode(startInp.value);
+            const destLL   = endLoc   || latLngFromText(endInp.value)   || await geocode(endInp.value);
+
+            // A→B with OSRM to detect nearby yellow/red bins
+            const baseCoords   = await osrmRouteFor([originLL, destLL]); // your existing helper
+            const basePathLLs  = baseCoords.map(c => new google.maps.LatLng(c.lat, c.lng));
+            const near         = (a,b,m=20)=>google.maps.geometry.spherical.computeDistanceBetween(a,b)<m;
+            const isYR         = c => c && (String(c).toLowerCase()==='yellow' || String(c).toLowerCase()==='red');
+
+            // nearest-vertex helper (from earlier)
+            function nearestVertexDistance(ptLL, pathLLs){
+                let min=Infinity, idx=0;
+                for(let i=0;i<pathLLs.length;i++){
+                    const d=google.maps.geometry.spherical.computeDistanceBetween(ptLL,pathLLs[i]);
+                    if(d<min){min=d;idx=i;}
+                }
+                return {distance:min, nearestIndex:idx};
+            }
+
+            const STOP_RADIUS_M = 120;
+            const MAX_STOPS     = 12;
+
+            const candidates = points
+                .filter(p => isYR(p.color))
+                .map(p => {
+                    const ll = new google.maps.LatLng(p.latitude, p.longitude);
+                    const { distance, nearestIndex } = nearestVertexDistance(ll, basePathLLs);
+                    return { ll, p, distance, nearestIndex };
+                })
+                .filter(x => x.distance <= STOP_RADIUS_M)
+                .filter(x => !near(x.ll, originLL) && !near(x.ll, destLL))
+                .sort((a,b) => a.nearestIndex - b.nearestIndex)
+                .slice(0, MAX_STOPS)
+                .map(x => x.ll);
+
+            if (routePolyline) { routePolyline.setMap(null); routePolyline = null; }
+
+            const req = {
+                origin: originLL,
+                destination: destLL,
+                waypoints: candidates.map(ll => ({ location: ll })),
+                travelMode: google.maps.TravelMode.DRIVING,
+                optimizeWaypoints: false
+            };
+
+            directionsService.route(req).then(res => {
+                directionsRenderer.setDirections(res);
+            }).catch(async err => {
+                console.warn('Directions failed, falling back to OSRM with steps:', err);
+                const json  = await osrmFetchWithSteps([originLL, ...candidates, destLL]);
+                const route = drawOsrmPolylineFrom(json);
+                writeOsrmSteps(route);   // ✅ show turn-by-turn even without Google
+            });
+
+        }
+
+        // Fetch OSRM route with steps
+        async function osrmFetchWithSteps(latLngs) {
+            const coords = latLngs.map(ll => `${ll.lng()},${ll.lat()}`).join(';');
+            const url = `https://router.project-osrm.org/route/v1/driving/${coords}?overview=full&geometries=geojson&steps=true`;
+            const res = await fetch(url);
+            const json = await res.json();
+            if (json.code !== "Ok" || !json.routes?.length) throw new Error(json.message || "No route found");
+            return json;
+        }
+
+        function drawOsrmPolylineFrom(json) {
+            const coords = json.routes[0].geometry.coordinates.map(([lon, lat]) => ({lat, lng: lon}));
+            if (routePolyline) routePolyline.setMap(null);
+            routePolyline = new google.maps.Polyline({ path: coords, map, strokeOpacity: 0.95, strokeWeight: 5 });
+            const b = new google.maps.LatLngBounds(); coords.forEach(c => b.extend(c)); map.fitBounds(b);
+            return json.routes[0];
+        }
+
+//  OSRM maneuvers
+        function ordinal(n){const s=["th","st","nd","rd"],v=n%100;return n+(s[(v-20)%10]||s[v]||s[0]);}
+        function fmtDist(m){return m>=1000 ? (m/1000).toFixed(1)+" km" : Math.round(m)+" m";}
+        function fmtDur(s){const m=Math.round(s/60); return m<1 ? "<1 min" : m+" min";}
+        function formatStep(step){
+            const t = step.maneuver.type;
+            const m = step.maneuver.modifier;
+            const name = step.name && step.name.trim() ? step.name : "the road";
+            const mod = ({'straight':'straight','slight right':'slight right','right':'right','sharp right':'sharp right','uturn':'a U-turn','sharp left':'sharp left','left':'left','slight left':'slight left'})[m] || (m||"");
+            switch (t){
+                case "depart":      return `Head ${mod||"out"} on ${name}`;
+                case "turn":        return `Turn ${mod} onto ${name}`;
+                case "continue":    return `Continue on ${name}`;
+                case "new name":    return `Continue onto ${name}`;
+                case "merge":       return `Merge onto ${name}`;
+                case "fork":        return `Keep ${m||"to the"} to stay on ${name}`;
+                case "end of road": return `At the end of the road, turn ${mod} onto ${name}`;
+                case "roundabout": {
+                    const exit = step.maneuver.exit ? `, take the ${ordinal(step.maneuver.exit)} exit` : "";
+                    return `At the roundabout${exit} onto ${name}`;
+                }
+                case "arrive":      return `Arrive at bin`;
+                default:            return `Proceed on ${name}`;
+            }
+        }
+
+        function writeOsrmSteps(route){
+            const body = document.getElementById('directionsPanel');
+            let html = '<ol class="mb-0 ps-3">';
+            for (const leg of route.legs){
+                for (const s of leg.steps){
+                    html += `<li>${formatStep(s)} <span class="text-muted">— ${fmtDist(s.distance)}, ${fmtDur(s.duration)}</span></li>`;
+                }
+            }
+            html += "</ol>";
+            body.innerHTML = html;
+        }
+
+        const directionsBody = document.getElementById('directionsPanel');
+
+        function clearAllDirections(){
+            if (routePolyline) { routePolyline.setMap(null); routePolyline = null; }
+            directionsRenderer.setDirections({ routes: [] });
+            directionsBody.innerHTML = '<div class="text-muted">Enter start & end, or click a bin.</div>';
+        }
+
+        document.getElementById('routeClear').addEventListener('click', clearAllDirections);
+        document.getElementById('routeClear2').addEventListener('click', clearAllDirections);
+
+        form.addEventListener("submit", (e) => { e.preventDefault(); e.stopPropagation(); routeNow().catch(err => alert(err.message)); });
+        goBtn.addEventListener("click", () => routeNow().catch(err => alert(err.message)));
+        clearBtn.addEventListener("click", () => { clearRoute(); });
+
+        marker.addListener("click", () => {
+            endLoc = new google.maps.LatLng(point.latitude, point.longitude);
+            endInp.value = `${point.latitude},${point.longitude}`;
+            if (startInp.value || startLoc) routeNow().catch(err => alert(err.message));
+        });
+
+        form.addEventListener("submit", (ev) => { ev.preventDefault(); routeNow(); });
+
+        clearBtn.addEventListener("click", () => {
+            directionsRenderer.setDirections({ routes: [] });
+        });
     }
 
     // Initialize the map

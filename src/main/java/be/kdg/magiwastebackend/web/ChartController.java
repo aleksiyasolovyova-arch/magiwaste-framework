@@ -2,7 +2,8 @@ package be.kdg.magiwastebackend.web;
 
 import be.kdg.magiwastebackend.domain.AppUser;
 import be.kdg.magiwastebackend.domain.WasteBinEvent;
-import be.kdg.magiwastebackend.domain.WeatherEvent;
+import be.kdg.magiwastebackend.service.PredictionLatestService;
+import be.kdg.magiwastebackend.service.PredictionLatestServiceImplementation;
 import be.kdg.magiwastebackend.service.WasteBinEventService;
 import be.kdg.magiwastebackend.service.WeatherEventService;
 import jakarta.servlet.http.HttpSession;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
@@ -21,11 +23,33 @@ public class ChartController {
 
     private final WasteBinEventService wasteBinEventService;
     private final WeatherEventService weatherEventService;
+    private final PredictionLatestService predictionLatestService;
+
 
     @Autowired
-    public ChartController(WasteBinEventService wasteBinEventService, WeatherEventService weatherEventService) {
+    public ChartController(WasteBinEventService wasteBinEventService, WeatherEventService weatherEventService, PredictionLatestService predictionLatestService) {
         this.wasteBinEventService = wasteBinEventService;
         this.weatherEventService = weatherEventService;
+        this.predictionLatestService = predictionLatestService;
+    }
+
+    @ModelAttribute("ttfByBin")
+    public Map<Long, PredictionLatestService.TtfPredictionVM> getTtfByBin(
+            @RequestParam(value = "binId", required = false) Long binId) {
+
+        var map = predictionLatestService.latestByBin();
+
+        if (binId != null && !map.containsKey(binId)) {
+            predictionLatestService.latestForBin(binId).ifPresent(vm -> map.put(binId, vm));
+        }
+        return map;
+    }
+
+    @ModelAttribute("ttf")
+    public PredictionLatestService.TtfPredictionVM ttf(
+            @RequestParam(value = "binId", required = false) Long binId) {
+        if (binId == null) return null;
+        return predictionLatestService.latestForBin(binId).orElse(null);
     }
 
     @GetMapping("/charts")
@@ -95,5 +119,6 @@ public class ChartController {
     private Double getLastPercentOfVolume(WasteBinEvent lastEvent) {
         return lastEvent != null ? lastEvent.getPercentOfVolume() : 0.0;
     }
+
 }
 
